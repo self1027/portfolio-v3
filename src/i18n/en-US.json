@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "skills": "Skills",
+    "experience": "Experience",
+    "github": "GitHub",
+    "contact": "Contact",
+    "resume": "Resume",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "hero": {
+    "badge": "Available for hire",
+    "role": "Backend Developer | Node.js | Production Systems",
+    "description": "Backend Developer focused on Node.js, building real production systems with scalable APIs, real-time processing, and event-driven architecture.",
+    "secondary": "Open to opportunities as a Backend Developer.",
+    "ctaProjects": "View Projects",
+    "ctaResume": "Download Resume",
+    "status": "ONLINE",
+    "env": "production-ready"
+  },
+  "impact": {
+    "title": "Technical Highlights & Impact",
+    "badge": "01 // IMPACT",
+    "items": [
+      {
+        "title": "Production System",
+        "desc": "Production system used by a public-sector organization",
+        "tag": "Public Sector"
+      },
+      {
+        "title": "Extreme Optimization",
+        "desc": "Query time reduced from minutes to seconds",
+        "tag": "Performance"
+      },
+      {
+        "title": "Continuous Streams",
+        "desc": "Real-time processing with WebSocket and streaming",
+        "tag": "Real-Time"
+      },
+      {
+        "title": "Scalable Architecture",
+        "desc": "Event-driven architecture",
+        "tag": "Event-Driven"
+      }
+    ]
+  },
+  "projects": {
+    "sectionBadge": "02 // SELECTED PROJECTS",
+    "title": "Featured Projects",
+    "subtitle": "Real production systems, authoritative multiplayer engines, and high-performance media pipelines.",
+    "viewCaseStudy": "View Case Study",
+    "viewCode": "Code",
+    "viewDemo": "Live Demo",
+    "outcomeLabel": "Demonstrated outcome:",
+    "zoomImage": "Click to enlarge screenshot",
+    "noDemo": "No public demo (internal system/CLI)"
+  },
+  "skills": {
+    "sectionBadge": "03 // TECHNICAL STACK",
+    "title": "Technical Skills",
+    "subtitle": "Competencies applied across production backend services, relational databases, and real-time processing pipelines."
+  },
+  "experience": {
+    "sectionBadge": "04 // TIMELINE",
+    "title": "Professional Experience",
+    "subtitle": "Work history focused on backend engineering, process automation, and Linux server administration."
+  },
+  "github": {
+    "sectionBadge": "05 // OPEN SOURCE",
+    "title": "GitHub Activity",
+    "subtitle": "Open source projects, libraries, and experiments with a rigorous backend architecture approach.",
+    "cta": "View GitHub Profile",
+    "repositories": "Public Repositories",
+    "viewRepo": "Access repository",
+    "loading": "Loading public GitHub data...",
+    "errorFallback": "Displaying projects synchronized directly with the official repository."
+  },
+  "contact": {
+    "sectionBadge": "06 // GET IN TOUCH",
+    "title": "Interested in working together?",
+    "subtitle": "I'm open to Backend Developer opportunities, especially projects involving real production systems, APIs, real-time processing, and Node.js backend development.",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "message": "Your Message",
+      "placeholderName": "e.g. Alex Smith",
+      "placeholderEmail": "alex@company.com",
+      "placeholderMessage": "Hi Murilo, I'd like to discuss a Backend Developer opportunity with our team...",
+      "submit": "Send Message",
+      "copyEmail": "Copy Email",
+      "copied": "Email copied!",
+      "mailtoFallbackNotice": "Submitting will open your default email client directly to diasmurilo02@gmail.com"
+    }
+  },
+  "footer": {
+    "copyright": "Murilo Dias. All rights reserved.",
+    "tagline": "Backend Developer focused on Node.js and production systems.",
+    "backToTop": "Back to top",
+    "techStack": "Built with React, TypeScript & Tailwind CSS"
+  },
+  "caseStudy": {
+    "backToProjects": "Back to Projects",
+    "overview": "Overview",
+    "problem": "The Problem",
+    "challenges": "Technical Challenges",
+    "decision": "Architectural Decision",
+    "pipeline": "Processing Pipeline",
+    "code": "Implementation & Code",
+    "tradeoffs": "Technical Trade-offs",
+    "result": "Results",
+    "demonstrates": "What this project demonstrates",
+    "nextProject": "Next Project",
+    "prevProject": "Previous Project",
+    "copySnippet": "Copy code",
+    "snippetCopied": "Copied to clipboard!"
+  },
+  "lightbox": {
+    "close": "Close preview (ESC)",
+    "zoomHint": "Esc to close · Click outside to dismiss"
+  }
+}

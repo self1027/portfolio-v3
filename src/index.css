@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg: #f8f7f4;
+    --surface: #ffffff;
+    --surface-muted: #f0ede6;
+    --surface-subtle: #faf9f6;
+    --text: #17181c;
+    --text-muted: #5e636e;
+    --text-subtle: #8a8f9c;
+    --border: #dfded8;
+    --border-strong: #c8c6bd;
+    --accent: #d97706;
+    --accent-hover: #b45309;
+    --accent-subtle: rgba(217, 119, 6, 0.1);
+    --secondary-accent: #0891b2;
+    --secondary-accent-subtle: rgba(8, 145, 178, 0.1);
+    --code-bg: #121317;
+    --code-text: #f3f4f6;
+    --code-border: #22252e;
+    --tag-bg: #eae7df;
+  }
+
+  .dark {
+    --bg: #0c0d10;
+    --surface: #13151a;
+    --surface-muted: #191c23;
+    --surface-subtle: #0f1014;
+    --text: #f3f4f6;
+    --text-muted: #9aa1af;
+    --text-subtle: #636b7b;
+    --border: #232731;
+    --border-strong: #333845;
+    --accent: #f59e0b;
+    --accent-hover: #fbbf24;
+    --accent-subtle: rgba(245, 158, 11, 0.12);
+    --secondary-accent: #06b6d4;
+    --secondary-accent-subtle: rgba(6, 182, 212, 0.12);
+    --code-bg: #101216;
+    --code-text: #e5e7eb;
+    --code-border: #1f232c;
+    --tag-bg: #1c1f27;
+  }
+
+  html {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    scroll-behavior: smooth;
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+}
+
+/* Custom utility bindings for css variables */
+.bg-bg { background-color: var(--bg); }
+.bg-surface { background-color: var(--surface); }
+.bg-surface-muted { background-color: var(--surface-muted); }
+.bg-surface-subtle { background-color: var(--surface-subtle); }
+.bg-code { background-color: var(--code-bg); }
+.bg-tag { background-color: var(--tag-bg); }
+.bg-accent { background-color: var(--accent); }
+.bg-accent-hover:hover, .hover\:bg-accent-hover:hover { background-color: var(--accent-hover); }
+.bg-accent-subtle { background-color: var(--accent-subtle); }
+.bg-secondary { background-color: var(--secondary-accent); }
+.bg-secondary-subtle { background-color: var(--secondary-accent-subtle); }
+
+.text-text { color: var(--text); }
+.text-text-muted { color: var(--text-muted); }
+.text-text-subtle { color: var(--text-subtle); }
+.text-accent { color: var(--accent); }
+.text-accent-hover:hover { color: var(--accent-hover); }
+.text-secondary { color: var(--secondary-accent); }
+.text-code { color: var(--code-text); }
+
+.border-border { border-color: var(--border); }
+.border-border-strong { border-color: var(--border-strong); }
+.border-code { border-color: var(--code-border); }
+.border-accent { border-color: var(--accent); }
+.border-secondary { border-color: var(--secondary-accent); }
+
+/* Technical grid background pattern */
+.technical-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(120, 120, 120, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120, 120, 120, 0.05) 1px, transparent 1px);
+}
+
+.technical-dots {
+  background-image: radial-gradient(rgba(120, 120, 120, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-subtle);
+}

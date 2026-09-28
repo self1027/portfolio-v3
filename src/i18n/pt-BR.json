@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "projects": "Projetos",
+    "skills": "Habilidades",
+    "experience": "Experiência",
+    "github": "GitHub",
+    "contact": "Contato",
+    "resume": "Currículo",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu"
+  },
+  "hero": {
+    "badge": "Disponível para contratação",
+    "role": "Backend Developer | Node.js | Sistemas em Produção",
+    "description": "Desenvolvedor backend focado em Node.js, criando sistemas reais em produção com APIs escaláveis, processamento em tempo real e arquitetura orientada a eventos.",
+    "secondary": "Aberto a oportunidades como Backend Developer.",
+    "ctaProjects": "Ver Projetos",
+    "ctaResume": "Baixar CV",
+    "status": "ONLINE",
+    "env": "production-ready"
+  },
+  "impact": {
+    "title": "Destaques Técnicos & Impacto",
+    "badge": "01 // IMPACTO",
+    "items": [
+      {
+        "title": "Sistema em Produção",
+        "desc": "Sistema em produção utilizado por órgão público",
+        "tag": "Setor Público"
+      },
+      {
+        "title": "Otimização Extrema",
+        "desc": "Consultas reduzidas de minutos para segundos",
+        "tag": "Performance"
+      },
+      {
+        "title": "Fluxos Contínuos",
+        "desc": "Processamento em tempo real com WebSocket e streaming",
+        "tag": "Tempo Real"
+      },
+      {
+        "title": "Arquitetura Escalável",
+        "desc": "Arquitetura orientada a eventos",
+        "tag": "Event-Driven"
+      }
+    ]
+  },
+  "projects": {
+    "sectionBadge": "02 // PROJETOS SELECIONADOS",
+    "title": "Projetos em Destaque",
+    "subtitle": "Aplicações reais em produção, motores multiplayer autoritativos e pipelines de mídia de alto desempenho.",
+    "viewCaseStudy": "Ver Estudo de Caso",
+    "viewCode": "Código",
+    "viewDemo": "Demo Online",
+    "outcomeLabel": "Resultado comprovado:",
+    "zoomImage": "Clique para ampliar imagem",
+    "noDemo": "Sem demo pública (sistema interno/CLI)"
+  },
+  "skills": {
+    "sectionBadge": "03 // STACK TÉCNICA",
+    "title": "Habilidades Técnicas",
+    "subtitle": "Competências aplicadas na construção de backends robustos, bancos relacionais e pipelines em tempo real."
+  },
+  "experience": {
+    "sectionBadge": "04 // TRAJETÓRIA",
+    "title": "Experiência Profissional",
+    "subtitle": "Histórico profissional focado em desenvolvimento backend, automação e infraestrutura de servidores."
+  },
+  "github": {
+    "sectionBadge": "05 // CÓDIGO ABERTO",
+    "title": "Atividade no GitHub",
+    "subtitle": "Projetos open source, bibliotecas e experimentos com foco em arquitetura backend.",
+    "cta": "Ver Perfil no GitHub",
+    "repositories": "Repositórios Públicos",
+    "viewRepo": "Acessar repositório",
+    "loading": "Carregando dados públicos do GitHub...",
+    "errorFallback": "Visualizando projetos sincronizados diretamente com o repositório oficial."
+  },
+  "contact": {
+    "sectionBadge": "06 // CONTATO",
+    "title": "Interessado em trabalhar juntos?",
+    "subtitle": "Estou aberto a oportunidades como Backend Developer, especialmente em projetos que envolvam sistemas reais, APIs, processamento em tempo real e backend com Node.js.",
+    "form": {
+      "name": "Seu Nome",
+      "email": "Seu E-mail",
+      "message": "Sua Mensagem",
+      "placeholderName": "Ex: Alex Silva",
+      "placeholderEmail": "alex@empresa.com",
+      "placeholderMessage": "Olá Murilo, gostaria de conversar sobre uma oportunidade para Backend Developer...",
+      "submit": "Enviar Mensagem",
+      "copyEmail": "Copiar E-mail",
+      "copied": "E-mail copiado!",
+      "mailtoFallbackNotice": "O envio abrirá seu cliente de e-mail padrão diretamente para diasmurilo02@gmail.com"
+    }
+  },
+  "footer": {
+    "copyright": "Murilo Dias. Todos os direitos reservados.",
+    "tagline": "Backend Developer focado em Node.js e sistemas em produção.",
+    "backToTop": "Voltar ao topo",
+    "techStack": "Construído com React, TypeScript & Tailwind CSS"
+  },
+  "caseStudy": {
+    "backToProjects": "Voltar aos Projetos",
+    "overview": "Visão Geral",
+    "problem": "O Problema",
+    "challenges": "Desafios Técnicos",
+    "decision": "Decisão Arquitetural",
+    "pipeline": "Pipeline de Processamento",
+    "code": "Implementação & Código",
+    "tradeoffs": "Trade-offs Técnicos",
+    "result": "Resultados Obtidos",
+    "demonstrates": "O que este projeto demonstra",
+    "nextProject": "Próximo Projeto",
+    "prevProject": "Projeto Anterior",
+    "copySnippet": "Copiar código",
+    "snippetCopied": "Copiado para a área de transferência!"
+  },
+  "lightbox": {
+    "close": "Fechar visualizador (ESC)",
+    "zoomHint": "Esc fecha · Clique fora para sair"
+  }
+}
