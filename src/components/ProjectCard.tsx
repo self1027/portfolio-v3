@@ -16,14 +16,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   const { language, t } = useI18n();
 
   return (
-    <article className="group flex flex-col rounded-lg border border-border bg-surface overflow-hidden transition-all duration-200 hover:border-accent hover:shadow-md">
+    <article className="group flex flex-col rounded-lg border border-border bg-surface overflow-hidden transition-colors hover:border-border-strong">
       {/* Project Image & Zoom trigger */}
       <div className="relative aspect-video w-full overflow-hidden bg-surface-muted/40 border-b border-border">
         <img
           src={project.image}
           alt={project.imageAlt[language]}
           loading="lazy"
-          className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.03]"
+          className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
         />
 
         {/* Zoom Button Overlay */}
@@ -36,9 +36,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           <ZoomIn className="w-4 h-4" />
         </button>
 
-        {/* Small Technical Category Tag */}
+        {/* Technical Category Tag */}
         {project.badge && (
-          <div className="absolute bottom-2.5 left-2.5 z-10 px-2.5 py-0.5 rounded bg-zinc-900/95 text-zinc-100 font-mono text-[10px] font-medium tracking-wide border border-zinc-700/80 shadow-xs backdrop-blur-xs">
+          <div className="absolute bottom-2.5 left-2.5 z-10 px-2 py-0.5 rounded bg-zinc-900/95 text-zinc-100 font-mono text-[10px] font-medium tracking-wide border border-zinc-700/80 backdrop-blur-xs">
             {project.badge[language]}
           </div>
         )}
@@ -47,13 +47,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       {/* Card Body */}
       <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between">
         <div>
-          {/* Subtitle / context */}
-          <div className="text-xs font-mono text-text-subtle mb-1 line-clamp-1">
+          {/* Subtitle / category */}
+          <p className="text-xs font-mono text-text-subtle mb-1">
             {project.subtitle[language]}
-          </div>
+          </p>
 
           {/* Title */}
-          <h3 className="text-lg font-bold text-text mb-2.5 group-hover:text-accent transition-colors">
+          <h3 className="text-lg font-bold text-text mb-2 transition-colors">
             {project.title}
           </h3>
 
@@ -62,24 +62,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {project.shortDescription[language]}
           </p>
 
-          {/* Concrete Outcome Callout if available */}
+          {/* Concrete Outcome Callout */}
           {project.outcome && (
-            <div className="mb-4 p-2.5 rounded border border-accent/20 bg-accent-subtle/30 text-xs font-mono text-text flex items-start gap-2">
-              <CheckCircle2 className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-              <div>
-                <span className="font-semibold text-accent">{t('projects.outcomeLabel')} </span>
-                <span className="text-text">{project.outcome[language]}</span>
-              </div>
+            <div className="mb-4 text-xs font-mono text-text flex items-start gap-2">
+              <span className="text-accent font-semibold shrink-0">{t('projects.outcomeLabel')}</span>
+              <span className="text-text-muted">{project.outcome[language]}</span>
             </div>
           )}
 
-          {/* Technologies list (clean unboxed metadata as requested in frontend-design) */}
-          <div className="mb-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-mono text-text-muted">
+          {/* Technologies list */}
+          <div className="mb-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-mono text-text-subtle">
             {project.technologies.map((tech, idx) => (
               <React.Fragment key={tech}>
-                <span className="hover:text-text transition-colors">{tech}</span>
+                <span>{tech}</span>
                 {idx < project.technologies.length - 1 && (
-                  <span className="text-text-subtle/50 select-none">/</span>
+                  <span className="text-border" aria-hidden="true">·</span>
                 )}
               </React.Fragment>
             ))}
@@ -93,7 +90,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold text-accent hover:text-accent-hover transition-colors py-1 group/btn"
           >
             <span>{t('projects.viewCaseStudy')}</span>
-            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
           </Link>
 
           <div className="flex items-center gap-3 text-xs font-mono text-text-muted">
@@ -113,14 +110,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 hover:text-accent transition-colors"
+                className="inline-flex items-center gap-1 hover:text-text transition-colors"
                 aria-label={`Live demo for ${project.title}`}
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 <span>{t('projects.viewDemo')}</span>
               </a>
             ) : (
-              <span className="text-[10px] text-text-subtle font-mono" title={t('projects.noDemo')}>
+              <span className="text-[10px] text-text-subtle font-mono">
                 [CLI/Backend]
               </span>
             )}

@@ -21,7 +21,7 @@
   },
   "impact": {
     "title": "Technical Highlights & Impact",
-    "badge": "01 // IMPACT",
+    "badge": "Impact",
     "items": [
       {
         "title": "Production System",
@@ -46,7 +46,7 @@
     ]
   },
   "projects": {
-    "sectionBadge": "02 // SELECTED PROJECTS",
+    "sectionBadge": "Projects",
     "title": "Featured Projects",
     "subtitle": "Real production systems, authoritative multiplayer engines, and high-performance media pipelines.",
     "viewCaseStudy": "View Case Study",
@@ -57,17 +57,17 @@
     "noDemo": "No public demo (internal system/CLI)"
   },
   "skills": {
-    "sectionBadge": "03 // TECHNICAL STACK",
+    "sectionBadge": "Technical Stack",
     "title": "Technical Skills",
     "subtitle": "Competencies applied across production backend services, relational databases, and real-time processing pipelines."
   },
   "experience": {
-    "sectionBadge": "04 // TIMELINE",
+    "sectionBadge": "Experience",
     "title": "Professional Experience",
     "subtitle": "Work history focused on backend engineering, process automation, and Linux server administration."
   },
   "github": {
-    "sectionBadge": "05 // OPEN SOURCE",
+    "sectionBadge": "Open Source",
     "title": "GitHub Activity",
     "subtitle": "Open source projects, libraries, and experiments with a rigorous backend architecture approach.",
     "cta": "View GitHub Profile",
@@ -77,7 +77,7 @@
     "errorFallback": "Displaying projects synchronized directly with the official repository."
   },
   "contact": {
-    "sectionBadge": "06 // GET IN TOUCH",
+    "sectionBadge": "Contact",
     "title": "Interested in working together?",
     "subtitle": "I'm open to Backend Developer opportunities, especially projects involving real production systems, APIs, real-time processing, and Node.js backend development.",
     "form": {

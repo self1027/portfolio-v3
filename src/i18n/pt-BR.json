@@ -21,7 +21,7 @@
   },
   "impact": {
     "title": "Destaques Técnicos & Impacto",
-    "badge": "01 // IMPACTO",
+    "badge": "Impacto",
     "items": [
       {
         "title": "Sistema em Produção",
@@ -46,7 +46,7 @@
     ]
   },
   "projects": {
-    "sectionBadge": "02 // PROJETOS SELECIONADOS",
+    "sectionBadge": "Projetos",
     "title": "Projetos em Destaque",
     "subtitle": "Aplicações reais em produção, motores multiplayer autoritativos e pipelines de mídia de alto desempenho.",
     "viewCaseStudy": "Ver Estudo de Caso",
@@ -57,17 +57,17 @@
     "noDemo": "Sem demo pública (sistema interno/CLI)"
   },
   "skills": {
-    "sectionBadge": "03 // STACK TÉCNICA",
+    "sectionBadge": "Stack Técnica",
     "title": "Habilidades Técnicas",
     "subtitle": "Competências aplicadas na construção de backends robustos, bancos relacionais e pipelines em tempo real."
   },
   "experience": {
-    "sectionBadge": "04 // TRAJETÓRIA",
+    "sectionBadge": "Experiência",
     "title": "Experiência Profissional",
     "subtitle": "Histórico profissional focado em desenvolvimento backend, automação e infraestrutura de servidores."
   },
   "github": {
-    "sectionBadge": "05 // CÓDIGO ABERTO",
+    "sectionBadge": "Código Aberto",
     "title": "Atividade no GitHub",
     "subtitle": "Projetos open source, bibliotecas e experimentos com foco em arquitetura backend.",
     "cta": "Ver Perfil no GitHub",
@@ -77,7 +77,7 @@
     "errorFallback": "Visualizando projetos sincronizados diretamente com o repositório oficial."
   },
   "contact": {
-    "sectionBadge": "06 // CONTATO",
+    "sectionBadge": "Contato",
     "title": "Interessado em trabalhar juntos?",
     "subtitle": "Estou aberto a oportunidades como Backend Developer, especialmente em projetos que envolvam sistemas reais, APIs, processamento em tempo real e backend com Node.js.",
     "form": {

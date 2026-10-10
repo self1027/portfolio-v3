@@ -10,6 +10,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   'cloud-infra': Cloud,
   'tooling-automation': Terminal,
 };
+import { SectionHeader } from './SectionHeader';
 
 export const SkillsSection: React.FC = () => {
   const { language, t } = useI18n();
@@ -17,18 +18,11 @@ export const SkillsSection: React.FC = () => {
   return (
     <section id="skills" className="py-16 md:py-24 bg-surface-subtle border-b border-border" aria-label="Technical Skills">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Section Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 text-xs font-mono text-accent mb-2">
-            <span className="font-semibold">{t('skills.sectionBadge')}</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-text mb-3">
-            {t('skills.title')}
-          </h2>
-          <p className="text-sm sm:text-base text-text-muted max-w-2xl">
-            {t('skills.subtitle')}
-          </p>
-        </div>
+        <SectionHeader
+          badge={t('skills.sectionBadge')}
+          title={t('skills.title')}
+          subtitle={t('skills.subtitle')}
+        />
 
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -37,36 +31,28 @@ export const SkillsSection: React.FC = () => {
             return (
               <div
                 key={category.id}
-                className="rounded-lg border border-border bg-surface p-6 transition-all duration-200 hover:border-accent flex flex-col justify-between"
+                className="rounded-lg border border-border bg-surface p-6 transition-colors hover:border-border-strong flex flex-col justify-between"
               >
                 <div>
                   {/* Category Header */}
-                  <div className="flex items-center gap-3 mb-4 pb-3 border-b border-border">
-                    <div className="p-2 rounded bg-surface-muted text-accent">
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <h3 className="font-mono font-semibold text-sm text-text">
+                  <div className="flex items-center gap-3 mb-5 pb-3 border-b border-border/70">
+                    <Icon className="w-4 h-4 text-accent" />
+                    <h3 className="font-semibold text-sm text-text">
                       {category.title[language]}
                     </h3>
                   </div>
 
-                  {/* Skills List (clean technical tags with subtle border) */}
+                  {/* Skills List */}
                   <ul className="space-y-2 font-mono text-xs">
                     {category.skills.map((skill) => (
                       <li
                         key={skill}
-                        className="flex items-center justify-between py-1.5 px-2.5 rounded bg-surface-subtle border border-border/60 hover:border-accent/60 transition-colors"
+                        className="py-1.5 px-3 rounded bg-surface-subtle border border-border/60 text-text font-medium"
                       >
-                        <span className="text-text font-medium">{skill}</span>
-                        <span className="text-[10px] text-text-subtle">verified</span>
+                        {skill}
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-border/50 text-[11px] font-mono text-text-subtle flex items-center justify-between">
-                  <span>cat: {category.id}</span>
-                  <span className="text-accent">{category.skills.length} skills</span>
                 </div>
               </div>
             );

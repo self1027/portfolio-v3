@@ -3,6 +3,8 @@ import { Mail, Send, Check, Copy, Linkedin, Github, MessageSquare } from 'lucide
 import { useI18n } from '../i18n/I18nContext';
 import { useTheme } from '../theme/ThemeContext';
 
+import { SectionHeader } from './SectionHeader';
+
 export const ContactCTA: React.FC = () => {
   const { t } = useI18n();
   const { theme } = useTheme();
@@ -39,44 +41,42 @@ export const ContactCTA: React.FC = () => {
           
           {/* Left Column: Context, Email, and Social */}
           <div className="lg:col-span-6">
-            <div className="flex items-center gap-2 text-xs font-mono text-accent mb-2">
-              <span className="font-semibold">{t('contact.sectionBadge')}</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-text mb-4">
-              {t('contact.title')}
-            </h2>
-            <p className="text-sm sm:text-base text-text-muted leading-relaxed mb-6">
-              {t('contact.subtitle')}
-            </p>
+            <SectionHeader
+              badge={t('contact.sectionBadge')}
+              title={t('contact.title')}
+              subtitle={t('contact.subtitle')}
+              className="mb-6"
+            />
 
-            {/* Direct Email Card */}
-            <div className="p-5 rounded-lg border border-border bg-surface-subtle mb-6">
-              <div className="text-xs font-mono text-text-subtle mb-1">Email direto:</div>
-              <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Direct Email */}
+            <div className="py-4 border-y border-border/70 mb-6 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <span className="text-xs font-mono text-text-subtle block mb-1">Email direto:</span>
                 <a
                   href="mailto:diasmurilo02@gmail.com"
-                  className="font-mono text-sm font-semibold text-accent hover:underline"
+                  className="font-mono text-sm font-semibold text-text hover:text-accent transition-colors"
                 >
                   diasmurilo02@gmail.com
                 </a>
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-border bg-surface text-xs font-mono text-text hover:border-accent transition-colors"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-400 font-medium">{t('contact.form.copied')}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>{t('contact.form.copyEmail')}</span>
-                    </>
-                  )}
-                </button>
               </div>
+
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border bg-surface text-xs font-mono text-text hover:border-border-strong transition-colors"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span className="text-emerald-500 font-medium">{t('contact.form.copied')}</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-text-subtle" />
+                    <span>{t('contact.form.copyEmail')}</span>
+                  </>
+                )}
+              </button>
             </div>
 
             {/* Social channels */}
@@ -85,7 +85,7 @@ export const ContactCTA: React.FC = () => {
                 href="https://www.linkedin.com/in/murilo-dias-dev/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded border border-border bg-surface hover:border-accent text-text hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-border bg-surface text-text hover:border-border-strong transition-colors"
               >
                 <Linkedin className="w-4 h-4 text-accent" />
                 <span>LinkedIn</span>
@@ -95,7 +95,7 @@ export const ContactCTA: React.FC = () => {
                 href="https://github.com/self1027"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded border border-border bg-surface hover:border-accent text-text hover:text-accent transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-md border border-border bg-surface text-text hover:border-border-strong transition-colors"
               >
                 <Github className="w-4 h-4 text-accent" />
                 <span>GitHub</span>
@@ -107,7 +107,7 @@ export const ContactCTA: React.FC = () => {
           <div className="lg:col-span-6">
             <form
               onSubmit={handleSubmit}
-              className="p-6 sm:p-7 rounded-lg border border-border bg-surface shadow-2xs space-y-4"
+              className="p-6 sm:p-7 rounded-lg border border-border bg-surface space-y-4"
             >
               <div>
                 <label htmlFor="contact-name" className="block text-xs font-mono text-text font-medium mb-1.5">

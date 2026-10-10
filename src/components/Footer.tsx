@@ -12,31 +12,22 @@ export const Footer: React.FC = () => {
   return (
     <footer className="py-12 bg-surface text-text-muted font-mono text-xs border-t border-border">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-border/60">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-border/60">
           {/* Left: Candidate & Tagline */}
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded border border-border flex items-center justify-center bg-surface-muted text-accent font-bold">
-              M
-            </div>
-            <div>
-              <p className="font-semibold text-text">Murilo Dias</p>
-              <p className="text-[11px] text-text-subtle">{t('footer.tagline')}</p>
-            </div>
-          </div>
-
-          {/* Center: Tech stack detail */}
-          <div className="text-center md:text-left text-text-subtle text-[11px]">
-            <span>{t('footer.techStack')}</span>
+          <div className="flex items-center gap-2.5">
+            <span className="font-bold text-sm text-text">Murilo Dias</span>
+            <span className="text-border" aria-hidden="true">·</span>
+            <p className="text-xs text-text-subtle">{t('footer.tagline')}</p>
           </div>
 
           {/* Right: Back to top */}
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-border bg-surface-subtle hover:border-accent hover:text-text transition-colors"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-text-subtle hover:text-text transition-colors cursor-pointer"
             aria-label={t('footer.backToTop')}
           >
             <span>{t('footer.backToTop')}</span>
-            <ArrowUp className="w-3.5 h-3.5 text-accent" />
+            <ArrowUp className="w-3.5 h-3.5" />
           </button>
         </div>
 

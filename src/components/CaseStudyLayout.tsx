@@ -60,42 +60,41 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         
         {/* Navigation Breadcrumb */}
-        <div className="mb-8 pb-4 border-b border-border flex items-center justify-between">
+        <div className="mb-8 pb-4 border-b border-border flex items-center justify-between text-xs font-mono">
           <Link
             to="/#projects"
-            className="inline-flex items-center gap-2 text-xs font-mono text-text-muted hover:text-accent transition-colors"
+            className="inline-flex items-center gap-2 text-text-muted hover:text-text transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>{t('caseStudy.backToProjects')}</span>
           </Link>
 
-          <span className="text-xs font-mono text-text-subtle">
-            case-study // {data.slug}
+          <span className="text-text-subtle">
+            {data.slug}
           </span>
         </div>
 
         {/* Case Study Header */}
-        <header className="mb-10">
-          <div className="text-xs font-mono text-accent font-semibold mb-2 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-            <span>ARCHITECTURAL CASE STUDY</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text mb-4 leading-tight">
+        <header className="mb-12">
+          <p className="text-xs font-mono font-medium text-accent uppercase tracking-wider mb-2">
+            Case Study
+          </p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text mb-3 leading-tight">
             {data.title}
           </h1>
-          <p className="text-base sm:text-xl font-mono text-text-muted leading-relaxed mb-6">
+          <p className="text-base sm:text-lg text-text-muted leading-relaxed mb-6">
             {data.subtitle[language]}
           </p>
 
-          {/* Technology Badges */}
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            {data.technologies.map((tech) => (
-              <span
-                key={tech}
-                className="px-2.5 py-1 rounded bg-surface border border-border text-xs font-mono text-text shadow-2xs"
-              >
-                {tech}
-              </span>
+          {/* Technology metadata list */}
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-mono text-text-subtle mb-6">
+            {data.technologies.map((tech, idx) => (
+              <React.Fragment key={tech}>
+                <span>{tech}</span>
+                {idx < data.technologies.length - 1 && (
+                  <span className="text-border" aria-hidden="true">·</span>
+                )}
+              </React.Fragment>
             ))}
           </div>
 
@@ -105,7 +104,7 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
               href={data.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface border border-border hover:border-accent text-text transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-surface border border-border hover:border-border-strong text-text transition-colors"
             >
               <Github className="w-4 h-4 text-accent" />
               <span>Ver Repositório no GitHub</span>
@@ -116,7 +115,7 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
                 href={data.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-surface border border-border hover:border-accent text-accent transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-surface border border-border hover:border-border-strong text-accent transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
                 <span>Demo em Produção</span>
@@ -129,16 +128,11 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
         <div className="space-y-10 text-sm sm:text-base leading-relaxed text-text">
           
           {/* Section 01: The Problem */}
-          <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface shadow-2xs transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-mono font-bold text-accent flex items-center gap-2.5">
-                <span className="text-text-subtle font-mono text-sm px-2 py-0.5 rounded bg-surface-subtle border border-border">
-                  {getNextNumber()}
-                </span>
-                <span>{t('caseStudy.problem')}</span>
-              </h2>
-              <span className="text-xs font-mono text-text-subtle hidden sm:inline">context // diagnostic</span>
-            </div>
+          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+              <span>{t('caseStudy.problem')}</span>
+            </h2>
             <div className="space-y-3.5 text-text-muted text-sm sm:text-base">
               {data.problem[language].map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
@@ -148,20 +142,15 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
 
           {/* Section 02: Technical Challenges */}
           {data.technicalChallenges && (
-            <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface-subtle shadow-2xs transition-all">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-mono font-bold text-text flex items-center gap-2.5">
-                  <span className="text-accent font-mono text-sm px-2 py-0.5 rounded bg-surface border border-border">
-                    {getNextNumber()}
-                  </span>
-                  <span>{t('caseStudy.challenges')}</span>
-                </h2>
-                <span className="text-xs font-mono text-text-subtle hidden sm:inline">constraints // hurdles</span>
-              </div>
-              <ul className="space-y-3 text-sm sm:text-base text-text-muted">
+            <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+              <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+                <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+                <span>{t('caseStudy.challenges')}</span>
+              </h2>
+              <ul className="space-y-2.5 text-sm sm:text-base text-text-muted">
                 {data.technicalChallenges[language].map((challenge, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="text-accent font-mono font-bold text-base select-none">›</span>
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <span className="text-text-subtle select-none mt-0.5">•</span>
                     <span>{challenge}</span>
                   </li>
                 ))}
@@ -170,16 +159,11 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
           )}
 
           {/* Section 03: Architecture Decision */}
-          <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface shadow-2xs transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-mono font-bold text-accent flex items-center gap-2.5">
-                <span className="text-text-subtle font-mono text-sm px-2 py-0.5 rounded bg-surface-subtle border border-border">
-                  {getNextNumber()}
-                </span>
-                <span>{data.decision.title[language]}</span>
-              </h2>
-              <span className="text-xs font-mono text-text-subtle hidden sm:inline">strategy // tradecraft</span>
-            </div>
+          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+              <span>{data.decision.title[language]}</span>
+            </h2>
             <div className="space-y-3.5 text-text-muted text-sm sm:text-base mb-6">
               {data.decision.content[language].map((paragraph, idx) => (
                 <p key={idx}>{paragraph}</p>
@@ -200,27 +184,21 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
 
           {/* Section 04: Pipeline / Architecture Breakdown */}
           {data.pipelineOrSections && (
-            <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface shadow-2xs transition-all">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-mono font-bold text-text flex items-center gap-2.5">
-                  <span className="text-accent font-mono text-sm px-2 py-0.5 rounded bg-surface-subtle border border-border">
-                    {getNextNumber()}
-                  </span>
-                  <span>{data.pipelineOrSections.title[language]}</span>
-                </h2>
-                <span className="text-xs font-mono text-text-subtle hidden sm:inline">data-flow // pipeline</span>
-              </div>
+            <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+              <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-6">
+                <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+                <span>{data.pipelineOrSections.title[language]}</span>
+              </h2>
               <div className="space-y-4">
                 {data.pipelineOrSections.items.map((step, idx) => (
                   <div
                     key={idx}
-                    className="p-4 rounded border border-border bg-surface-subtle/50 space-y-1.5 transition-colors hover:border-accent/40"
+                    className="p-4 rounded-md border border-border/80 bg-surface-subtle space-y-1.5"
                   >
-                    <h3 className="text-sm font-mono font-bold text-accent flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-                      <span>{step.subtitle[language]}</span>
+                    <h3 className="text-sm font-semibold text-text">
+                      {step.subtitle[language]}
                     </h3>
-                    <p className="text-xs sm:text-sm text-text-muted pl-3.5 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-text-muted leading-relaxed">
                       {step.text[language]}
                     </p>
                   </div>
@@ -230,16 +208,11 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
           )}
 
           {/* Section 05: Code Snippets & Implementation */}
-          <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface shadow-2xs transition-all">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-mono font-bold text-text flex items-center gap-2.5">
-                <span className="text-accent font-mono text-sm px-2 py-0.5 rounded bg-surface-subtle border border-border">
-                  {getNextNumber()}
-                </span>
-                <span>{t('caseStudy.code')}</span>
-              </h2>
-              <span className="text-xs font-mono text-text-subtle hidden sm:inline">implementation // snippets</span>
-            </div>
+          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-6">
+              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+              <span>{t('caseStudy.code')}</span>
+            </h2>
             <div className="space-y-6">
               {data.codeSnippets.map((snippet, idx) => (
                 <CodeBlock
@@ -254,23 +227,15 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
           </section>
 
           {/* Section 06: Trade-offs */}
-          <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface-subtle shadow-2xs transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-mono font-bold text-text flex items-center gap-2.5">
-                <span className="text-amber-500 font-mono text-sm px-2 py-0.5 rounded bg-surface border border-border">
-                  {getNextNumber()}
-                </span>
-                <span className="flex items-center gap-2">
-                  <AlertTriangle className="w-4 h-4 text-amber-500" />
-                  <span>{t('caseStudy.tradeoffs')}</span>
-                </span>
-              </h2>
-              <span className="text-xs font-mono text-text-subtle hidden sm:inline">engineering-decisions</span>
-            </div>
-            <ul className="space-y-3 text-xs sm:text-sm text-text-muted">
+          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+              <span>{t('caseStudy.tradeoffs')}</span>
+            </h2>
+            <ul className="space-y-2.5 text-xs sm:text-sm text-text-muted">
               {data.tradeOffs[language].map((tradeoff, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="text-amber-500 font-bold mt-0.5 select-none">•</span>
+                <li key={idx} className="flex items-start gap-2.5">
+                  <span className="text-text-subtle select-none mt-0.5">•</span>
                   <span>{tradeoff}</span>
                 </li>
               ))}
@@ -279,48 +244,32 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
 
           {/* Section 07: Result if present */}
           {data.result && (
-            <section className="p-6 sm:p-7 rounded-lg border border-accent/40 bg-accent-subtle/15 shadow-2xs transition-all">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-mono font-bold text-accent flex items-center gap-2.5">
-                  <span className="text-accent font-mono text-sm px-2 py-0.5 rounded bg-surface border border-accent/40">
-                    {getNextNumber()}
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-accent" />
-                    <span>{t('caseStudy.result')}</span>
-                  </span>
-                </h2>
-                <span className="text-xs font-mono text-accent hidden sm:inline font-bold">verified // production</span>
-              </div>
-              <div className="space-y-3 text-xs sm:text-sm text-text">
+            <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+              <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+                <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+                <span>{t('caseStudy.result')}</span>
+              </h2>
+              <div className="space-y-3 text-xs sm:text-sm text-text-muted">
                 {data.result[language].map((res, idx) => (
-                  <p key={idx} className="font-medium leading-relaxed">{res}</p>
+                  <p key={idx} className="leading-relaxed">{res}</p>
                 ))}
               </div>
             </section>
           )}
 
           {/* Section 08: What this project demonstrates */}
-          <section className="p-6 sm:p-7 rounded-lg border border-border bg-surface shadow-2xs transition-all">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-mono font-bold text-text flex items-center gap-2.5">
-                <span className="text-accent font-mono text-sm px-2 py-0.5 rounded bg-surface-subtle border border-border">
-                  {getNextNumber()}
-                </span>
-                <span className="flex items-center gap-2">
-                  <Lightbulb className="w-4 h-4 text-accent" />
-                  <span>{t('caseStudy.demonstrates')}</span>
-                </span>
-              </h2>
-              <span className="text-xs font-mono text-text-subtle hidden sm:inline">core-competencies</span>
-            </div>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs font-mono text-text-muted">
+          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
+            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
+              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
+              <span>{t('caseStudy.demonstrates')}</span>
+            </h2>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-text-muted">
               {data.demonstrates[language].map((item, idx) => (
                 <li
                   key={idx}
-                  className="flex items-center gap-2.5 p-3 rounded bg-surface-subtle border border-border/70 hover:border-accent/50 transition-colors"
+                  className="flex items-center gap-2.5 p-3 rounded-md bg-surface-subtle border border-border/70"
                 >
-                  <span className="text-accent font-bold">✓</span>
+                  <span className="text-accent font-semibold">✓</span>
                   <span>{item}</span>
                 </li>
               ))}
