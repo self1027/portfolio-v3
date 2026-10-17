@@ -16,8 +16,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (saved === 'light' || saved === 'dark') {
         return saved;
       }
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
+      if (window.matchMedia) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
     }
     return 'dark'; // Defaulting to dark graphite developer aesthetic
@@ -38,6 +38,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const applyTheme = (currentTheme: Theme) => {
     const root = document.documentElement;
     root.style.colorScheme = currentTheme;
+    document.querySelector('link[rel="icon"]')?.setAttribute('href', currentTheme === 'dark' ? '/favicon-dark.svg' : '/favicon-light.svg');
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', currentTheme === 'dark' ? '#101114' : '#f8f7f4');
     if (currentTheme === 'dark') {
       root.classList.add('dark');
@@ -55,7 +56,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
       const saved = localStorage.getItem('murilo_portfolio_theme');
-      if (!saved) {
+      if (saved !== 'light' && saved !== 'dark') {
         setThemeState(e.matches ? 'dark' : 'light');
       }
     };

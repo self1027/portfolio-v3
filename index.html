@@ -24,7 +24,7 @@
     <meta name="twitter:title" content="Murilo Dias | Backend Developer Node.js" />
     <meta name="twitter:description" content="Backend Developer focused on Node.js, APIs, WebSockets, production systems, and real-time processing." />
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23121316'/><path d='M30 70V30L50 52L70 30V70' stroke='%23ea580c' stroke-width='8' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>" />
+    <link rel="icon" type="image/svg+xml" href="/favicon-light.svg" />
     
     <script>
       try {
@@ -33,6 +33,7 @@
         document.documentElement.classList.toggle('dark', darkTheme);
         document.documentElement.style.colorScheme = darkTheme ? 'dark' : 'light';
         document.querySelector('meta[name="theme-color"]').content = darkTheme ? '#101114' : '#f8f7f4';
+        document.querySelector('link[rel="icon"]').href = darkTheme ? '/favicon-dark.svg' : '/favicon-light.svg';
       } catch {}
     </script>
     <!-- Typography: JetBrains Mono and Inter -->
