@@ -2,6 +2,7 @@ node_modules/
 build/
 dist/
 coverage/
+.taste-skill/
 .DS_Store
 *.log
 .env*
