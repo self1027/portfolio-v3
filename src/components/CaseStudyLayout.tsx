@@ -1,314 +1,88 @@
-import React, { useEffect } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  ExternalLink,
-  Github,
-  CheckCircle2,
-  AlertTriangle,
-  Lightbulb,
-  Cpu,
-  Layers,
-  Code2,
-  Workflow,
-  Sparkles,
-} from 'lucide-react';
+import React from 'react';
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import type { CaseStudyData } from '../types';
 import { useI18n } from '../i18n/I18nContext';
-import { useRouter, Link } from '../router/RouterContext';
+import { Link } from '../router/RouterContext';
 import { CodeBlock } from './CodeBlock';
 import { ArchitectureImage } from './ArchitectureImage';
+import { projects } from '../data/projects';
 
 interface CaseStudyLayoutProps {
   data: CaseStudyData;
   allSlugs: string[];
   onZoomImage: (src: string, alt: string, caption?: string) => void;
 }
-
-export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({
-  data,
-  allSlugs,
-  onZoomImage,
-}) => {
+export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({ data, allSlugs, onZoomImage }) => {
   const { language, t } = useI18n();
-  const { navigate } = useRouter();
-
-  // Dynamic document title for SEO
-  useEffect(() => {
-    const originalTitle = document.title;
-    document.title = `${data.title} | Murilo Dias`;
-    window.scrollTo(0, 0);
-    return () => {
-      document.title = originalTitle;
-    };
-  }, [data.title, data.slug]);
-
-  // Determine previous and next case studies
-  const currentIndex = allSlugs.indexOf(data.slug);
-  const prevSlug = currentIndex > 0 ? allSlugs[currentIndex - 1] : allSlugs[allSlugs.length - 1];
-  const nextSlug = currentIndex < allSlugs.length - 1 ? allSlugs[currentIndex + 1] : allSlugs[0];
-
-  // Helper to format 2-digit section numbers sequentially
-  let currentCardIndex = 0;
-  const getNextNumber = () => {
-    currentCardIndex += 1;
-    return String(currentCardIndex).padStart(2, '0') + '.';
-  };
-
+  const project = projects.find(item => item.slug === data.slug);
+  const index = allSlugs.indexOf(data.slug);
+  const prev = index < 0 ? allSlugs[allSlugs.length - 1] : allSlugs[(index - 1 + allSlugs.length) % allSlugs.length];
+  const next = allSlugs[(index + 1) % allSlugs.length];
+  const name = (slug: string) => projects.find(item => item.slug === slug)?.displayName || slug;
+  const nav = [
+    ['problem', t('caseStudy.problem')], ['architecture', t('caseStudy.decision')],
+    ['implementation', t('caseStudy.code')], ['tradeoffs', t('caseStudy.tradeoffs')],
+  ];
+  const paragraphs = (items: string[]) => <div className="case-prose">{items.map((item, i) => <p key={i}>{item}</p>)}</div>;
+  const list = (items: string[]) => <ul className="case-list">{items.map((item, i) => <li key={i}>{item}</li>)}</ul>;
   return (
-    <article className="py-10 md:py-16 bg-bg text-text min-h-screen">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        
-        {/* Navigation Breadcrumb */}
-        <div className="mb-8 pb-4 border-b border-border flex items-center justify-between text-xs font-mono">
-          <Link
-            to="/#projects"
-            className="inline-flex items-center gap-2 text-text-muted hover:text-text transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>{t('caseStudy.backToProjects')}</span>
-          </Link>
-
-          <span className="text-text-subtle">
-            {data.slug}
-          </span>
-        </div>
-
-        {/* Case Study Header */}
-        <header className="mb-12">
-          <p className="text-xs font-mono font-medium text-accent uppercase tracking-wider mb-2">
-            Case Study
-          </p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-text mb-3 leading-tight">
-            {data.title}
-          </h1>
-          <p className="text-base sm:text-lg text-text-muted leading-relaxed mb-6">
-            {data.subtitle[language]}
-          </p>
-
-          {/* Technology metadata list */}
-          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-mono text-text-subtle mb-6">
-            {data.technologies.map((tech, idx) => (
-              <React.Fragment key={tech}>
-                <span>{tech}</span>
-                {idx < data.technologies.length - 1 && (
-                  <span className="text-border" aria-hidden="true">·</span>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-
-          {/* External Links */}
-          <div className="flex flex-wrap items-center gap-4 text-xs font-mono pt-4 border-t border-border">
-            <a
-              href={data.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-surface border border-border hover:border-border-strong text-text transition-colors"
-            >
-              <Github className="w-4 h-4 text-accent" />
-              <span>Ver Repositório no GitHub</span>
-            </a>
-
-            {data.demoUrl && (
-              <a
-                href={data.demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-surface border border-border hover:border-border-strong text-accent transition-colors"
-              >
-                <ExternalLink className="w-4 h-4" />
-                <span>Demo em Produção</span>
-              </a>
-            )}
+    <article className="case-study">
+      <div className="case-shell">
+        <Link to="/#projects" className="text-link case-breadcrumb"><ArrowLeft aria-hidden="true" />{t('caseStudy.backToProjects')}</Link>
+        <header>
+          <h1 className="case-title" tabIndex={-1}>{project?.displayName || 'NoBSDownloader'}</h1>
+          <p className="case-subtitle">{data.subtitle[language]}</p>
+          <p className="project-stack" translate="no">{data.technologies.join(' / ')}</p>
+          <div className="project-actions">
+            <a href={data.githubUrl} target="_blank" rel="noopener noreferrer" className="action">{t('caseStudy.source')}<ArrowUpRight aria-hidden="true" /></a>
+            {data.demoUrl && <a href={data.demoUrl} target="_blank" rel="noopener noreferrer" className="text-link">{t('caseStudy.demo')}<ArrowUpRight aria-hidden="true" /></a>}
           </div>
         </header>
-
-        {/* Main Content Sections with Sequential Numbering */}
-        <div className="space-y-10 text-sm sm:text-base leading-relaxed text-text">
-          
-          {/* Section 01: The Problem */}
-          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-              <span>{t('caseStudy.problem')}</span>
-            </h2>
-            <div className="space-y-3.5 text-text-muted text-sm sm:text-base">
-              {data.problem[language].map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
-            </div>
-          </section>
-
-          {/* Section 02: Technical Challenges */}
-          {data.technicalChallenges && (
-            <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-              <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-                <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-                <span>{t('caseStudy.challenges')}</span>
-              </h2>
-              <ul className="space-y-2.5 text-sm sm:text-base text-text-muted">
-                {data.technicalChallenges[language].map((challenge, idx) => (
-                  <li key={idx} className="flex items-start gap-2.5">
-                    <span className="text-text-subtle select-none mt-0.5">•</span>
-                    <span>{challenge}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {/* Section 03: Architecture Decision */}
-          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-              <span>{data.decision.title[language]}</span>
-            </h2>
-            <div className="space-y-3.5 text-text-muted text-sm sm:text-base mb-6">
-              {data.decision.content[language].map((paragraph, idx) => (
-                <p key={idx}>{paragraph}</p>
-              ))}
-            </div>
-
-            {/* Architecture Diagrams */}
-            {data.diagrams.map((diag, idx) => (
-              <ArchitectureImage
-                key={idx}
-                src={diag.src}
-                alt={diag.alt[language]}
-                caption={diag.caption[language]}
-                onZoom={onZoomImage}
-              />
-            ))}
-          </section>
-
-          {/* Section 04: Pipeline / Architecture Breakdown */}
-          {data.pipelineOrSections && (
-            <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-              <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-6">
-                <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-                <span>{data.pipelineOrSections.title[language]}</span>
-              </h2>
-              <div className="space-y-4">
-                {data.pipelineOrSections.items.map((step, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 rounded-md border border-border/80 bg-surface-subtle space-y-1.5"
-                  >
-                    <h3 className="text-sm font-semibold text-text">
-                      {step.subtitle[language]}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-text-muted leading-relaxed">
-                      {step.text[language]}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Section 05: Code Snippets & Implementation */}
-          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-6">
-              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-              <span>{t('caseStudy.code')}</span>
-            </h2>
-            <div className="space-y-6">
-              {data.codeSnippets.map((snippet, idx) => (
-                <CodeBlock
-                  key={idx}
-                  code={snippet.code}
-                  language={snippet.language}
-                  title={snippet.title}
-                  description={snippet.description ? snippet.description[language] : undefined}
-                />
-              ))}
-            </div>
-          </section>
-
-          {/* Section 06: Trade-offs */}
-          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-              <span>{t('caseStudy.tradeoffs')}</span>
-            </h2>
-            <ul className="space-y-2.5 text-xs sm:text-sm text-text-muted">
-              {data.tradeOffs[language].map((tradeoff, idx) => (
-                <li key={idx} className="flex items-start gap-2.5">
-                  <span className="text-text-subtle select-none mt-0.5">•</span>
-                  <span>{tradeoff}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Section 07: Result if present */}
-          {data.result && (
-            <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-              <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-                <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-                <span>{t('caseStudy.result')}</span>
-              </h2>
-              <div className="space-y-3 text-xs sm:text-sm text-text-muted">
-                {data.result[language].map((res, idx) => (
-                  <p key={idx} className="leading-relaxed">{res}</p>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Section 08: What this project demonstrates */}
-          <section className="p-6 sm:p-8 rounded-lg border border-border bg-surface">
-            <h2 className="text-lg font-bold text-text flex items-center gap-2 mb-4">
-              <span className="font-mono text-accent text-sm font-semibold">{getNextNumber()}</span>
-              <span>{t('caseStudy.demonstrates')}</span>
-            </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-text-muted">
-              {data.demonstrates[language].map((item, idx) => (
-                <li
-                  key={idx}
-                  className="flex items-center gap-2.5 p-3 rounded-md bg-surface-subtle border border-border/70"
-                >
-                  <span className="text-accent font-semibold">✓</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-        </div>
-
-        {/* Previous / Next Project Navigation */}
-        <nav
-          className="mt-16 pt-8 border-t border-border flex items-center justify-between font-mono text-xs"
-          aria-label="Case Study Navigation"
-        >
-          <Link
-            to={`/projects/${prevSlug}`}
-            className="inline-flex items-center gap-2 text-text-muted hover:text-accent transition-colors p-2 rounded hover:bg-surface border border-transparent hover:border-border"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="hidden sm:inline">{t('caseStudy.prevProject')}</span>
-            <span className="font-bold">({prevSlug})</span>
-          </Link>
-
-          <Link
-            to="/#projects"
-            className="text-text-subtle hover:text-text px-3 py-1.5 rounded border border-border bg-surface hover:border-accent transition-colors"
-          >
-            {t('caseStudy.backToProjects')}
-          </Link>
-
-          <Link
-            to={`/projects/${nextSlug}`}
-            className="inline-flex items-center gap-2 text-text-muted hover:text-accent transition-colors p-2 rounded hover:bg-surface border border-transparent hover:border-border"
-          >
-            <span className="hidden sm:inline">{t('caseStudy.nextProject')}</span>
-            <span className="font-bold">({nextSlug})</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+        <dl className="case-overview" aria-label={t('caseStudy.overview')}>
+          <div><dt>{t('caseStudy.context')}</dt><dd>{project?.shortDescription[language] || data.problem[language][0]}</dd></div>
+          <div><dt>{t('caseStudy.decisionSummary')}</dt><dd>{project?.engineeringDecision[language] || data.decision.content[language][0]}</dd></div>
+          <div><dt>{t('caseStudy.resultSummary')}</dt><dd>{project?.outcome?.[language] || data.result?.[language][0] || data.tradeOffs[language][0]}</dd></div>
+        </dl>
+        <ArchitectureImage src={data.previewImage} alt={project?.imageAlt[language] || data.title} caption={project?.previewCaption[language] || t('caseStudy.preview')} onZoom={onZoomImage} />
+        <nav className="case-toc" aria-label={t('caseStudy.navigate')}>
+          {nav.map(([id, label]) => <Link key={id} to={'#' + id}>{label}</Link>)}
         </nav>
-
+        <div className="case-content">
+          <section id="problem" className="case-section">
+            <h2>{t('caseStudy.problem')}</h2>{paragraphs(data.problem[language])}
+          </section>
+          {data.technicalChallenges && <section className="case-section">
+            <h2>{t('caseStudy.challenges')}</h2>{list(data.technicalChallenges[language])}
+          </section>}
+          <section id="architecture" className="case-section">
+            <h2>{t('caseStudy.decision')}</h2>
+            <p className="case-decision-title">{data.decision.title[language]}</p>
+            {paragraphs(data.decision.content[language])}
+            {data.diagrams.map(diagram => <ArchitectureImage key={diagram.src} src={diagram.src} alt={diagram.alt[language]} caption={diagram.caption[language]} onZoom={onZoomImage} />)}
+          </section>
+          {data.pipelineOrSections && <section className="case-section">
+            <h2>{t('caseStudy.howItWorks')}</h2>
+            <p className="case-decision-title">{data.pipelineOrSections.title[language]}</p>
+            <div className="pipeline-list">{data.pipelineOrSections.items.map((item, i) => (
+              <div key={i}><h3>{item.subtitle[language].replace(/^\d+\.\s*/, '')}</h3><p>{item.text[language]}</p></div>
+            ))}</div>
+          </section>}
+          <section id="implementation" className="case-section">
+            <h2>{t('caseStudy.code')}</h2>
+            <p className="section-description">{t('caseStudy.codeNote')}</p>
+            {data.codeSnippets.map((snippet, i) => <CodeBlock key={i} code={snippet.code} language={snippet.language} title={language === 'pt-BR' ? snippet.title : snippet.titleEn || snippet.language} description={snippet.description?.[language]} />)}
+          </section>
+          <section id="tradeoffs" className="case-section">
+            <h2>{t('caseStudy.tradeoffs')}</h2>{list(data.tradeOffs[language])}
+          </section>
+          {data.result && <section className="case-section"><h2>{t('caseStudy.result')}</h2>{paragraphs(data.result[language])}</section>}
+          <section className="case-section"><h2>{t('caseStudy.demonstrates')}</h2>{list(data.demonstrates[language])}</section>
+        </div>
+        <nav className="case-navigation" aria-label={t('caseStudy.navigation')}>
+          <Link to={'/projects/' + prev} className="text-link" aria-label={t('caseStudy.prevProject') + ': ' + name(prev)}><ArrowLeft aria-hidden="true" />{name(prev)}</Link>
+          <Link to="/#projects" className="text-link">{t('caseStudy.backToProjects')}</Link>
+          <Link to={'/projects/' + next} className="text-link" aria-label={t('caseStudy.nextProject') + ': ' + name(next)}>{name(next)}<ArrowRight aria-hidden="true" /></Link>
+        </nav>
       </div>
     </article>
   );

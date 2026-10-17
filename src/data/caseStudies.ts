@@ -12,7 +12,7 @@ export const caseStudies: Record<string, CaseStudyData> = {
     technologies: ['TypeScript', 'Web Workers', 'Canvas 2D', 'Transferable Objects', 'Image Processing', 'Real-Time'],
     githubUrl: 'https://github.com/self1027/ascii-cam',
     demoUrl: 'https://ascii.murilod.dev/',
-    previewImage: '/media/ascii-demo.png',
+    previewImage: '/media/ascii-demo.webp',
     problem: {
       'pt-BR': [
         'Processar cada quadro de webcam a 60 FPS para converter pixels em caracteres ASCII é uma tarefa computacionalmente intensiva.',
@@ -129,6 +129,7 @@ export const caseStudies: Record<string, CaseStudyData> = {
     codeSnippets: [
       {
         title: 'Transferable Objects — Comunicação Zero-Copy',
+        titleEn: 'Transferable Objects: buffer ownership transfer',
         language: 'typescript',
         code: `// No Worker: Enviando os dados processados sem cópia
 (self as any).postMessage({
@@ -142,6 +143,7 @@ export const caseStudies: Record<string, CaseStudyData> = {
       },
       {
         title: 'Luminância Rec. 709 & Lookup Dinâmico de Contraste (LUT)',
+        titleEn: 'Rec. 709 luminance and contrast lookup',
         language: 'typescript',
         code: `const r = pixels[i];
 const g = pixels[i + 1];
@@ -150,10 +152,12 @@ const b = pixels[i + 2];
 let v = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 255;
 v *= brightness;
 
-const finalV = contrastLUT[(v * 255) | 0] / 255;`,
+// Illustrative example: clamp the lookup index.
+const index = Math.max(0, Math.min(255, (v * 255) | 0));
+const finalV = contrastLUT[index] / 255;`,
         description: {
-          'pt-BR': 'Lookup pré-calculado na tabela LUT garante tempo constante O(1) por pixel durante a transformação.',
-          'en-US': 'Precalculated Look-Up Table ensures O(1) constant-time contrast evaluation per pixel during transformation.',
+          'pt-BR': 'Exemplo didático de consulta O(1) à LUT, com índice limitado a [0, 255]. Não representa todo o custo de processamento de um quadro.',
+          'en-US': 'Illustrative O(1) LUT lookup with an index clamped to [0, 255]. This does not represent the full cost of processing a frame.',
         },
       },
     ],
@@ -171,12 +175,12 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     },
     result: {
       'pt-BR': [
-        'Taxa de quadros estável em 30+ FPS mesmo em dispositivos móveis e navegadores com aceleração básica.',
-        'Interface do usuário permanece com 0ms de bloqueio, permitindo manipulação suave dos sliders de ajuste.',
+        'O projeto relata processamento a 30+ FPS. A taxa depende do hardware, navegador e resolução da grade; não há uma matriz de benchmark publicada neste estudo.',
+        'O processamento de pixels foi movido para um Web Worker para reduzir a carga na thread da interface. Captura e desenho no Canvas continuam consumindo tempo na thread principal.',
       ],
       'en-US': [
-        'Stable 30+ FPS frame rate achieved even across modest hardware and mobile viewports.',
-        'Main thread remains unblocked (0ms UI lag), delivering fluid interaction with sliders and controls.',
+        'The project reports 30+ FPS. Frame rate depends on hardware, browser and grid resolution; this case study does not publish a benchmark matrix.',
+        'Pixel processing runs in a Web Worker to reduce work on the UI thread. Capture and Canvas drawing still take time on the main thread.',
       ],
     },
     demonstrates: {
@@ -206,7 +210,7 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     technologies: ['Node.js', 'TypeScript', 'Socket.io', 'Express', 'Event-Driven', 'Authoritative Server'],
     githubUrl: 'https://github.com/self1027/infinity-ttt',
     demoUrl: 'https://infinityttt.murilod.dev/',
-    previewImage: '/media/infinityttt-demo.png',
+    previewImage: '/media/infinityttt-demo.webp',
     problem: {
       'pt-BR': [
         'Aplicações multiplayer que confiam no cliente para atualizar o estado do jogo sofrem com latência de rede, problemas de concorrência e divergência de estado.',
@@ -324,6 +328,7 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     codeSnippets: [
       {
         title: 'Gerenciamento da Fila Circular de Peças (Modo Infinito)',
+        titleEn: 'Oldest-piece eviction: partial excerpt',
         language: 'typescript',
         code: `function processMove(state, move) {
     const playerMoves = state.history.filter(m => m.symbol === move.symbol);
@@ -337,12 +342,13 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     return state;
 }`,
         description: {
-          'pt-BR': 'Remoção atômica da jogada mais antiga do jogador antes de registrar o novo símbolo no tabuleiro.',
-          'en-US': 'Atomic eviction of the player\'s oldest piece before committing the new mark on the board state.',
+          'pt-BR': 'Trecho parcial da remoção da peça mais antiga. A manutenção do histórico, a validação de posição e a atualização de turno não aparecem neste recorte; veja o repositório.',
+          'en-US': 'Partial excerpt of oldest-piece eviction. History maintenance, position validation and turn updates are omitted here; see the repository.',
         },
       },
       {
         title: 'Controle de Concorrência e Validação de Turno via Socket.io',
+        titleEn: 'Turn validation with Socket.io',
         language: 'typescript',
         code: `socket.on('make_move', ({ position, roomId }) => {
     const game = roomManager.getGame(roomId);
@@ -353,8 +359,8 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     io.to(roomId).emit('update_game', updatedState);
 });`,
         description: {
-          'pt-BR': 'Validação estrita de posse de turno pelo ID da conexão; impede jogadas fora de hora ou race conditions.',
-          'en-US': 'Strict socket ID turn validation prevents out-of-order dispatch and concurrent race conditions.',
+          'pt-BR': 'O trecho verifica o dono do turno antes de chamar executeMove. Validação da posição, reconexão e ciclo de vida da sala precisam ser tratados pela implementação completa.',
+          'en-US': 'The excerpt checks turn ownership before calling executeMove. Position validation, reconnection and room lifecycle are responsibilities of the complete implementation.',
         },
       },
     ],
@@ -370,12 +376,12 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     },
     result: {
       'pt-BR': [
-        'Zero divergência de estado entre clientes conectados.',
-        'Prevenção total de jogadas inválidas ou adulteração de regras pelo lado do cliente.',
+        'O servidor mantém o estado canônico da partida e o distribui aos clientes da sala.',
+        'A validação de turno e de regras fica no backend. Latência, desconexões e reentrada na sala continuam sendo limites relevantes.',
       ],
       'en-US': [
-        'Zero state drift observed across all active client connections.',
-        'Total elimination of illegal moves or client-side game state tampering.',
+        'The server maintains the canonical match state and broadcasts it to clients in the room.',
+        'Turn and rule validation runs in the backend. Latency, disconnections and room re-entry remain relevant limitations.',
       ],
     },
     demonstrates: {
@@ -407,7 +413,7 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     technologies: ['Node.js', 'WebSockets', 'FFmpeg', 'Vosk', 'Google Cloud STT', 'VLibras', 'Three.js'],
     githubUrl: 'https://github.com/self1027/INTEGRA',
     demoUrl: 'https://integra.murilod.dev/',
-    previewImage: '/media/integra-demo.png',
+    previewImage: '/media/integra-demo.webp',
     problem: {
       'pt-BR': [
         'Sistemas de acessibilidade em tempo real baseados em fala para Libras necessitam manter um fluxo ininterrupto entre captura de áudio, processamento de sinal, reconhecimento fonético, tradução gramatical e renderização 3D.',
@@ -514,8 +520,8 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
             'en-US': '4. Speech-to-Text Recognition',
           },
           text: {
-            'pt-BR': 'Processamento fonético via Vosk e Google Cloud STT gerando tokens textuais com alta precisão contextual.',
-            'en-US': 'Phonetic processing through Vosk and Google Cloud STT yielding textual tokens with high contextual accuracy.',
+            'pt-BR': 'Vosk e Google Cloud STT convertem os chunks de áudio em transcrições para as próximas etapas do pipeline.',
+            'en-US': 'Vosk and Google Cloud STT convert audio chunks into transcripts for the next pipeline stages.',
           },
         },
         {
@@ -533,6 +539,7 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
     codeSnippets: [
       {
         title: 'Pré-processamento de Áudio no Cliente (Web Audio API)',
+        titleEn: 'Client-side audio preprocessing',
         language: 'javascript',
         code: `source.connect(highpass)
       .connect(notch)
@@ -545,6 +552,7 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
       },
       {
         title: 'Buffer Temporário e Inicialização Segura no Servidor',
+        titleEn: 'Buffering before pipeline initialization',
         language: 'javascript',
         code: `if (isPipelineInitialized) {
     ffmpeg.pushAudio(data);
@@ -554,29 +562,29 @@ const finalV = contrastLUT[(v * 255) | 0] / 255;`,
 audioBuffer.push(data);
 initPipeline(FALLBACK_SAMPLE_RATE);`,
         description: {
-          'pt-BR': 'Evita descarte de áudio inicial acumulando pacotes recebidos antes que os descritores do codec estejam prontos.',
-          'en-US': 'Prevents loss of the first audio chunk by buffering frames while downstream codec descriptors initialize.',
+          'pt-BR': 'O recorte mostra buffering antes da inicialização. Controle de inicialização única, limite do buffer e backpressure não estão representados neste trecho.',
+          'en-US': 'This excerpt shows buffering before initialization. Single-initialization guards, buffer limits and backpressure are not represented in this snippet.',
         },
       },
     ],
     tradeOffs: {
       'pt-BR': [
-        'Maior consumo de CPU no dispositivo cliente para filtros DSP, equilibrado com maior precisão no reconhecimento de voz.',
-        'Dependência de serviços externos para STT de alta fidelidade com fallback local.',
+        'A filtragem DSP no cliente aumenta o custo de CPU e trata ruídos antes do reconhecimento de fala. O efeito na precisão depende das condições de áudio.',
+        'Dependência de serviços externos de transcrição com alternativa de motor local.',
         'Maior complexidade arquitetural em comparação com processamento de áudio em lote (batch).',
       ],
       'en-US': [
-        'Higher client CPU utilization for DSP audio filtering, traded for markedly higher STT phonetic accuracy.',
+        'Client-side DSP filtering increases CPU cost and treats noise before speech recognition. Its effect on accuracy depends on audio conditions.',
         'Dependency on external cloud transcription services with local engine fallback capability.',
         'Increased architectural complexity over conventional batch-oriented audio processing.',
       ],
     },
     result: {
       'pt-BR': [
-        'O sistema mantém um fluxo contínuo de tradução com baixa latência, permitindo uma comunicação mais natural e acessível.',
+        'O projeto integra captura de áudio, transcrição e renderização em Libras. Latência e qualidade da tradução dependem dos motores, da rede e das condições de áudio; não há benchmark de precisão neste estudo.',
       ],
       'en-US': [
-        'The system maintains an uninterrupted translation stream with low latency, enabling more natural and accessible communication.',
+        'The project integrates audio capture, transcription and Libras rendering. Latency and translation quality depend on the engines, network and audio conditions; this study does not provide an accuracy benchmark.',
       ],
     },
     demonstrates: {
@@ -608,29 +616,29 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
     technologies: ['Node.js', 'Sequelize ORM', 'MySQL', 'EJS', 'Chart.js', 'PM2', 'Nginx'],
     githubUrl: 'https://github.com/self1027/Livro',
     demoUrl: 'https://livro.murilod.dev/',
-    previewImage: '/media/livro-demo.png',
+    previewImage: '/media/livro-demo.webp',
     problem: {
       'pt-BR': [
         'A Vigilância Sanitária de Andradina operava historicamente com livros físicos e registros manuais para acompanhamento de denúncias e processos administrativos.',
         'Essa operação manual tornava as buscas por históricos operacionais morosas (aproximadamente 5 minutos por consulta) e gerava riscos severos de extravio ou duplicidade de protocolos.',
-        'O objetivo foi digitalizar integralmente os registros preservando a conformidade legal, rastreabilidade rígida e alta velocidade de consulta.',
+        'O objetivo foi digitalizar os registros, preservar a rastreabilidade e reduzir o tempo gasto em consultas ao arquivo físico.',
       ],
       'en-US': [
         'The Vigilância Sanitária de Andradina historically operated with physical logbooks and paper records to track municipal health complaints and administrative inspections.',
         'This manual process made historical searches time-consuming (~5 minutes per inquiry) and created risks of lost records or conflicting protocol numbering.',
-        'The objective was to fully digitize records from scratch while guaranteeing legal compliance, strict traceability, and rapid query speeds.',
+        'The objective was to digitize records, preserve traceability and reduce time spent searching physical files.',
       ],
     },
     technicalChallenges: {
       'pt-BR': [
         'Eliminar livros físicos e garantir que protocolos históricos não fossem extraviados ou danificados.',
-        'Garantir unicidade jurídica irrevogável em cada número de protocolo emitido.',
+        'Impedir duplicidade na combinação de ano e número de protocolo no banco de dados.',
         'Reduzir drasticamente o tempo de consulta aos registros de fiscalização.',
         'Implantar sistema seguro com trilha de auditoria completa em servidor Linux on-premises.',
       ],
       'en-US': [
         'Eliminating paper-based records while safeguarding historical municipal health complaints from loss.',
-        'Enforcing legally irrevocable protocol uniqueness directly at the database engine level.',
+        'Enforcing unique year-and-protocol-number pairs at the database level.',
         'Drastically slashing inspection record lookup duration from minutes to seconds.',
         'Deploying a secure audit-trailed system on municipal on-premises Linux server infrastructure.',
       ],
@@ -643,11 +651,11 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
       content: {
         'pt-BR': [
           'A arquitetura adotou o Sequelize ORM com banco de dados MySQL para estruturação relacional das entidades.',
-          'Para garantir a validade jurídica dos protocolos, foram implementados índices compostos de unicidade onde a combinação de ano e número de protocolo é estritamente não duplicável em nível de banco.',
+          'Uma restrição única composta sobre ano e número impede protocolos duplicados no banco. Essa restrição trata integridade dos dados; permissões de edição, auditoria e requisitos legais são responsabilidades separadas.',
         ],
         'en-US': [
-          'The architecture selected Sequelize ORM with MySQL for robust relational data integrity.',
-          'To ensure legal protocol validity, composite uniqueness constraints were enforced at the database level so the combination of year and sequence number cannot ever be duplicated.',
+          'The architecture uses Sequelize ORM and MySQL to model relationships and enforce database constraints.',
+          'A composite unique constraint on year and number rejects duplicate protocols in the database. It addresses data integrity; editing permissions, audit records and legal requirements are separate responsibilities.',
         ],
       },
     },
@@ -655,8 +663,8 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
       {
         src: '/media/mermaid/livro/fig-1.png',
         caption: {
-          'pt-BR': 'Fluxo de registro: unicidade jurídica do protocolo por meio de restrições de banco de dados.',
-          'en-US': 'Registration flow: legal protocol uniqueness through database constraints.',
+          'pt-BR': 'Fluxo de registro: unicidade da combinação de ano e protocolo por restrição no banco.',
+          'en-US': 'Registration flow: database constraint enforces unique year-and-protocol-number pairs.',
         },
         alt: {
           'pt-BR': 'Diagrama de fluxo de cadastro e validação de restrição única do protocolo',
@@ -736,6 +744,7 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
     codeSnippets: [
       {
         title: 'Modelo Sequelize com Restrição Única Composta (Ano + Número)',
+        titleEn: 'Sequelize model: unique year-and-number pairs',
         language: 'typescript',
         code: `const Denunciation = connection.define('denunciations', {
     year: { type: Sequelize.INTEGER, allowNull: false },
@@ -750,12 +759,13 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
     }]
 });`,
         description: {
-          'pt-BR': 'Garante atomicamente que nenhum protocolo possa ser sobrescrito ou gerado em duplicidade.',
-          'en-US': 'Atomically prevents protocol collisions or overwrites directly at the database engine level.',
+          'pt-BR': 'A restrição rejeita pares de ano e número duplicados. Ela não impede alterações em outros campos nem torna o registro imutável.',
+          'en-US': 'The constraint rejects duplicate year-and-number pairs. It does not prevent other fields from being edited or make a record immutable.',
         },
       },
       {
         title: 'Configuração de Infraestrutura Local: PM2 & Nginx',
+        titleEn: 'Local infrastructure: PM2 and Nginx',
         language: 'bash',
         code: `# Gestão de Uptime com PM2
 pm2 start bin/www --name "sistema-livro" --watch
@@ -775,20 +785,20 @@ location / {
     tradeOffs: {
       'pt-BR': [
         'Arquitetura monolítica em Node.js com EJS e Chart.js adotada para viabilizar manutenção simples e deploy ágil na rede interna da prefeitura.',
-        'Foco em integridade transacional ACID no MySQL em detrimento de abordagens NoSQL desestruturadas.',
+        'MySQL foi escolhido pelas relações entre entidades e restrições de integridade. Essa escolha exige manutenção do esquema e migrações conforme os requisitos evoluem.',
       ],
       'en-US': [
         'Monolithic Node.js with EJS server-rendered views and Chart.js chosen for rapid deployment and simple on-premises maintenance.',
-        'Strict ACID transactional modeling prioritized over loose document storage to guarantee legal audit validity.',
+        'MySQL was chosen for entity relationships and integrity constraints. This requires schema maintenance and migrations as requirements evolve.',
       ],
     },
     result: {
       'pt-BR': [
-        'A solução reduziu o tempo médio de consulta de registros de aproximadamente 5 minutos para 10 segundos.',
+        'A estimativa operacional relatada passou de ~5 minutos de busca em arquivos físicos para ~10 segundos no sistema. A comparação descreve a digitalização do fluxo, não um benchmark isolado de consulta SQL.',
         'A equipe municipal passou a dedicar menos tempo à busca em arquivos físicos e mais tempo a ações operacionais de campo.',
       ],
       'en-US': [
-        'The solution reduced average record lookup time from approximately 5 minutes to approximately 10 seconds.',
+        'The reported operational estimate went from ~5 minutes searching physical files to ~10 seconds in the system. This compares workflows after digitization, not isolated SQL query performance.',
         'The municipal team now spends far less time searching physical files and more time in high-priority field operations.',
       ],
     },
@@ -840,15 +850,15 @@ location / {
     technicalChallenges: {
       'pt-BR': [
         'Orquestrar binários nativos pesados (yt-dlp e FFmpeg) sem bloquear o loop de eventos assíncrono do Node.js.',
-        'Garantir terminação forçada de processos e subprocessos órfãos no Linux (SIGKILL) e Windows (taskkill).',
+        'Tratar encerramento de processos e limpeza por plataforma; processos descendentes exigem controle adicional no Linux.',
         'Impor limites rigorosos de tamanho de arquivo (teto de 1.0 GiB) através de inspeção contínua de streams.',
-        'Isolamento estrito de jobs com diretórios temporários únicos e remoção garantida pós-processamento.',
+        'Separação de tarefas em diretórios temporários únicos e rotinas de limpeza pós-processamento.',
       ],
       'en-US': [
         'Orchestrating resource-intensive native binaries (yt-dlp and FFmpeg) without starving the Node.js event loop.',
-        'Ensuring reliable termination of orphaned subprocess trees across both POSIX (SIGKILL) and Windows (taskkill).',
+        'Handling process termination and cleanup per platform; descendant processes require additional control on Linux.',
         'Enforcing rigid file payload ceilings (1.0 GiB cap) via real-time stdout stream inspection.',
-        'Strict job isolation with unique temporary directories and guaranteed post-extraction cleanup.',
+        'Per-job temporary directories and post-extraction cleanup routines.',
       ],
     },
     decision: {
@@ -858,11 +868,11 @@ location / {
       },
       content: {
         'pt-BR': [
-          'Em vez de sobrecarregar o event loop do Node.js, yt-dlp e FFmpeg são executados como processos-filho isolados utilizando spawn.',
+          'Em vez de sobrecarregar o event loop do Node.js, yt-dlp e FFmpeg são executados como processos-filho utilizando spawn.',
           'Isso permite monitoramento em tempo real dos fluxos stdout/stderr e terminação imediata (taskkill no Windows ou SIGKILL no Linux) caso limites pré-determinados sejam violados.',
         ],
         'en-US': [
-          'Rather than blocking Node.js application logic, yt-dlp and FFmpeg are orchestrated as isolated child processes via spawn.',
+          'Rather than blocking Node.js application logic, yt-dlp and FFmpeg are orchestrated as child processes via spawn.',
           'This permits direct stdout/stderr stream observation and immediate process termination (taskkill on Windows, SIGKILL on POSIX) when safety thresholds are breached.',
         ],
       },
@@ -933,8 +943,8 @@ location / {
             'en-US': '4. Safety Kill Switch (1.0 GiB Ceiling)',
           },
           text: {
-            'pt-BR': 'Caso o download ultrapasse 1.0 GiB no stream, o processo é encerrado imediatamente via taskkill ou SIGKILL prevenindo exaustão de disco.',
-            'en-US': 'If output stream exceeds 1.0 GiB, immediate termination is executed via taskkill/SIGKILL to prevent host disk exhaustion.',
+            'pt-BR': 'Ao ultrapassar o limite monitorado de saída, a aplicação solicita o encerramento do processo. A árvore de processos e arquivos temporários exigem tratamento adicional.',
+            'en-US': 'When output exceeds the monitored limit, the application requests process termination. Process trees and temporary files require additional handling.',
           },
         },
         {
@@ -944,7 +954,7 @@ location / {
           },
           text: {
             'pt-BR': 'Conversão para o formato desejado (MP3, MP4) em diretório temporário isolado com remoção de resíduos pós-entrega.',
-            'en-US': 'Conversion to desired target container (MP3, MP4) in an isolated scratch directory with guaranteed post-delivery cleanup.',
+            'en-US': 'Conversion to the target container (MP3, MP4) in a per-job scratch directory with cleanup after delivery.',
           },
         },
       ],
@@ -952,6 +962,7 @@ location / {
     codeSnippets: [
       {
         title: 'Monitoramento de Fluxo e Encerramento Forçado por Limite de Tamanho',
+        titleEn: 'Output monitoring and size limits',
         language: 'javascript',
         code: `const yt = spawn(YTDLP_PATH, ytArgs);
 
@@ -971,12 +982,13 @@ yt.stdout.on("data", (data) => {
     }
 });`,
         description: {
-          'pt-BR': 'Inspeção direta de stdout para terminação imediata de processos que excedem o limite de segurança de 1.0 GiB.',
-          'en-US': 'Direct stdout inspection enforcing a 1.0 GiB safety ceiling with cross-platform process tree termination.',
+          'pt-BR': 'Monitoramento do progresso em stdout para solicitar encerramento ao detectar o limite. O trecho não substitui quotas do sistema operacional nem garante encerramento dos processos descendentes.',
+          'en-US': 'Monitoring stdout progress to request termination when the limit is detected. This excerpt does not replace operating-system quotas or guarantee termination of descendant processes.',
         },
       },
       {
         title: 'Mapeamento Seguro e Filtragem de Formatos',
+        titleEn: 'Format mapping and filtering',
         language: 'javascript',
         code: `json.formats.forEach(f => {
     const isVideo = f.vcodec !== "none" || f.video_ext !== "none";
@@ -999,21 +1011,21 @@ yt.stdout.on("data", (data) => {
     tradeOffs: {
       'pt-BR': [
         'A dependência de binários externos instalados no host exige validação prévia de caminhos executáveis.',
-        'Limites rígidos de tempo de execução e tamanho protegem a máquina servidora, recusando arquivos de mídia excessivamente longos.',
+        'Limites de tempo e tamanho reduzem consumo excessivo, mas não substituem quotas de CPU, memória e disco no sistema operacional.',
       ],
       'en-US': [
         'Requirement for host-installed native binaries requires pre-flight executable verification.',
-        'Strict runtime limits and payload thresholds safeguard server resources at the expense of rejecting excessively large files.',
+        'Runtime and payload limits reduce excessive consumption but do not replace operating-system CPU, memory and disk quotas.',
       ],
     },
     result: {
       'pt-BR': [
         'Extração limpa, direta e determinística de mídia sem publicidade invasiva, redirecionamentos ou rastreadores.',
-        'Isolamento estrito de processos e proteção comprovada da integridade de memória e armazenamento do servidor.',
+        'Monitoramento de tamanho e uso de diretórios temporários por tarefa. spawn não é uma sandbox; quotas do sistema operacional e controle da árvore de processos são medidas adicionais.',
       ],
       'en-US': [
         'Clean, deterministic media extraction without deceptive advertisements, redirects, or third-party trackers.',
-        'Strict subprocess sandboxing and guaranteed protection of host memory and disk resources.',
+        'Output-size monitoring and per-task temporary directories. spawn is not a sandbox; operating-system quotas and process-tree control are additional measures.',
       ],
     },
     demonstrates: {

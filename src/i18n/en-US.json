@@ -7,20 +7,27 @@
     "contact": "Contact",
     "resume": "Resume",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "home": "Murilo Dias — home",
+    "main": "Main navigation",
+    "lightMode": "Switch to light theme",
+    "darkMode": "Switch to dark theme",
+    "skip": "Skip to content"
   },
   "hero": {
     "badge": "Available for hire",
-    "role": "Backend Developer | Node.js | Production Systems",
-    "description": "Backend Developer focused on Node.js, building real production systems with scalable APIs, real-time processing, and event-driven architecture.",
-    "secondary": "Open to opportunities as a Backend Developer.",
-    "ctaProjects": "View Projects",
-    "ctaResume": "Download Resume",
+    "role": "Backend developer. Node.js & TypeScript.",
+    "description": "I build APIs, production systems and real-time applications. From digitizing public health records in Andradina to audio pipelines and multiplayer servers.",
+    "secondary": "Open to backend development opportunities.",
+    "ctaProjects": "Explore projects",
+    "ctaResume": "Download resume",
     "status": "ONLINE",
-    "env": "production-ready"
+    "env": "production-ready",
+    "proof": "In use by Andradina’s public health department",
+    "location": "Brazil · UTC−3"
   },
   "impact": {
-    "title": "Technical Highlights & Impact",
+    "title": "From requirements to operation.",
     "badge": "Impact",
     "items": [
       {
@@ -43,43 +50,70 @@
         "desc": "Event-driven architecture",
         "tag": "Event-Driven"
       }
-    ]
+    ],
+    "description": "For Livro, I worked across the full cycle: understanding inspectors’ workflows, modeling the data and deploying on the municipal network.",
+    "cta": "Explore Livro’s architecture",
+    "requirements": {
+      "title": "Understand the workflow",
+      "description": "Requirements gathered directly from municipal staff and health inspectors to replace paper records."
+    },
+    "data": {
+      "title": "Protect the records",
+      "description": "MySQL and Sequelize enforce unique year-and-protocol-number pairs, with audit entries linked to the responsible user."
+    },
+    "operations": {
+      "title": "Keep it running",
+      "description": "Deployment on local Linux infrastructure, Nginx as a reverse proxy and PM2 for process supervision."
+    }
   },
   "projects": {
     "sectionBadge": "Projects",
-    "title": "Featured Projects",
-    "subtitle": "Real production systems, authoritative multiplayer engines, and high-performance media pipelines.",
-    "viewCaseStudy": "View Case Study",
+    "title": "Engineering in practice.",
+    "subtitle": "A system used in the public sector and three projects exploring data integrity, audio, concurrency and state synchronization.",
+    "viewCaseStudy": "Read case study",
     "viewCode": "Code",
-    "viewDemo": "Live Demo",
-    "outcomeLabel": "Demonstrated outcome:",
-    "zoomImage": "Click to enlarge screenshot",
-    "noDemo": "No public demo (internal system/CLI)"
+    "viewDemo": "Demo",
+    "outcomeLabel": "Reported outcome.",
+    "zoomImage": "Enlarge image",
+    "noDemo": "No public demo (internal system/CLI)",
+    "decisionLabel": "Engineering decision."
   },
   "skills": {
     "sectionBadge": "Technical Stack",
-    "title": "Technical Skills",
-    "subtitle": "Competencies applied across production backend services, relational databases, and real-time processing pipelines."
+    "title": "A stack with context.",
+    "subtitle": "Technologies paired with where I applied them. The case studies cover choices, implementation and limitations.",
+    "evidence": "See it applied in",
+    "additional": "Other technologies in my toolkit",
+    "additionalNote": "I also work with or study the technologies below. They are not presented as evidence of use in the selected projects.",
+    "more": "Explore repositories"
   },
   "experience": {
     "sectionBadge": "Experience",
-    "title": "Professional Experience",
-    "subtitle": "Work history focused on backend engineering, process automation, and Linux server administration."
+    "title": "Professional experience.",
+    "subtitle": "Internal systems development, direct contact with users and responsibility for deployment.",
+    "more": "View more responsibilities",
+    "caseLink": "Explore the project from this role"
   },
   "github": {
     "sectionBadge": "Open Source",
-    "title": "GitHub Activity",
-    "subtitle": "Open source projects, libraries, and experiments with a rigorous backend architecture approach.",
-    "cta": "View GitHub Profile",
+    "title": "The code is open.",
+    "subtitle": "A selection for technical review: implementation, code organization and the decisions behind the interface.",
+    "cta": "Open GitHub profile",
     "repositories": "Public Repositories",
     "viewRepo": "Access repository",
     "loading": "Loading public GitHub data...",
-    "errorFallback": "Displaying projects synchronized directly with the official repository."
+    "errorFallback": "Displaying projects synchronized directly with the official repository.",
+    "selection": "A curated selection of public repositories. Implementation details are available on GitHub.",
+    "livro": "Protocol modeling, API and municipal application.",
+    "integra": "Audio ingestion, transcription and Libras integration.",
+    "ascii": "Worker processing and buffer transfers.",
+    "infinity": "Game rules and server-controlled state.",
+    "nobs": "Process orchestration and media extraction."
   },
   "contact": {
     "sectionBadge": "Contact",
-    "title": "Interested in working together?",
-    "subtitle": "I'm open to Backend Developer opportunities, especially projects involving real production systems, APIs, real-time processing, and Node.js backend development.",
+    "title": "Let’s talk.",
+    "subtitle": "I’m looking for backend opportunities with Node.js and TypeScript. If my experience fits your team, let’s discuss your next challenge.",
     "form": {
       "name": "Your Name",
       "email": "Your Email",
@@ -88,35 +122,57 @@
       "placeholderEmail": "alex@company.com",
       "placeholderMessage": "Hi Murilo, I'd like to discuss a Backend Developer opportunity with our team...",
       "submit": "Send Message",
-      "copyEmail": "Copy Email",
-      "copied": "Email copied!",
+      "copyEmail": "Copy address",
+      "copied": "Address copied.",
       "mailtoFallbackNotice": "Submitting will open your default email client directly to diasmurilo02@gmail.com"
-    }
+    },
+    "emailAction": "Write an email",
+    "copyError": "Could not copy. Select the address above or choose “Write an email”.",
+    "emailSubject": "Backend development opportunity",
+    "emailHint": "The button opens your email app. You can also copy the address."
   },
   "footer": {
     "copyright": "Murilo Dias. All rights reserved.",
-    "tagline": "Backend Developer focused on Node.js and production systems.",
+    "tagline": "Backend with Node.js & TypeScript.",
     "backToTop": "Back to top",
     "techStack": "Built with React, TypeScript & Tailwind CSS"
   },
   "caseStudy": {
-    "backToProjects": "Back to Projects",
-    "overview": "Overview",
-    "problem": "The Problem",
-    "challenges": "Technical Challenges",
-    "decision": "Architectural Decision",
+    "backToProjects": "Back to projects",
+    "overview": "At a glance",
+    "problem": "The problem",
+    "challenges": "Technical challenges",
+    "decision": "Architecture",
     "pipeline": "Processing Pipeline",
-    "code": "Implementation & Code",
-    "tradeoffs": "Technical Trade-offs",
+    "code": "Implementation",
+    "tradeoffs": "Choices and limits",
     "result": "Results",
-    "demonstrates": "What this project demonstrates",
-    "nextProject": "Next Project",
-    "prevProject": "Previous Project",
+    "demonstrates": "Applied skills",
+    "nextProject": "Next project",
+    "prevProject": "Previous project",
     "copySnippet": "Copy code",
-    "snippetCopied": "Copied to clipboard!"
+    "snippetCopied": "Copied to clipboard!",
+    "context": "Context",
+    "decisionSummary": "Key decision",
+    "resultSummary": "Outcome and limits",
+    "navigate": "In this case study",
+    "navigation": "Project navigation",
+    "preview": "Project interface",
+    "codeNote": "Condensed excerpts to explain the decisions. See the repository for the complete implementation.",
+    "copyError": "Could not copy. Select the code to copy it manually.",
+    "copied": "Copied",
+    "copy": "Copy",
+    "source": "Code on GitHub",
+    "demo": "Open demo",
+    "howItWorks": "How it works"
   },
   "lightbox": {
-    "close": "Close preview (ESC)",
-    "zoomHint": "Esc to close · Click outside to dismiss"
+    "close": "Close image (Esc)",
+    "zoomHint": "Esc to close. Diagrams support horizontal scrolling."
+  },
+  "notFound": {
+    "title": "Page not found.",
+    "description": "This address does not match a project. Explore the available case studies.",
+    "action": "View projects"
   }
 }

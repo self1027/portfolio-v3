@@ -3,6 +3,11 @@ import type { Project } from '../types';
 export const projects: Project[] = [
   {
     id: 'livro',
+    displayName: "Livro",
+    engineeringDecision: {"pt-BR":"Uma restrição única de ano e número de protocolo no MySQL protege os registros contra duplicatas.","en-US":"A unique year-and-protocol-number constraint in MySQL protects records against duplicates."},
+    previewCaption: {"pt-BR":"Livro: gestão de denúncias e registros sanitários.","en-US":"Livro: public health complaints and record management."},
+    imageWidth: 1920,
+    imageHeight: 1080,
     slug: 'livro',
     title: 'Livro — Gestão de Vigilância Sanitária',
     subtitle: {
@@ -11,16 +16,16 @@ export const projects: Project[] = [
     },
     shortDescription: {
       'pt-BR': 'Sistema utilizado em produção pela Vigilância Sanitária de Andradina para gestão de denúncias, rastreabilidade de registros e apoio aos processos de fiscalização.',
-      'en-US': 'Production system used by the Vigilância Sanitária de Andradina for denunciation management, record traceability, and inspection process support.',
+      'en-US': 'Production system used by the Vigilância Sanitária de Andradina for complaint management, record traceability, and inspection process support.',
     },
     outcome: {
-      'pt-BR': 'Redução do tempo médio de consulta de aproximadamente 5 minutos para 10 segundos.',
-      'en-US': 'Reduction of average query time from approximately 5 minutes to 10 seconds.',
+      'pt-BR': 'Busca em registros digitalizados: de ~5 minutos para ~10 segundos, segundo estimativa operacional.',
+      'en-US': 'Digitized record lookup: from ~5 minutes to ~10 seconds, based on an operational estimate.',
     },
     technologies: ['Node.js', 'Sequelize ORM', 'MySQL', 'EJS', 'Chart.js', 'PM2', 'Nginx'],
     githubUrl: 'https://github.com/self1027/Livro',
     demoUrl: 'https://livro.murilod.dev/',
-    image: '/media/livro-demo.png',
+    image: '/media/livro-demo.webp',
     imageAlt: {
       'pt-BR': 'Interface do sistema Livro em produção para Vigilância Sanitária',
       'en-US': 'Livro production system interface for public health surveillance',
@@ -33,6 +38,11 @@ export const projects: Project[] = [
   },
   {
     id: 'integra',
+    displayName: "Integra",
+    engineeringDecision: {"pt-BR":"Separar captura, transcrição e renderização permite tratar as etapas do pipeline de áudio de forma independente.","en-US":"Separating capture, transcription and rendering lets each stage of the audio pipeline be handled independently."},
+    previewCaption: {"pt-BR":"Integra: áudio, transcrição e avatar de Libras.","en-US":"Integra: audio, transcription and a Libras avatar."},
+    imageWidth: 1920,
+    imageHeight: 1080,
     slug: 'integra',
     title: 'Integra — Educação Sem Barreiras',
     subtitle: {
@@ -46,7 +56,7 @@ export const projects: Project[] = [
     technologies: ['Node.js', 'WebSockets', 'FFmpeg', 'Vosk', 'Google Cloud STT', 'VLibras', 'Three.js'],
     githubUrl: 'https://github.com/self1027/INTEGRA',
     demoUrl: 'https://integra.murilod.dev/',
-    image: '/media/integra-demo.png',
+    image: '/media/integra-demo.webp',
     imageAlt: {
       'pt-BR': 'Demonstração do pipeline em tempo real e avatar 3D do Integra',
       'en-US': 'Integra real-time pipeline and 3D avatar demonstration',
@@ -59,6 +69,11 @@ export const projects: Project[] = [
   },
   {
     id: 'ascii-cam',
+    displayName: "ASCII Cam",
+    engineeringDecision: {"pt-BR":"Web Worker e transferência de ArrayBuffers movem o processamento de pixels para fora da thread da interface.","en-US":"A Web Worker and ArrayBuffer transfers move pixel processing off the interface thread."},
+    previewCaption: {"pt-BR":"ASCII Cam: renderização de vídeo em caracteres.","en-US":"ASCII Cam: video rendered as characters."},
+    imageWidth: 1280,
+    imageHeight: 720,
     slug: 'ascii-cam',
     title: 'ASCII Cam — Renderização de Alto Desempenho',
     subtitle: {
@@ -66,17 +81,17 @@ export const projects: Project[] = [
       'en-US': 'Real-Time Video Processing with Web Workers and Zero-Copy',
     },
     shortDescription: {
-      'pt-BR': 'Conversão de webcam para arte ASCII a 30+ FPS com processamento em Web Worker, Transferable Objects, LUT dinâmica e renderização eficiente em Canvas 2D.',
-      'en-US': 'Webcam to ASCII art conversion at 30+ FPS with Web Worker processing, Transferable Objects, dynamic LUT, and efficient Canvas 2D rendering.',
+      'pt-BR': 'Conversão de webcam em arte ASCII com processamento de imagem em Web Worker, LUT de contraste e renderização em Canvas 2D.',
+      'en-US': 'Webcam-to-ASCII conversion with image processing in a Web Worker, a contrast LUT and Canvas 2D rendering.',
     },
     outcome: {
-      'pt-BR': 'Processamento contínuo a 30+ FPS estáveis sem bloqueio da UI.',
-      'en-US': 'Continuous stable 30+ FPS processing with zero UI freezing.',
+      'pt-BR': '30+ FPS no cenário apresentado, variando com hardware e resolução da grade.',
+      'en-US': '30+ FPS in the presented scenario, varying with hardware and grid resolution.',
     },
     technologies: ['TypeScript', 'Web Workers', 'Canvas 2D', 'Transferable Objects', 'Image Processing', 'Real-Time'],
     githubUrl: 'https://github.com/self1027/ascii-cam',
     demoUrl: 'https://ascii.murilod.dev/',
-    image: '/media/ascii-demo.png',
+    image: '/media/ascii-demo.webp',
     imageAlt: {
       'pt-BR': 'Feed de vídeo processado em tempo real em caracteres ASCII',
       'en-US': 'Real-time video feed processed into ASCII characters',
@@ -89,6 +104,11 @@ export const projects: Project[] = [
   },
   {
     id: 'infinity-ttt',
+    displayName: "Infinity Tic-Tac-Toe",
+    engineeringDecision: {"pt-BR":"O servidor valida os turnos e publica o estado da sala; o cliente não decide as regras da partida.","en-US":"The server validates turns and broadcasts room state; clients do not decide the game rules."},
+    previewCaption: {"pt-BR":"Infinity Tic-Tac-Toe: uma partida, estado compartilhado.","en-US":"Infinity Tic-Tac-Toe: one match, shared state."},
+    imageWidth: 1920,
+    imageHeight: 1080,
     slug: 'infinity-ttt',
     title: 'Infinity Tic-Tac-Toe',
     subtitle: {
@@ -102,7 +122,7 @@ export const projects: Project[] = [
     technologies: ['Node.js', 'TypeScript', 'Socket.io', 'Express', 'Event-Driven', 'Authoritative Server'],
     githubUrl: 'https://github.com/self1027/infinity-ttt',
     demoUrl: 'https://infinityttt.murilod.dev/',
-    image: '/media/infinityttt-demo.png',
+    image: '/media/infinityttt-demo.webp',
     imageAlt: {
       'pt-BR': 'Tabuleiro multiplayer sincronizado do Infinity Tic-Tac-Toe',
       'en-US': 'Infinity Tic-Tac-Toe synchronized multiplayer board',

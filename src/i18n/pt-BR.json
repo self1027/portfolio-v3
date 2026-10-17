@@ -7,20 +7,27 @@
     "contact": "Contato",
     "resume": "Currículo",
     "openMenu": "Abrir menu",
-    "closeMenu": "Fechar menu"
+    "closeMenu": "Fechar menu",
+    "home": "Murilo Dias — início",
+    "main": "Navegação principal",
+    "lightMode": "Ativar tema claro",
+    "darkMode": "Ativar tema escuro",
+    "skip": "Ir para o conteúdo"
   },
   "hero": {
     "badge": "Disponível para contratação",
-    "role": "Backend Developer | Node.js | Sistemas em Produção",
-    "description": "Desenvolvedor backend focado em Node.js, criando sistemas reais em produção com APIs escaláveis, processamento em tempo real e arquitetura orientada a eventos.",
-    "secondary": "Aberto a oportunidades como Backend Developer.",
-    "ctaProjects": "Ver Projetos",
-    "ctaResume": "Baixar CV",
+    "role": "Desenvolvedor backend. Node.js e TypeScript.",
+    "description": "Desenvolvo APIs, sistemas em produção e aplicações em tempo real. Da digitalização da Vigilância Sanitária de Andradina a pipelines de áudio e servidores multiplayer.",
+    "secondary": "Aberto a oportunidades em desenvolvimento backend.",
+    "ctaProjects": "Explorar projetos",
+    "ctaResume": "Baixar currículo",
     "status": "ONLINE",
-    "env": "production-ready"
+    "env": "production-ready",
+    "proof": "Em produção na Vigilância Sanitária de Andradina",
+    "location": "Brasil · UTC−3"
   },
   "impact": {
-    "title": "Destaques Técnicos & Impacto",
+    "title": "Do requisito à operação.",
     "badge": "Impacto",
     "items": [
       {
@@ -43,43 +50,70 @@
         "desc": "Arquitetura orientada a eventos",
         "tag": "Event-Driven"
       }
-    ]
+    ],
+    "description": "No Livro, participei do ciclo completo: entender a rotina dos fiscais, estruturar os dados e colocar o sistema em uso na rede municipal.",
+    "cta": "Entender a arquitetura do Livro",
+    "requirements": {
+      "title": "Entender a rotina",
+      "description": "Requisitos levantados diretamente com servidores e fiscais sanitários para substituir registros em papel."
+    },
+    "data": {
+      "title": "Proteger os registros",
+      "description": "MySQL e Sequelize com unicidade de ano e número de protocolo, além de registros de auditoria vinculados ao responsável."
+    },
+    "operations": {
+      "title": "Manter em operação",
+      "description": "Implantação em Linux na infraestrutura local, Nginx como proxy reverso e PM2 para supervisão dos processos."
+    }
   },
   "projects": {
     "sectionBadge": "Projetos",
-    "title": "Projetos em Destaque",
-    "subtitle": "Aplicações reais em produção, motores multiplayer autoritativos e pipelines de mídia de alto desempenho.",
-    "viewCaseStudy": "Ver Estudo de Caso",
+    "title": "Engenharia em prática.",
+    "subtitle": "Um sistema em uso no setor público e três projetos para explorar integridade de dados, áudio, concorrência e sincronização de estado.",
+    "viewCaseStudy": "Ler estudo de caso",
     "viewCode": "Código",
-    "viewDemo": "Demo Online",
-    "outcomeLabel": "Resultado comprovado:",
-    "zoomImage": "Clique para ampliar imagem",
-    "noDemo": "Sem demo pública (sistema interno/CLI)"
+    "viewDemo": "Demonstração",
+    "outcomeLabel": "Resultado relatado.",
+    "zoomImage": "Ampliar imagem",
+    "noDemo": "Sem demo pública (sistema interno/CLI)",
+    "decisionLabel": "Decisão técnica."
   },
   "skills": {
     "sectionBadge": "Stack Técnica",
-    "title": "Habilidades Técnicas",
-    "subtitle": "Competências aplicadas na construção de backends robustos, bancos relacionais e pipelines em tempo real."
+    "title": "Stack com contexto.",
+    "subtitle": "Tecnologias acompanhadas de onde foram aplicadas. Os estudos de caso mostram as escolhas, a implementação e as limitações.",
+    "evidence": "Ver aplicação em",
+    "additional": "Outras tecnologias do meu repertório",
+    "additionalNote": "Também trabalho ou estudo as tecnologias abaixo. Elas não são evidência de uso nos projetos selecionados.",
+    "more": "Explorar repositórios"
   },
   "experience": {
     "sectionBadge": "Experiência",
-    "title": "Experiência Profissional",
-    "subtitle": "Histórico profissional focado em desenvolvimento backend, automação e infraestrutura de servidores."
+    "title": "Experiência profissional.",
+    "subtitle": "Desenvolvimento de sistemas internos, contato com usuários e responsabilidade pela implantação.",
+    "more": "Ver outras responsabilidades",
+    "caseLink": "Ver o projeto desta experiência"
   },
   "github": {
     "sectionBadge": "Código Aberto",
-    "title": "Atividade no GitHub",
-    "subtitle": "Projetos open source, bibliotecas e experimentos com foco em arquitetura backend.",
-    "cta": "Ver Perfil no GitHub",
+    "title": "O código está aberto.",
+    "subtitle": "Uma seleção para revisão técnica: implementação, organização do código e decisões além da interface.",
+    "cta": "Abrir perfil no GitHub",
     "repositories": "Repositórios Públicos",
     "viewRepo": "Acessar repositório",
     "loading": "Carregando dados públicos do GitHub...",
-    "errorFallback": "Visualizando projetos sincronizados diretamente com o repositório oficial."
+    "errorFallback": "Visualizando projetos sincronizados diretamente com o repositório oficial.",
+    "selection": "Seleção de repositórios públicos. Os detalhes de cada implementação estão no GitHub.",
+    "livro": "Modelagem de protocolos, API e aplicação municipal.",
+    "integra": "Ingestão de áudio, transcrição e integração com Libras.",
+    "ascii": "Processamento em Worker e transferência de buffers.",
+    "infinity": "Regras de jogo e estado sob controle do servidor.",
+    "nobs": "Orquestração de processos e extração de mídia."
   },
   "contact": {
     "sectionBadge": "Contato",
-    "title": "Interessado em trabalhar juntos?",
-    "subtitle": "Estou aberto a oportunidades como Backend Developer, especialmente em projetos que envolvam sistemas reais, APIs, processamento em tempo real e backend com Node.js.",
+    "title": "Vamos conversar?",
+    "subtitle": "Busco oportunidades em backend com Node.js e TypeScript. Se minha experiência fizer sentido para sua equipe, vamos falar sobre o próximo desafio.",
     "form": {
       "name": "Seu Nome",
       "email": "Seu E-mail",
@@ -88,35 +122,57 @@
       "placeholderEmail": "alex@empresa.com",
       "placeholderMessage": "Olá Murilo, gostaria de conversar sobre uma oportunidade para Backend Developer...",
       "submit": "Enviar Mensagem",
-      "copyEmail": "Copiar E-mail",
-      "copied": "E-mail copiado!",
+      "copyEmail": "Copiar endereço",
+      "copied": "Endereço copiado.",
       "mailtoFallbackNotice": "O envio abrirá seu cliente de e-mail padrão diretamente para diasmurilo02@gmail.com"
-    }
+    },
+    "emailAction": "Escrever um e-mail",
+    "copyError": "Não foi possível copiar. Selecione o endereço acima ou use “Escrever um e-mail”.",
+    "emailSubject": "Oportunidade em desenvolvimento backend",
+    "emailHint": "O botão abre seu aplicativo de e-mail. Você também pode copiar o endereço."
   },
   "footer": {
     "copyright": "Murilo Dias. Todos os direitos reservados.",
-    "tagline": "Backend Developer focado em Node.js e sistemas em produção.",
-    "backToTop": "Voltar ao topo",
+    "tagline": "Backend com Node.js e TypeScript.",
+    "backToTop": "Voltar ao início",
     "techStack": "Construído com React, TypeScript & Tailwind CSS"
   },
   "caseStudy": {
-    "backToProjects": "Voltar aos Projetos",
-    "overview": "Visão Geral",
-    "problem": "O Problema",
-    "challenges": "Desafios Técnicos",
-    "decision": "Decisão Arquitetural",
+    "backToProjects": "Voltar aos projetos",
+    "overview": "Em resumo",
+    "problem": "O problema",
+    "challenges": "Desafios técnicos",
+    "decision": "Arquitetura",
     "pipeline": "Pipeline de Processamento",
-    "code": "Implementação & Código",
-    "tradeoffs": "Trade-offs Técnicos",
-    "result": "Resultados Obtidos",
-    "demonstrates": "O que este projeto demonstra",
-    "nextProject": "Próximo Projeto",
-    "prevProject": "Projeto Anterior",
+    "code": "Implementação",
+    "tradeoffs": "Escolhas e limites",
+    "result": "Resultados",
+    "demonstrates": "Competências aplicadas",
+    "nextProject": "Próximo projeto",
+    "prevProject": "Projeto anterior",
     "copySnippet": "Copiar código",
-    "snippetCopied": "Copiado para a área de transferência!"
+    "snippetCopied": "Copiado para a área de transferência!",
+    "context": "Contexto",
+    "decisionSummary": "Escolha principal",
+    "resultSummary": "Resultado e limites",
+    "navigate": "Neste estudo de caso",
+    "navigation": "Navegação entre projetos",
+    "preview": "Interface do projeto",
+    "codeNote": "Trechos resumidos para explicar decisões. Consulte o repositório para a implementação completa.",
+    "copyError": "Não foi possível copiar. Selecione o código para copiar manualmente.",
+    "copied": "Copiado",
+    "copy": "Copiar",
+    "source": "Código no GitHub",
+    "demo": "Abrir demonstração",
+    "howItWorks": "Como funciona"
   },
   "lightbox": {
-    "close": "Fechar visualizador (ESC)",
-    "zoomHint": "Esc fecha · Clique fora para sair"
+    "close": "Fechar imagem (Esc)",
+    "zoomHint": "Esc para fechar. Diagramas permitem rolagem horizontal."
+  },
+  "notFound": {
+    "title": "Página não encontrada.",
+    "description": "Este endereço não corresponde a um projeto. Explore os estudos de caso disponíveis.",
+    "action": "Ver projetos"
   }
 }

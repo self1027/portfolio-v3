@@ -5,6 +5,11 @@ export interface Project {
   id: string;
   slug: string;
   title: string;
+  displayName: string;
+  engineeringDecision: Record<Language, string>;
+  previewCaption: Record<Language, string>;
+  imageWidth: number;
+  imageHeight: number;
   subtitle: {
     'pt-BR': string;
     'en-US': string;
@@ -82,6 +87,7 @@ export interface DiagramInfo {
 
 export interface CodeSnippet {
   title: string;
+  titleEn?: string;
   language: 'typescript' | 'javascript' | 'bash';
   code: string;
   description?: {
