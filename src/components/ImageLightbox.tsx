@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { TechnicalDiagram } from './TechnicalDiagrams';
+import { ProjectImage } from './ProjectImage';
 interface ImageLightboxProps { src: string | null; alt: string; caption?: string; onClose: () => void; }
 export const ImageLightbox: React.FC<ImageLightboxProps> = ({ src, alt, caption, onClose }) => {
   const { t } = useI18n();
@@ -42,7 +43,7 @@ export const ImageLightbox: React.FC<ImageLightboxProps> = ({ src, alt, caption,
           <button type="button" ref={close} className="icon-control" onClick={onClose} aria-label={t('lightbox.close')}><X aria-hidden="true" /></button>
         </div>
         <div className="lightbox-content" tabIndex={0} role="region" aria-label={alt}>
-          {src.includes('/mermaid/') ? <TechnicalDiagram id={src} /> : <img src={src} alt={alt} width={1920} height={1080} />}
+          {src.includes('/mermaid/') ? <TechnicalDiagram id={src} /> : <ProjectImage src={src} alt={alt} width={1920} height={1080} />}
         </div>
         <p className="lightbox-caption">{t('lightbox.zoomHint')}</p>
       </div>

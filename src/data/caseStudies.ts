@@ -1,13 +1,168 @@
 import type { CaseStudyData } from '../types';
+import { integraImage, meganTrimmerImage, livroImage } from './projectImages';
 
 export const caseStudies: Record<string, CaseStudyData> = {
+  'megan-trimmer': {
+    id: 'megan-trimmer',
+    slug: 'megan-trimmer',
+    title: 'MeganTrimmer — Corte e Conversão de Vídeos',
+    subtitle: {
+      'pt-BR': "Corte e conversão de vídeos no computador com Electron e FFmpeg",
+      'en-US': "Local video trimming and conversion with Electron and FFmpeg",
+    },
+    technologies: ['Electron', 'TypeScript', 'FFmpeg', 'FFprobe', 'IPC', 'electron-updater'],
+    githubUrl: 'https://github.com/self1027/MeganTrimmer',
+    previewImage: meganTrimmerImage.src,
+    problem: {
+      'pt-BR': [
+        "O MeganTrimmer reúne a prévia do vídeo, a seleção do trecho e as opções de exportação em uma janela. A proposta é facilitar cortes e conversões do dia a dia.",
+        "O processamento roda no computador, com FFmpeg e FFprobe incluídos. É possível manter as configurações originais, escolher formato, resolução e quadros por segundo ou extrair áudio em MP3 e WAV.",
+      ],
+      'en-US': [
+        "MeganTrimmer puts video preview, trim selection and export options in one window. It is designed for everyday trimming and conversion tasks.",
+        "Processing runs on the computer, with FFmpeg and FFprobe included. Users can keep the original settings, choose a format, resolution and frame rate, or extract MP3 and WAV audio.",
+      ],
+    },
+    technicalChallenges: {
+      'pt-BR': [
+        'Separar a interface dos acessos a arquivos e da execução do FFmpeg por meio de IPC e validar os pedidos no processo principal.',
+        'Decidir quando copiar streams sem recodificar e quando converter, considerando filtros e compatibilidade do contêiner.',
+        'Testar se um encoder de hardware funciona de fato e preservar uma alternativa por software.',
+        'Evitar sobrescrita de arquivos e coordenar exportação, fechamento e atualização do aplicativo.',
+      ],
+      'en-US': [
+        'Separate the interface from file access and FFmpeg execution through IPC, validating requests in the main process.',
+        'Choose between stream copy and re-encoding based on filters and container compatibility.',
+        'Probe whether a hardware encoder actually works and retain a software fallback.',
+        'Avoid overwriting files and coordinate export, closing and application updates.',
+      ],
+    },
+    decision: {
+      title: {
+        'pt-BR': "Interface e exportação em processos separados",
+        'en-US': "Separate processes for the interface and export",
+      },
+      content: {
+        'pt-BR': [
+          "A interface envia o pedido pela ponte preload. No processo principal, o handler valida arquivo, tempos e opções, escolhe o destino e impede exportações simultâneas. Os eventos IPC levam o progresso de volta ao renderer.",
+          "O FFprobe identifica os streams. Quando formato e opções permitem, o FFmpeg os copia sem recodificar. Caso contrário, o serviço prepara a conversão e testa os encoders disponíveis. O arquivo é escrito em um temporário antes de ser publicado no destino.",
+          "FFmpeg e FFprobe acompanham o aplicativo e rodam fora do arquivo ASAR. O usuário não precisa instalar esses binários separadamente.",
+        ],
+        'en-US': [
+          "The interface sends a request through the preload bridge. In the main process, the handler validates the file, timings and options, resolves the destination and prevents concurrent exports. IPC events carry progress back to the renderer.",
+          "FFprobe identifies the streams. When the format and options allow, FFmpeg copies them without re-encoding. Otherwise, the service prepares conversion and probes available encoders. The output is written to a temporary file before publication at its destination.",
+          "FFmpeg and FFprobe ship with the app and run outside the ASAR archive. Users do not need to install those binaries separately.",
+        ],
+      },
+    },
+    diagrams: [{
+      src: '/media/mermaid/megan-trimmer/export.png',
+      caption: {
+        'pt-BR': "A interface envia o corte por IPC. O processo principal valida o pedido e executa a exportação.",
+        'en-US': "The interface sends the trim request over IPC. The main process validates it and runs the export.",
+      },
+      alt: {
+        'pt-BR': 'Fluxo do renderer pela ponte preload até validação, FFprobe e exportação com FFmpeg',
+        'en-US': 'Flow from the renderer through preload to validation, FFprobe and FFmpeg export',
+      },
+    }],
+    pipelineOrSections: {
+      title: { 'pt-BR': "Do vídeo ao clipe", 'en-US': "From video to clip" },
+      items: [
+        {
+          subtitle: { 'pt-BR': "1. Abrir o vídeo e marcar o trecho", 'en-US': "1. Open the video and mark a segment" },
+          text: {
+            'pt-BR': 'O usuário abre ou arrasta um arquivo, acompanha a prévia e escolhe o trecho na linha do tempo. Para converter o vídeo inteiro, mantém a seleção completa e altera o formato de saída.',
+            'en-US': 'Users open or drop a file, preview it and select a timeline segment. To convert the whole video, they retain the full selection and change the output format.',
+          },
+        },
+        {
+          subtitle: { 'pt-BR': "2. Validar e definir o destino", 'en-US': "2. Validate and resolve the destination" },
+          text: {
+            'pt-BR': 'O processo principal valida o pedido e recupera a pasta de saída salva. Se o nome desejado já existir, procura uma alternativa numerada, preservando o original.',
+            'en-US': 'The main process validates the request and retrieves the saved output folder. If the desired name already exists, it finds a numbered alternative, preserving the original.',
+          },
+        },
+        {
+          subtitle: { 'pt-BR': "3. Copiar ou converter", 'en-US': "3. Copy or convert" },
+          text: {
+            'pt-BR': 'O serviço usa cópia de streams quando as condições permitem. A conversão pode ajustar resolução e FPS ou extrair áudio. Na codificação de vídeo, testa hardware e mantém libx264 como alternativa por software.',
+            'en-US': 'The service uses stream copy when conditions allow. Conversion can adjust resolution and frame rate or extract audio. Video encoding probes hardware and retains libx264 as a software fallback.',
+          },
+        },
+        {
+          subtitle: { 'pt-BR': "4. Concluir a exportação e controlar atualizações", 'en-US': "4. Complete the export and manage updates" },
+          text: {
+            'pt-BR': 'A interface mostra progresso e permite abrir a pasta do clipe ao concluir. O instalador oferece atualização pelo aplicativo, com download e instalação sujeitos à escolha do usuário. Exportações em andamento impedem o reinício; alterações não exportadas exigem confirmação antes de fechar. O portátil é substituído manualmente.',
+            'en-US': 'The interface shows progress and can open the clip folder on completion. The installed app offers updates, with downloading and installation subject to the user’s choice. Active exports block restart; unexported changes require confirmation before closing. Portable builds are replaced manually.',
+          },
+        },
+      ],
+    },
+    codeSnippets: [
+      {
+        title: "Testar o encoder antes de usá-lo",
+        titleEn: "Probing an encoder before use",
+        language: 'typescript',
+        code: `export async function selectEncoder(available: string[], probe: (name: string) => Promise<boolean>): Promise<string> {
+  for (const name of HARDWARE_ENCODER_PRIORITIES) {
+    if (available.includes(name) && await probe(name)) return name;
+  }
+  return 'libx264';
+}`,
+        description: {
+          'pt-BR': "Trecho de src/main/services/trim.ts. Além de estar listado no FFmpeg, o encoder precisa passar no teste de execução para ser escolhido.",
+          'en-US': "Excerpt from src/main/services/trim.ts. An encoder must be listed in FFmpeg and pass the runtime probe before it is selected.",
+        },
+      },
+      {
+        title: "Download e instalação por escolha do usuário",
+        titleEn: "User-controlled download and installation",
+        language: 'typescript',
+        code: `updater.autoDownload = false;
+updater.autoInstallOnAppQuit = false;
+updater.allowPrerelease = false;
+updater.allowDowngrade = false;`,
+        description: {
+          'pt-BR': "Trecho de src/main/services/updater.ts. Download e instalação são acionados explicitamente. Antes de permitir o reinício, o aplicativo verifica se há uma exportação em andamento.",
+          'en-US': "Excerpt from src/main/services/updater.ts. Download and installation are triggered explicitly. Before allowing a restart, the app checks for an active export.",
+        },
+      },
+    ],
+    tradeOffs: {
+      'pt-BR': [
+        'Electron e os binários incluídos aumentam o tamanho da distribuição em troca de um ambiente desktop com processamento local e sem instalação separada do FFmpeg.',
+        'Cópia de streams evita recodificação, mas os limites do corte dependem dos keyframes. Aceleração por hardware depende de GPU, driver e codec; não há uma promessa de ganho fixo de desempenho.',
+        'A distribuição documentada concentra-se em Windows x64. Os executáveis não têm assinatura digital; a conferência SHA-512 do atualizador verifica integridade e não substitui a assinatura do editor.',
+      ],
+      'en-US': [
+        'Electron and bundled binaries increase distribution size in exchange for a desktop environment with local processing and no separate FFmpeg installation.',
+        'Stream copy avoids re-encoding, but trim boundaries depend on keyframes. Hardware acceleration depends on the GPU, driver and codec; no fixed performance gain is promised.',
+        'The documented distribution focuses on Windows x64. Executables are not digitally signed; updater SHA-512 verification checks integrity and does not replace publisher signing.',
+      ],
+    },
+    result: {
+      'pt-BR': [
+        'O aplicativo reúne corte, conversão para MP4, MKV e AVI e extração de MP3 e WAV em um fluxo local. O usuário pode salvar a pasta de destino, acompanhar a exportação e preservar o arquivo de entrada.',
+        "O repositório inclui testes de serviços e interface, conferência dos binários empacotados e teste do feed de atualização em servidor local. Esses testes ajudam a verificar a manutenção do aplicativo; não medem velocidade nem adoção.",
+      ],
+      'en-US': [
+        'The app brings trimming, MP4, MKV and AVI conversion, and MP3 and WAV extraction into a local workflow. Users can save the destination folder, track exports and preserve the input file.',
+        "The repository includes service and interface tests, packaged-binary checks and an update-feed test on a local server. These help check application maintenance; they do not measure speed or adoption.",
+      ],
+    },
+    demonstrates: {
+      'pt-BR': ['Separação entre renderer, preload e processo principal', 'Validação de pedidos IPC e tratamento de falhas de exportação', 'Integração com FFmpeg, FFprobe e encoders de hardware', 'Empacotamento desktop e atualizações com escolha explícita'],
+      'en-US': ['Renderer, preload and main-process separation', 'IPC request validation and export failure handling', 'FFmpeg, FFprobe and hardware encoder integration', 'Desktop packaging and updates with explicit user choice'],
+    },
+  },
   'ascii-cam': {
     id: 'ascii-cam',
     slug: 'ascii-cam',
-    title: 'ASCII Cam — Renderização de Alto Desempenho',
+    title: "ASCII Cam — Vídeo em caracteres",
     subtitle: {
-      'pt-BR': 'Processamento de Vídeo em Tempo Real com Web Workers e Zero-Copy',
-      'en-US': 'Real-Time Video Processing with Web Workers and Zero-Copy',
+      'pt-BR': "Vídeo em tempo real com Web Workers e transferência de buffers",
+      'en-US': "Real-time video with Web Workers and buffer transfer",
     },
     technologies: ['TypeScript', 'Web Workers', 'Canvas 2D', 'Transferable Objects', 'Image Processing', 'Real-Time'],
     githubUrl: 'https://github.com/self1027/ascii-cam',
@@ -15,43 +170,43 @@ export const caseStudies: Record<string, CaseStudyData> = {
     previewImage: '/media/ascii-demo.webp',
     problem: {
       'pt-BR': [
-        'Processar cada quadro de webcam a 60 FPS para converter pixels em caracteres ASCII é uma tarefa computacionalmente intensiva.',
-        'Executar esse cálculo na Main Thread do navegador bloqueia a renderização da interface, gerando engasgos (jank) e perda severa de fluidez.',
-        'O objetivo técnico foi manter uma taxa estável de 30+ FPS com controles de brilho e contraste em tempo real, sem prejudicar a responsividade dos elementos da interface.',
+        "Converter os quadros de uma webcam a 60 FPS em caracteres ASCII exige processar muitos pixels por segundo.",
+        "Quando esse cálculo roda na thread principal do navegador, ele disputa tempo com o desenho da interface e pode causar travamentos.",
+        "O objetivo foi manter 30+ FPS, com ajustes de brilho e contraste durante a captura e controles que continuassem respondendo.",
       ],
       'en-US': [
-        'Processing each webcam frame at 60 FPS to convert raw pixel data into ASCII characters is computationally intensive.',
-        'Executing this calculation on the browser\'s Main Thread blocks UI rendering, causing visible jank and degraded responsiveness.',
-        'The engineering objective was to maintain a stable 30+ FPS rate with real-time brightness and contrast manipulation without compromising UI event dispatching.',
+        "Converting webcam frames at 60 FPS into ASCII characters requires processing many pixels each second.",
+        "Running those calculations on the browser’s main thread competes with interface rendering and can cause visible stuttering.",
+        "The goal was to maintain 30+ FPS with live brightness and contrast adjustments while keeping the controls responsive.",
       ],
     },
     technicalChallenges: {
       'pt-BR': [
-        'Manter taxa estável de 30+ FPS com transmissão ininterrupta de streams da webcam.',
-        'Eliminar congelamentos da interface e contenção na Main Thread durante transformações matriciais.',
-        'Despacho de buffers com zero-copy entre threads sem penalidade de serialização de memória.',
-        'Consultas de contraste e brilho em tempo constante O(1) através de tabela LUT dinâmica.',
+        "Manter 30+ FPS enquanto a webcam envia novos quadros.",
+        "Evitar que a conversão dos pixels bloqueie a thread da interface.",
+        "Transferir buffers entre threads sem copiar os dados.",
+        "Usar uma tabela LUT para consultar os ajustes de brilho e contraste em O(1).",
       ],
       'en-US': [
-        'Sustaining a stable 30+ FPS throughput under continuous webcam stream ingestion.',
-        'Preventing frame drops (jank) and main-thread CPU starvation during dense matrix conversions.',
-        'Zero-copy buffer dispatch across worker boundaries without memory serialization overhead.',
-        'Constant-time O(1) brightness and contrast lookups via precomputed dynamic Look-Up Tables.',
+        "Maintain 30+ FPS while the webcam supplies new frames.",
+        "Keep pixel conversion from blocking the interface thread.",
+        "Transfer buffers between threads without copying the data.",
+        "Use a lookup table for O(1) brightness and contrast lookups.",
       ],
     },
     decision: {
       title: {
-        'pt-BR': 'Paralelismo e Desacoplamento via Web Worker',
-        'en-US': 'Parallelism and Offloading via Dedicated Web Worker',
+        'pt-BR': "Conversão de pixels em um Web Worker",
+        'en-US': "Pixel conversion in a Web Worker",
       },
       content: {
         'pt-BR': [
-          'A arquitetura separa o ciclo de captura do ciclo de renderização.',
-          'A decisão primária foi transferir toda a lógica de conversão matemática, luminância e mapeamento de caracteres para um Web Worker dedicado em segundo plano.',
+          "A captura dos quadros e o desenho dos caracteres ficam separados do processamento dos pixels.",
+          "Um Web Worker calcula a luminância e escolhe os caracteres. A thread principal recebe o resultado e desenha no Canvas.",
         ],
         'en-US': [
-          'The architecture strictly decouples the frame capture cycle from the character rendering cycle.',
-          'The primary architectural decision was delegating mathematical transformation, luminance calculation, and character indexing to a dedicated background Web Worker.',
+          "Frame capture and character drawing are separate from pixel processing.",
+          "A Web Worker calculates luminance and selects characters. The main thread receives the result and draws it on the Canvas.",
         ],
       },
     },
@@ -59,8 +214,8 @@ export const caseStudies: Record<string, CaseStudyData> = {
       {
         src: '/media/mermaid/ascii/fig-2.png',
         caption: {
-          'pt-BR': 'Pipeline: a Main Thread captura o frame enquanto o Worker processa a matriz de caracteres em paralelo.',
-          'en-US': 'Pipeline: the Main Thread captures the frame while the Worker processes the character matrix in parallel.',
+          'pt-BR': "A thread principal captura o quadro; o Worker calcula a matriz de caracteres em paralelo.",
+          'en-US': "The main thread captures the frame while the Worker calculates the character matrix in parallel.",
         },
         alt: {
           'pt-BR': 'Diagrama do pipeline assíncrono entre Main Thread e Web Worker no ASCII Cam',
@@ -70,66 +225,66 @@ export const caseStudies: Record<string, CaseStudyData> = {
     ],
     pipelineOrSections: {
       title: {
-        'pt-BR': 'Pipeline de Processamento em 5 Etapas',
-        'en-US': '5-Stage Processing Pipeline',
+        'pt-BR': "Como cada quadro vira texto",
+        'en-US': "How each frame becomes text",
       },
       items: [
         {
           subtitle: {
-            'pt-BR': '1. Captura — Main Thread',
-            'en-US': '1. Capture — Main Thread',
+            'pt-BR': "1. Captura do quadro",
+            'en-US': "1. Frame capture",
           },
           text: {
-            'pt-BR': 'Extração do quadro do elemento <video> desenhado em um buffer Canvas temporário para obtenção dos dados brutos RGBA em Uint8ClampedArray.',
-            'en-US': 'Frame extraction from the <video> element drawn onto a temporary Canvas buffer to obtain raw RGBA pixel data as a Uint8ClampedArray.',
+            'pt-BR': "A thread principal desenha o quadro do elemento <video> em um Canvas temporário e lê os pixels RGBA em um Uint8ClampedArray.",
+            'en-US': "The main thread draws the <video> frame on a temporary Canvas and reads its RGBA pixels into a Uint8ClampedArray.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '2. Despacho — Transferência Zero-Copy',
-            'en-US': '2. Dispatch — Zero-Copy Transfer',
+            'pt-BR': "2. Envio do buffer",
+            'en-US': "2. Buffer transfer",
           },
           text: {
-            'pt-BR': 'Envio dos buffers para o Web Worker utilizando a semântica de Transferable Objects, eliminando a serialização e clonagem em memória.',
-            'en-US': 'Buffer dispatch to the Web Worker using Transferable Objects semantics, eliminating costly memory serialization and copying.',
+            'pt-BR': "O buffer é transferido ao Worker com Transferable Objects. A posse muda de thread sem clonar os dados em memória.",
+            'en-US': "Transferable Objects move buffer ownership to the Worker without cloning the data in memory.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '3. Transformação — Worker',
-            'en-US': '3. Transformation — Worker',
+            'pt-BR': "3. Conversão no Worker",
+            'en-US': "3. Worker conversion",
           },
           text: {
-            'pt-BR': 'Cálculo de luminância ponderada padrão Rec. 709, ajuste de brilho e consulta de contraste via Look-Up Table (LUT) em tempo constante.',
-            'en-US': 'Rec. 709 weighted luminance calculation, brightness scaling, and constant-time Look-Up Table (LUT) contrast lookup.',
+            'pt-BR': "O Worker calcula a luminância pelo padrão Rec. 709, ajusta o brilho e consulta o contraste em uma tabela LUT.",
+            'en-US': "The Worker calculates Rec. 709 luminance, adjusts brightness and looks up contrast in a lookup table.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '4. Retorno Estruturado',
-            'en-US': '4. Structured Return',
+            'pt-BR': "4. Retorno dos caracteres",
+            'en-US': "4. Character results",
           },
           text: {
-            'pt-BR': 'O Worker devolve um Int32Array com os índices dos caracteres e os dados de cor (quando o modo colorido está ativado), também via ownership transfer.',
-            'en-US': 'The Worker returns an Int32Array with character indices and color data (when color mode is active), transferred via ownership transfer.',
+            'pt-BR': "O Worker devolve um Int32Array com os índices dos caracteres e, no modo colorido, os dados de cor. O retorno também transfere a posse dos buffers.",
+            'en-US': "The Worker returns an Int32Array containing character indexes and, in color mode, color data. The return path also transfers buffer ownership.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '5. Renderização — Main Thread',
-            'en-US': '5. Rendering — Main Thread',
+            'pt-BR': "5. Desenho no Canvas",
+            'en-US': "5. Canvas drawing",
           },
           text: {
-            'pt-BR': 'Execução de chamadas fillText otimizadas em Canvas 2D em grade de alta densidade sem causar gargalos na taxa de atualização.',
-            'en-US': 'Optimized fillText execution on the Canvas 2D context across a high-density grid without causing display refresh stalls.',
+            'pt-BR': "A thread principal usa fillText para desenhar os caracteres na grade do Canvas 2D. O tamanho da grade determina quantas chamadas de desenho cada quadro exige.",
+            'en-US': "The main thread uses fillText to draw the character grid on Canvas 2D. Grid size determines how many drawing calls each frame needs.",
           },
         },
       ],
     },
     codeSnippets: [
       {
-        title: 'Transferable Objects — Comunicação Zero-Copy',
-        titleEn: 'Transferable Objects: buffer ownership transfer',
+        title: "Transferência dos buffers entre threads",
+        titleEn: "Transferring buffers between threads",
         language: 'typescript',
         code: `// No Worker: Enviando os dados processados sem cópia
 (self as any).postMessage({
@@ -137,12 +292,12 @@ export const caseStudies: Record<string, CaseStudyData> = {
     colors
 }, [charIndices.buffer, colors.buffer]);`,
         description: {
-          'pt-BR': 'Transferência direta de posse do ArrayBuffer para a Main Thread sem duplicar bytes na heap.',
-          'en-US': 'Direct transfer of ArrayBuffer ownership to the Main Thread without heap memory duplication.',
+          'pt-BR': "O ArrayBuffer muda de dono e passa à thread principal sem duplicar os bytes na memória.",
+          'en-US': "ArrayBuffer ownership moves to the main thread without duplicating the bytes in memory.",
         },
       },
       {
-        title: 'Luminância Rec. 709 & Lookup Dinâmico de Contraste (LUT)',
+        title: "Luminância Rec. 709 e consulta de contraste",
         titleEn: 'Rec. 709 luminance and contrast lookup',
         language: 'typescript',
         code: `const r = pixels[i];
@@ -156,45 +311,45 @@ v *= brightness;
 const index = Math.max(0, Math.min(255, (v * 255) | 0));
 const finalV = contrastLUT[index] / 255;`,
         description: {
-          'pt-BR': 'Exemplo didático de consulta O(1) à LUT, com índice limitado a [0, 255]. Não representa todo o custo de processamento de um quadro.',
-          'en-US': 'Illustrative O(1) LUT lookup with an index clamped to [0, 255]. This does not represent the full cost of processing a frame.',
+          'pt-BR': "Este exemplo consulta a LUT em O(1) e limita o índice a [0, 255]. O processamento completo de um quadro inclui outras etapas.",
+          'en-US': "This example performs an O(1) lookup with the index limited to [0, 255]. Processing a complete frame includes other steps.",
         },
       },
     ],
     tradeOffs: {
       'pt-BR': [
-        'OffscreenCanvas melhora a performance quando disponível no navegador, mas exige detecção de suporte e fallback.',
-        'O uso de CPU permanece substancial dado o volume de pixels por segundo, exigindo limitação cuidadosa do tamanho da grade de caracteres.',
-        'A resolução da grade precisa ser calibrada proporcionalmente ao tamanho do viewport para evitar sobrecarga de chamadas de desenho.',
+        "OffscreenCanvas pode melhorar o desempenho nos navegadores que o suportam. É preciso detectar esse suporte e manter uma alternativa.",
+        "A conversão ainda consome CPU. Limitar a grade de caracteres reduz o número de pixels e chamadas de desenho por quadro.",
+        "A resolução da grade precisa acompanhar o tamanho da tela para não acumular chamadas de desenho.",
       ],
       'en-US': [
-        'OffscreenCanvas boosts throughput where available, but requires feature detection and fallback logic.',
-        'CPU consumption remains non-trivial due to pixel volume, necessitating strict grid resolution constraints.',
-        'Grid resolution must be calibrated against viewport dimensions to prevent canvas draw call saturation.',
+        "OffscreenCanvas can improve performance in browsers that support it. Support detection and a fallback are needed.",
+        "Conversion still uses CPU time. Limiting the character grid reduces pixels and drawing calls per frame.",
+        "Grid resolution needs to suit the viewport size to avoid excessive drawing calls.",
       ],
     },
     result: {
       'pt-BR': [
-        'O projeto relata processamento a 30+ FPS. A taxa depende do hardware, navegador e resolução da grade; não há uma matriz de benchmark publicada neste estudo.',
-        'O processamento de pixels foi movido para um Web Worker para reduzir a carga na thread da interface. Captura e desenho no Canvas continuam consumindo tempo na thread principal.',
+        "O projeto relata 30+ FPS. A taxa varia com hardware, navegador e resolução da grade; este case não apresenta uma matriz de benchmarks.",
+        "Mover a conversão para o Worker reduz o trabalho da thread principal. Capturar os quadros e desenhar no Canvas continuam sendo tarefas dessa thread.",
       ],
       'en-US': [
-        'The project reports 30+ FPS. Frame rate depends on hardware, browser and grid resolution; this case study does not publish a benchmark matrix.',
-        'Pixel processing runs in a Web Worker to reduce work on the UI thread. Capture and Canvas drawing still take time on the main thread.',
+        "The project reports 30+ FPS. The rate varies with hardware, browser and grid resolution; this case study does not include a benchmark matrix.",
+        "Moving conversion to the Worker reduces main-thread work. Frame capture and Canvas drawing still run on that thread.",
       ],
     },
     demonstrates: {
       'pt-BR': [
         'Processamento nativo de vídeo no navegador',
         'Concorrência JavaScript via Web Workers',
-        'Otimização algorítmica aplicada ao processamento de imagem',
-        'Engenharia de experiência orientada a performance',
+        "Cálculo de luminância e ajustes de imagem",
+        "Ajuste da grade para manter a interface responsiva",
       ],
       'en-US': [
         'Native browser video stream processing',
         'JavaScript concurrency via Web Workers',
-        'Algorithmic image processing optimization',
-        'Performance-oriented UX engineering',
+        "Luminance calculation and image adjustments",
+        "Grid sizing to keep the interface responsive",
       ],
     },
   },
@@ -204,8 +359,8 @@ const finalV = contrastLUT[index] / 255;`,
     slug: 'infinity-ttt',
     title: 'Infinity Tic-Tac-Toe',
     subtitle: {
-      'pt-BR': 'Sincronização de Estado em Tempo Real com Servidor Autoritativo',
-      'en-US': 'Real-Time State Synchronization with Authoritative Server',
+      'pt-BR': "Jogo multiplayer com regras e estado controlados pelo servidor",
+      'en-US': "A multiplayer game with server-controlled rules and state",
     },
     technologies: ['Node.js', 'TypeScript', 'Socket.io', 'Express', 'Event-Driven', 'Authoritative Server'],
     githubUrl: 'https://github.com/self1027/infinity-ttt',
@@ -213,43 +368,43 @@ const finalV = contrastLUT[index] / 255;`,
     previewImage: '/media/infinityttt-demo.webp',
     problem: {
       'pt-BR': [
-        'Aplicações multiplayer que confiam no cliente para atualizar o estado do jogo sofrem com latência de rede, problemas de concorrência e divergência de estado.',
-        'Isso gera comportamentos não determinísticos, desincronização entre participantes e potencial para manipulação de regras.',
-        'O desafio consistia em orquestrar partidas multiplayer em tempo real com regras complexas (remoção de peças antigas) garantindo consistência estrita.',
+        "Em uma partida multiplayer, os jogadores precisam ver o mesmo tabuleiro. Se cada cliente decide o resultado das jogadas, o estado pode divergir quando os eventos chegam em ordens diferentes.",
+        "Atrasos e jogadas concorrentes podem deixar as telas fora de sincronia. Confiar nas regras executadas pelo cliente também permite que elas sejam manipuladas.",
+        "O modo infinito acrescenta uma regra: ao atingir o limite de peças, a mais antiga precisa sair antes da próxima jogada. Essa mudança deve ser igual para todos na sala.",
       ],
       'en-US': [
-        'Multiplayer applications that trust clients to advance game state suffer from latency spikes, concurrency anomalies, and state drift.',
-        'This produces non-deterministic client views, desynchronization between players, and vulnerability to rule evasion.',
-        'The engineering challenge was orchestrating real-time multiplayer matches with dynamic piece expiration while guaranteeing strict state consistency.',
+        "Players in a multiplayer match need to see the same board. If each client decides move outcomes, state can diverge when events arrive in different orders.",
+        "Delays and concurrent moves can leave screens out of sync. Trusting client-side rules also leaves those rules open to manipulation.",
+        "Infinity mode adds a rule: at the mark limit, the oldest mark must leave before the next move. That change must be the same for everyone in the room.",
       ],
     },
     technicalChallenges: {
       'pt-BR': [
-        'Garantir sincronização determinística e consistente entre clientes geograficamente distribuídos.',
-        'Eliminar race conditions e eventos de jogadas fora de ordem em cenários de alta cadência de cliques.',
-        'Executar regras de negócio autoritativas no backend (remoção FIFO de peças antigas).',
-        'Gerenciamento seguro de ciclo de vida das salas com desalocação de memória para partidas inativas.',
+        "Manter o mesmo estado da partida nos clientes conectados.",
+        "Validar a ordem das jogadas quando chegam vários cliques em sequência.",
+        "Aplicar no backend a remoção FIFO da peça mais antiga.",
+        "Encerrar salas inativas e liberar a memória após desconexões.",
       ],
       'en-US': [
-        'Guaranteeing deterministic, drift-free state synchronization across distributed clients.',
-        'Eliminating out-of-order dispatch and concurrent race conditions during rapid player interactions.',
-        'Enforcing authoritative business logic on the backend (circular FIFO piece expiration).',
-        'Managing room lifecycle and memory allocation safely upon player disconnects.',
+        "Keep connected clients on the same match state.",
+        "Validate move order when several clicks arrive in quick succession.",
+        "Apply FIFO removal of the oldest mark in the backend.",
+        "Close inactive rooms and release memory after disconnections.",
       ],
     },
     decision: {
       title: {
-        'pt-BR': 'Servidor Autoritativo como Única Fonte da Verdade',
-        'en-US': 'Authoritative Server as the Single Source of Truth',
+        'pt-BR': "O servidor decide o estado da partida",
+        'en-US': "The server owns match state",
       },
       content: {
         'pt-BR': [
-          'O cliente atua apenas como emissor de intenção do jogador e renderizador de estado.',
-          'Todas as validações de jogada, alternância de turnos, aplicação das regras de negócio e controle da fila de peças residem exclusivamente no backend.',
+          "O cliente envia a jogada pretendida e desenha o estado recebido do servidor.",
+          "O backend valida a posição e o turno, aplica as regras e atualiza a fila de peças. Depois envia o novo estado aos participantes.",
         ],
         'en-US': [
-          'Clients act strictly as intent dispatchers and state renderers.',
-          'All move validation, turn scheduling, business rule enforcement, and piece queue management live strictly on the backend.',
+          "The client sends the intended move and renders the state received from the server.",
+          "The backend validates the position and turn, applies the rules and updates the mark queue. It then sends the new state to the participants.",
         ],
       },
     },
@@ -257,8 +412,8 @@ const finalV = contrastLUT[index] / 255;`,
       {
         src: '/media/mermaid/ttt/fig-2.png',
         caption: {
-          'pt-BR': 'Ciclo de vida de uma jogada: validação centralizada e broadcast síncrono para os participantes.',
-          'en-US': 'Lifecycle of a move: centralized validation and synchronous broadcast to participants.',
+          'pt-BR': "O servidor valida a jogada e envia o estado atualizado aos participantes da sala.",
+          'en-US': "The server validates the move and sends the updated state to participants in the room.",
         },
         alt: {
           'pt-BR': 'Diagrama de fluxo do ciclo de vida de jogada com servidor autoritativo',
@@ -268,8 +423,8 @@ const finalV = contrastLUT[index] / 255;`,
       {
         src: '/media/mermaid/ttt/fig-1.png',
         caption: {
-          'pt-BR': 'Fluxo da regra de negócio: identificação e remoção da peça mais antiga ao atingir o limite.',
-          'en-US': 'Business-rule flow: identifying and removing the oldest piece upon reaching the threshold.',
+          'pt-BR': "Ao atingir o limite, a peça mais antiga sai do tabuleiro antes da nova.",
+          'en-US': "At the limit, the oldest mark leaves the board before the new one is placed.",
         },
         alt: {
           'pt-BR': 'Fluxo da regra do modo infinito com fila circular de peças',
@@ -279,56 +434,56 @@ const finalV = contrastLUT[index] / 255;`,
     ],
     pipelineOrSections: {
       title: {
-        'pt-BR': 'Regras de Negócio e Ciclo de Vida do Modo Infinito',
-        'en-US': 'Business Rules & Infinity Mode Lifecycle',
+        'pt-BR': "O caminho de uma jogada",
+        'en-US': "How a move is processed",
       },
       items: [
         {
           subtitle: {
-            'pt-BR': '1. Despacho de Intenção pelo Cliente',
-            'en-US': '1. Client Move Intent Dispatch',
+            'pt-BR': "1. Pedido do jogador",
+            'en-US': "1. Player request",
           },
           text: {
-            'pt-BR': 'O cliente emite apenas o evento make_move com as coordenadas pretendidas e o identificador da sala; nenhuma alteração local é assumida.',
-            'en-US': 'The client emits make_move with target coordinates and room ID; no local state mutation is committed speculatively.',
+            'pt-BR': "O cliente emite make_move com as coordenadas e o identificador da sala. Ele espera o estado do servidor antes de atualizar o tabuleiro.",
+            'en-US': "The client emits make_move with the coordinates and room ID. It waits for the server state before updating the board.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '2. Validação Autoritativa no Backend',
-            'en-US': '2. Authoritative Backend Validation',
+            'pt-BR': "2. Validação no servidor",
+            'en-US': "2. Server validation",
           },
           text: {
-            'pt-BR': 'O servidor checa se o socket.id corresponde ao jogador da vez, se a casa está disponível e se o jogo está em andamento.',
-            'en-US': 'The server verifies whether the socket.id matches the active turn, validates cell boundaries, and confirms match status.',
+            'pt-BR': "O servidor confere se o socket.id pertence ao jogador da vez, se a posição é válida e está livre e se a partida continua em andamento.",
+            'en-US': "The server checks that socket.id belongs to the current player, the position is valid and free, and the match is still in progress.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '3. Evicção FIFO de Peças (Modo Infinito)',
-            'en-US': '3. FIFO Piece Eviction (Infinity Mode)',
+            'pt-BR': "3. Remoção da peça mais antiga",
+            'en-US': "3. Oldest-mark removal",
           },
           text: {
-            'pt-BR': 'Ao atingir o limite de 3 peças por jogador, a peça mais antiga é identificada no histórico e removida atomicamente antes da nova inserção.',
-            'en-US': 'Upon reaching the 3-piece limit per player, the oldest move is identified in the ledger and evicted atomically before placing the new mark.',
+            'pt-BR': "Quando o jogador já tem 3 peças, o servidor remove a mais antiga do histórico antes de inserir a nova, na mesma atualização da partida.",
+            'en-US': "When the player already has 3 marks, the server removes the oldest from the history before inserting the new one, in the same match update.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '4. Avaliação de Vitória e Broadcast',
-            'en-US': '4. Win Condition Evaluation & Broadcast',
+            'pt-BR': "4. Resultado e envio do estado",
+            'en-US': "4. Result and state broadcast",
           },
           text: {
-            'pt-BR': 'O motor calcula o status de vitória nas matrizes do tabuleiro e propaga o novo estado canônico instantaneamente para todos os sockets da sala.',
-            'en-US': 'The backend calculates victory vectors across matrix lines and broadcasts the canonical state payload to all room sockets simultaneously.',
+            'pt-BR': "O servidor verifica as linhas de vitória no tabuleiro e envia o novo estado a todos os sockets da sala.",
+            'en-US': "The server checks winning lines on the board and broadcasts the new state to every socket in the room.",
           },
         },
       ],
     },
     codeSnippets: [
       {
-        title: 'Gerenciamento da Fila Circular de Peças (Modo Infinito)',
-        titleEn: 'Oldest-piece eviction: partial excerpt',
+        title: "Remoção da peça mais antiga",
+        titleEn: 'Oldest-mark removal: partial excerpt',
         language: 'typescript',
         code: `function processMove(state, move) {
     const playerMoves = state.history.filter(m => m.symbol === move.symbol);
@@ -342,12 +497,12 @@ const finalV = contrastLUT[index] / 255;`,
     return state;
 }`,
         description: {
-          'pt-BR': 'Trecho parcial da remoção da peça mais antiga. A manutenção do histórico, a validação de posição e a atualização de turno não aparecem neste recorte; veja o repositório.',
-          'en-US': 'Partial excerpt of oldest-piece eviction. History maintenance, position validation and turn updates are omitted here; see the repository.',
+          'pt-BR': "O recorte mostra a remoção da peça mais antiga. Histórico, validação de posição e troca de turno ficam no código completo do repositório.",
+          'en-US': "This excerpt shows oldest-mark removal. History handling, position validation and turn changes are in the full repository implementation.",
         },
       },
       {
-        title: 'Controle de Concorrência e Validação de Turno via Socket.io',
+        title: "Validação de turno com Socket.io",
         titleEn: 'Turn validation with Socket.io',
         language: 'typescript',
         code: `socket.on('make_move', ({ position, roomId }) => {
@@ -359,43 +514,43 @@ const finalV = contrastLUT[index] / 255;`,
     io.to(roomId).emit('update_game', updatedState);
 });`,
         description: {
-          'pt-BR': 'O trecho verifica o dono do turno antes de chamar executeMove. Validação da posição, reconexão e ciclo de vida da sala precisam ser tratados pela implementação completa.',
-          'en-US': 'The excerpt checks turn ownership before calling executeMove. Position validation, reconnection and room lifecycle are responsibilities of the complete implementation.',
+          'pt-BR': "A verificação do turno ocorre antes de executeMove. O código completo também precisa tratar a posição, as reconexões e o ciclo de vida da sala.",
+          'en-US': "The turn check runs before executeMove. The full implementation also needs to handle positions, reconnections and the room lifecycle.",
         },
       },
     ],
     tradeOffs: {
       'pt-BR': [
-        'A arquitetura prioriza a integridade do estado sobre a latência percebida imediata (sem predição no cliente).',
-        'Exige gerenciamento explícito de estado de cada sala na memória do servidor e limpeza programada de partidas abandonadas.',
+        "O cliente espera a resposta do servidor para mostrar a jogada. Isso mantém uma única decisão sobre o estado, mas torna o atraso da rede perceptível.",
+        "Cada sala ocupa memória no servidor. Salas abandonadas precisam ser identificadas e removidas.",
       ],
       'en-US': [
-        'The architecture prioritizes game-state integrity over zero-latency client prediction.',
-        'Requires explicit per-room memory management on the server with scheduled cleanup for abandoned connections.',
+        "The client waits for the server response before showing a move. This keeps one authority over state but makes network delay visible.",
+        "Each room uses server memory. Abandoned rooms need to be identified and removed.",
       ],
     },
     result: {
       'pt-BR': [
-        'O servidor mantém o estado canônico da partida e o distribui aos clientes da sala.',
-        'A validação de turno e de regras fica no backend. Latência, desconexões e reentrada na sala continuam sendo limites relevantes.',
+        "O servidor mantém o estado da partida e o envia aos clientes da sala.",
+        "Turnos e regras são validados no backend. Atrasos de rede, desconexões e retorno à sala continuam exigindo tratamento.",
       ],
       'en-US': [
-        'The server maintains the canonical match state and broadcasts it to clients in the room.',
-        'Turn and rule validation runs in the backend. Latency, disconnections and room re-entry remain relevant limitations.',
+        "The server maintains match state and sends it to clients in the room.",
+        "Turns and rules are validated in the backend. Network delays, disconnections and room re-entry still need handling.",
       ],
     },
     demonstrates: {
       'pt-BR': [
-        'Arquitetura de sistemas distribuídos em tempo real',
-        'Controle e sincronização de concorrência',
-        'Sincronização estrita de estado com WebSockets',
+        "Partidas multiplayer em tempo real",
+        "Validação da ordem de jogadas concorrentes",
+        "Sincronização do estado por WebSockets",
         'Arquitetura orientada a eventos',
         'Aplicação de regras de negócio autoritativas no backend',
       ],
       'en-US': [
-        'Real-time distributed system design',
-        'Concurrency management',
-        'State synchronization',
+        "Real-time multiplayer matches",
+        "Ordering and validating concurrent moves",
+        "State synchronization over WebSockets",
         'Event-driven architecture',
         'Backend business-rule enforcement',
       ],
@@ -405,52 +560,54 @@ const finalV = contrastLUT[index] / 255;`,
   'integra': {
     id: 'integra',
     slug: 'integra',
-    title: 'Integra — Educação Sem Barreiras',
+    title: 'Integra MQF — Da Fala aos Sinais, Offline',
     subtitle: {
-      'pt-BR': 'Pipeline de Áudio em Tempo Real para Tradução e Renderização em Libras',
-      'en-US': 'Real-Time Audio Pipeline for Translation and Libras Rendering',
+      'pt-BR': "Fala em português, transcrição e sinais de Libras com processamento local",
+      'en-US': "Portuguese speech, transcription and Libras signs with local processing",
     },
-    technologies: ['Node.js', 'WebSockets', 'FFmpeg', 'Vosk', 'Google Cloud STT', 'VLibras', 'Three.js'],
-    githubUrl: 'https://github.com/self1027/INTEGRA',
+    technologies: ['Node.js', 'Express', 'WebSockets', 'FFmpeg', 'Vosk', 'Python', 'VLibras', 'Unity/WebGL'],
+    githubUrl: 'https://github.com/self1027/Integra',
     demoUrl: 'https://integra.murilod.dev/',
-    previewImage: '/media/integra-demo.webp',
+    previewImage: integraImage.src,
     problem: {
       'pt-BR': [
-        'Sistemas de acessibilidade em tempo real baseados em fala para Libras necessitam manter um fluxo ininterrupto entre captura de áudio, processamento de sinal, reconhecimento fonético, tradução gramatical e renderização 3D.',
-        'Flutuações de latência de rede, pacotes fragmentados e atrasos na inicialização de codecs quebram a sincronia e comprometem a compreensão da tradução.',
+        "Murilo Dias e Victor Hugo desenvolveram o Integra MQF como TCC sobre acessibilidade digital e comunicação. A demonstração atual reúne fala em português, transcrição e sinais de Libras. Autenticação, permissões e gestão permanecem na branch sistema-completo.",
+        "A versão anterior usava os serviços públicos do VLibras para traduzir o texto e buscar os sinais. A versão atual executa essas etapas localmente e mantém a reprodução incremental, tratando revisões da transcrição e diferenças entre a duração da fala e dos sinais.",
       ],
       'en-US': [
-        'Real-time speech-to-Libras accessibility systems must maintain a continuous pipeline between capture, signal processing, speech recognition, translation, and 3D rendering.',
-        'Network jitter, fragmented audio packets, and codec initialization delays quickly disrupt synchronization and break user comprehension.',
+        "Murilo Dias and Victor Hugo developed Integra MQF as a graduation project on digital accessibility and communication. The current demonstration combines Portuguese speech, transcription and Libras signs. Authentication, permissions and management remain in the sistema-completo branch.",
+        "The previous version used public VLibras services to translate text and fetch signs. The current version runs those stages locally and retains incremental playback, handling transcript revisions and differences in speech and sign duration.",
       ],
     },
     technicalChallenges: {
       'pt-BR': [
-        'Baixa latência ponta a ponta para viabilizar acompanhamento em salas de aula.',
-        'Pré-processamento de áudio para eliminar ruídos elétricos e estáticos antes do reconhecimento de fala.',
-        'Ingestão contínua de chunks binários via WebSockets.',
-        'Inicialização segura do pipeline sem perda dos primeiros milissegundos de fala.',
+        "Baixar modelos e sinais no preparo inicial e executar a aplicação sem novas consultas externas, inclusive para fontes e sinais.",
+        "Traduzir trechos estáveis enquanto a pessoa fala e descartar blocos pendentes quando o Vosk revisa o texto.",
+        "Reproduzir os blocos em ordem e parar a captura quando a fila chega a 12 blocos, preservando os trechos aceitos.",
+        "Distinguir sinais ausentes no catálogo de arquivos locais corrompidos e controlar a partida e a parada de Node e Python.",
       ],
       'en-US': [
-        'Low end-to-end latency to support real-time classroom environments.',
-        'Audio signal preprocessing to filter 60Hz hum and ambient noise prior to STT.',
-        'Continuous binary chunk ingestion via WebSockets.',
-        'Safe pipeline initialization preventing loss of the opening milliseconds of user speech.',
+        "Download models and signs during initial setup, then run without further external requests, including fonts and signs.",
+        "Translate stable segments while the person speaks and discard pending blocks when Vosk revises the text.",
+        "Play blocks in order and stop capture when the queue reaches 12 blocks, retaining accepted segments.",
+        "Distinguish signs missing from the catalog from corrupted local files and control Node and Python startup and shutdown.",
       ],
     },
     decision: {
       title: {
-        'pt-BR': 'Divisão Estratégica Cliente-Servidor e Orquestração de Pipeline',
-        'en-US': 'Strategic Client-Server Split & Pipeline Orchestration',
+        'pt-BR': "Tradução e sinais na máquina local",
+        'en-US': "Translation and signs on the local machine",
       },
       content: {
         'pt-BR': [
-          'A arquitetura dividiu as responsabilidades: o cliente realiza filtragem DSP de sinal leve através da Web Audio API nativa.',
-          'O servidor atua como orquestrador central de streaming, transcodificação via FFmpeg e ponte com os motores de STT e VLibras.',
+          "O navegador captura e filtra o áudio com a Web Audio API e envia PCM por WebSocket. No Node, FFmpeg e Vosk alimentam uma sessão que acompanha palavras estáveis, revisões e a ordem de reprodução dos blocos.",
+          "Um serviço Python mantém o tradutor neural oficial do VLibras carregado e atende por HTTP apenas em loopback. O avatar usa o renderizador Unity/WebGL do VLibras; o Express serve os sinais em /dictionary/, na mesma origem da página.",
+          "O launcher confere o acervo e espera o tradutor ficar pronto antes de iniciar a aplicação. A política de conteúdo restringe as conexões do navegador à mesma origem. Antes de carregar o modelo, o processo Python bloqueia saídas de rede. Uma falha gera erro na interface, sem recorrer à API pública.",
         ],
         'en-US': [
-          'Responsibilities are split: the client executes lightweight DSP filtering using the native Web Audio API.',
-          'The server serves as the pipeline orchestrator, handling stream coordination, FFmpeg transcoding, and bridges to STT engines and VLibras.',
+          "The browser captures and filters audio with the Web Audio API and sends PCM over WebSocket. In Node, FFmpeg and Vosk feed a session that tracks stable words, revisions and block playback order.",
+          "A Python service keeps the official VLibras neural translator loaded and serves HTTP requests on loopback only. The avatar uses the VLibras Unity/WebGL renderer; Express serves signs from /dictionary/ on the page’s own origin.",
+          "The launcher checks the collection and waits for the translator to be ready before starting the app. The content policy restricts browser connections to the same origin. The Python process blocks outbound networking before loading the model. Failures appear in the interface without falling back to the public API.",
         ],
       },
     },
@@ -458,149 +615,152 @@ const finalV = contrastLUT[index] / 255;`,
       {
         src: '/media/mermaid/integra/fig-1.png',
         caption: {
-          'pt-BR': 'O pipeline inicia somente quando os dados de configuração estão consistentes.',
-          'en-US': 'The pipeline starts only when the required data is consistent.',
+          'pt-BR': "O preparo usa internet. Na partida, a aplicação confere os arquivos e inicia os serviços locais.",
+          'en-US': "Setup uses internet access. At startup, the application checks files and starts the local services.",
         },
         alt: {
-          'pt-BR': 'Diagrama de inicialização controlada e buffering do pipeline de áudio',
-          'en-US': 'Controlled initialization and buffering diagram for audio pipeline',
+          'pt-BR': 'Fluxo de preparo do acervo, verificação SHA-256, health do tradutor e execução local',
+          'en-US': 'Collection preparation, SHA-256 verification, translator health and local execution flow',
         },
       },
       {
         src: '/media/mermaid/integra/fig-3.png',
         caption: {
-          'pt-BR': 'Sincronização entre transcrição, tradução e renderização em tempo real do avatar.',
-          'en-US': 'Synchronization between transcription, translation and real-time avatar rendering.',
+          'pt-BR': "A fila acompanha as revisões da transcrição e envia os blocos ao tradutor local e ao avatar.",
+          'en-US': "The queue tracks transcript revisions and sends blocks to the local translator and avatar.",
         },
         alt: {
-          'pt-BR': 'Diagrama de sincronização de transcrição com avatar 3D',
-          'en-US': 'Transcription to 3D avatar synchronization flow',
+          'pt-BR': 'Pipeline local com Web Audio, FFmpeg, Vosk, fila de blocos, Python e Unity/WebGL',
+          'en-US': 'Local pipeline with Web Audio, FFmpeg, Vosk, a block queue, Python and Unity/WebGL',
         },
       },
     ],
     pipelineOrSections: {
       title: {
-        'pt-BR': 'Pipeline de Áudio e Streaming em 5 Fases',
-        'en-US': '5-Phase Audio & Streaming Pipeline',
+        'pt-BR': "Da fala aos sinais",
+        'en-US': "From speech to signs",
       },
       items: [
         {
           subtitle: {
-            'pt-BR': '1. Captura e Filtragem DSP no Cliente',
-            'en-US': '1. Client Capture & DSP Filtering',
+            'pt-BR': "1. Captura e envio do áudio",
+            'en-US': "1. Capture and audio streaming",
           },
           text: {
-            'pt-BR': 'Uso da Web Audio API nativa com filtro passa-alta em 300Hz, notch em 60Hz e compressor dinâmico de volume.',
-            'en-US': 'Native Web Audio API chain with 300Hz high-pass filter, 60Hz notch filter, and dynamic volume compressor.',
+            'pt-BR': 'A Web Audio API aplica passa-alta em 300 Hz, notch em 60 Hz e compressão dinâmica. Após a confirmação audio_ready do servidor, o cliente envia áudio PCM de 16 bits pelo WebSocket.',
+            'en-US': 'The Web Audio API applies a 300 Hz high-pass filter, a 60 Hz notch filter and dynamic compression. After the server confirms audio_ready, the client sends 16-bit PCM audio over WebSocket.',
           },
         },
         {
           subtitle: {
-            'pt-BR': '2. Streaming de Chunks via WebSockets',
-            'en-US': '2. WebSocket Chunk Streaming',
+            'pt-BR': "2. Reconhecimento local",
+            'en-US': "2. Local speech recognition",
           },
           text: {
-            'pt-BR': 'Transmissão contínua de pacotes binários Float32Array serializados em formato compacto para o servidor Node.js.',
-            'en-US': 'Continuous transmission of serialized binary audio chunks over low-latency WebSockets to the Node.js backend.',
+            'pt-BR': 'O FFmpeg converte o áudio para PCM mono a 16 kHz. O Vosk produz resultados parciais e finais com tempos das palavras; ao parar a captura, o servidor conclui o áudio pendente antes do resultado final.',
+            'en-US': 'FFmpeg converts audio to mono PCM at 16 kHz. Vosk produces partial and final results with word timings; when capture stops, the server drains pending audio before finalizing recognition.',
           },
         },
         {
           subtitle: {
-            'pt-BR': '3. Buffering de Inicialização e FFmpeg',
-            'en-US': '3. Startup Buffering & FFmpeg Transcoding',
+            'pt-BR': "3. Revisões e fila de blocos",
+            'en-US': "3. Revisions and block queue",
           },
           text: {
-            'pt-BR': 'Retenção dos primeiros frames em buffer seguro até a estabilização do pipeline de transcodificação pelo FFmpeg.',
-            'en-US': 'Early frames are held in a safe queue until codec parameters stabilize, preventing clipping of the initial phonemes.',
+            'pt-BR': 'A sessão prepara blocos de até seis palavras após observar estabilidade, mantendo uma margem de contexto. Revisões invalidam traduções pendentes; conflitos com sinais já exibidos podem exigir repetir ou pular o enunciado. A fila comporta até 12 blocos.',
+            'en-US': 'The session prepares blocks of up to six words after observing stability, retaining a context margin. Revisions invalidate pending translations; conflicts with signs already shown may require repeating or skipping the utterance. The queue holds up to 12 blocks.',
           },
         },
         {
           subtitle: {
-            'pt-BR': '4. Reconhecimento de Fala (STT)',
-            'en-US': '4. Speech-to-Text Recognition',
+            'pt-BR': "4. Tradução no serviço Python",
+            'en-US': "4. Translation in the Python service",
           },
           text: {
-            'pt-BR': 'Vosk e Google Cloud STT convertem os chunks de áudio em transcrições para as próximas etapas do pipeline.',
-            'en-US': 'Vosk and Google Cloud STT convert audio chunks into transcripts for the next pipeline stages.',
+            'pt-BR': 'O Node envia os textos ao serviço Python em 127.0.0.1:5001. O motor oficial do VLibras combina pré-processamento por regras e tradução neural; o serviço processa um pedido por vez. O cliente HTTP mantém cache, timeout, cancelamento e nova tentativa para falhas transitórias.',
+            'en-US': 'Node sends text to the Python service at 127.0.0.1:5001. The official VLibras engine combines rule-based preprocessing and neural translation; the service handles one request at a time. The HTTP client provides caching, timeouts, cancellation and a retry for transient failures.',
           },
         },
         {
           subtitle: {
-            'pt-BR': '5. Tradução Gramatical e Renderização 3D',
-            'en-US': '5. Grammatical Translation & 3D Avatar Rendering',
+            'pt-BR': "5. Reprodução dos sinais",
+            'en-US': "5. Sign playback",
           },
           text: {
-            'pt-BR': 'Conversão para glosas de Libras e sincronização de animações ósseas no Three.js através do VLibras.',
-            'en-US': 'Grammar compilation into Libras glosses and skeletal animation synchronization in Three.js via VLibras.',
+            'pt-BR': 'O servidor autoriza a reprodução em ordem e o avatar Unity/WebGL carrega os sinais pela mesma origem. Sinais indisponíveis usam a soletração nativa do player. Parar captura preserva a fila; cancelar sinalização encerra a sessão. A velocidade é ajustada manualmente entre 0,5× e 4×.',
+            'en-US': 'The server authorizes playback in order and the Unity/WebGL avatar loads signs from the same origin. Unavailable signs use the player’s native fingerspelling. Stopping capture preserves the queue; cancelling signing ends the session. Speed is adjusted manually between 0.5× and 4×.',
           },
         },
       ],
     },
     codeSnippets: [
       {
-        title: 'Pré-processamento de Áudio no Cliente (Web Audio API)',
-        titleEn: 'Client-side audio preprocessing',
+        title: "Tradução local com timeout e cancelamento",
+        titleEn: "Local translation with timeout and cancellation",
         language: 'javascript',
-        code: `source.connect(highpass)
-      .connect(notch)
-      .connect(compressor)
-      .connect(processor);`,
+        code: `const response = await fetch(this.url, {
+  method: 'POST', headers: { 'Content-Type': 'application/json' },
+  redirect: 'error',
+  body: JSON.stringify({ text }),
+  signal: AbortSignal.any([AbortSignal.timeout(this.timeout), ...(signal ? [signal] : [])]),
+});`,
         description: {
-          'pt-BR': 'Filtro passa-alta em 300Hz (elimina ruídos graves), filtro notch em 60Hz (remove zumbido da rede elétrica) e compressor de faixa dinâmica.',
-          'en-US': '300Hz high-pass filter, 60Hz notch filter for electrical interference rejection, and dynamic range compressor.',
+          'pt-BR': 'Recorte de audioPipeline/Translator.js. O construtor aceita somente HTTP em loopback, e a requisição recusa redirecionamentos. Cache, validação da resposta e nova tentativa ficam fora deste recorte.',
+          'en-US': 'Excerpt from audioPipeline/Translator.js. The constructor accepts HTTP loopback URLs only, and the request rejects redirects. Caching, response validation and retry handling are outside this excerpt.',
         },
       },
       {
-        title: 'Buffer Temporário e Inicialização Segura no Servidor',
-        titleEn: 'Buffering before pipeline initialization',
+        title: "Interromper a captura quando a fila enche",
+        titleEn: "Stopping capture when the queue fills",
         language: 'javascript',
-        code: `if (isPipelineInitialized) {
-    ffmpeg.pushAudio(data);
-    return;
-}
-
-audioBuffer.push(data);
-initPipeline(FALLBACK_SAMPLE_RATE);`,
+        code: `if (this.blocks.length >= 12 && !this.capturePaused) {
+  this.capturePaused = true;
+  this.send({ type: 'flow_control', action: 'stop_capture', message: 'Fila cheia. Captura interrompida para concluir os trechos aceitos.' });
+}`,
         description: {
-          'pt-BR': 'O recorte mostra buffering antes da inicialização. Controle de inicialização única, limite do buffer e backpressure não estão representados neste trecho.',
-          'en-US': 'This excerpt shows buffering before initialization. Single-initialization guards, buffer limits and backpressure are not represented in this snippet.',
+          'pt-BR': 'Recorte de audioPipeline/StreamingSession.js. Ao atingir 12 blocos, a sessão pede ao navegador que pare a captura e preserve o trabalho aceito. A conclusão do PCM e a drenagem da fila são tratadas nas demais etapas.',
+          'en-US': 'Excerpt from audioPipeline/StreamingSession.js. At 12 blocks, the session asks the browser to stop capture while retaining accepted work. PCM finalization and queue draining are handled by the surrounding stages.',
         },
       },
     ],
     tradeOffs: {
       'pt-BR': [
-        'A filtragem DSP no cliente aumenta o custo de CPU e trata ruídos antes do reconhecimento de fala. O efeito na precisão depende das condições de áudio.',
-        'Dependência de serviços externos de transcrição com alternativa de motor local.',
-        'Maior complexidade arquitetural em comparação com processamento de áudio em lote (batch).',
+        'O preparo inicial exige internet e aproximadamente 1,7 GB para ambiente Python, modelo neural e sinais, além do modelo Vosk. Os recursos não são versionados; cada máquina precisa prepará-los.',
+        "A execução local dispensa consultas externas, mas ainda exige tempo para reconhecer a fala, estabilizar o texto e reproduzir os sinais. Não houve comparação controlada com a versão online para medir um ganho fixo de latência.",
+        "Trechos curtos podem perder contexto linguístico. Sinais já exibidos não podem ser desfeitos. Se o avatar ficar para trás, a fila limitada interrompe a captura; a reprodução pode não acompanhar a velocidade da fala.",
+        'O catálogo consultado contém sinais indisponíveis na origem. Arquivos locais registrados são verificados por SHA-256 ao iniciar; falta ou corrupção impede a partida e exige reparo explícito, sem download automático durante o uso.',
       ],
       'en-US': [
-        'Client-side DSP filtering increases CPU cost and treats noise before speech recognition. Its effect on accuracy depends on audio conditions.',
-        'Dependency on external cloud transcription services with local engine fallback capability.',
-        'Increased architectural complexity over conventional batch-oriented audio processing.',
+        'Initial preparation needs internet access and roughly 1.7 GB for the Python environment, neural model and signs, in addition to the Vosk model. These resources are not versioned; each machine must prepare them.',
+        "Local execution removes external requests, but speech recognition, text stabilization and sign playback still take time. There was no controlled comparison with the online version to establish a fixed latency gain.",
+        "Short segments can lose linguistic context. Signs already shown cannot be undone. If the avatar falls behind, the bounded queue stops capture; playback may not keep up with speech.",
+        'The consulted catalog contains signs unavailable at the source. Registered local files are checked by SHA-256 at startup; missing or corrupted files block startup and require explicit repair, without automatic downloads during use.',
       ],
     },
     result: {
       'pt-BR': [
-        'O projeto integra captura de áudio, transcrição e renderização em Libras. Latência e qualidade da tradução dependem dos motores, da rede e das condições de áudio; não há benchmark de precisão neste estudo.',
+        'Depois de npm run setup:offline, npm start inicia o tradutor local e a aplicação. O relatório de validação de 02/11/2026 registra o fluxo completo no Chromium com áudio sintetizado e requisições externas bloqueadas: zero requisições externas observadas e 13 blocos cujo texto concatenado correspondeu ao resultado final do Vosk nesse cenário.',
+        'Na preparação documentada, 23.270 bundles foram verificados localmente, de 24.213 itens do catálogo; 943 estavam indisponíveis na origem. O relatório também registra 33 testes Node e seis testes Python aprovados. São evidências técnicas locais no Windows; qualidade linguística e compreensão dos sinais ainda exigem avaliação com pessoas fluentes em Libras.',
       ],
       'en-US': [
-        'The project integrates audio capture, transcription and Libras rendering. Latency and translation quality depend on the engines, network and audio conditions; this study does not provide an accuracy benchmark.',
+        'After npm run setup:offline, npm start launches the local translator and application. The November 2, 2026 validation report records the full Chromium flow with synthesized audio and external requests blocked: zero external requests observed and 13 blocks whose concatenated text matched the final Vosk result in that scenario.',
+        'The documented preparation verified 23,270 local bundles from 24,213 catalog entries; 943 were unavailable at the source. The report also records 33 passing Node tests and six passing Python tests. This is local technical evidence on Windows; linguistic quality and sign comprehension still require evaluation by people fluent in Libras.',
       ],
     },
     demonstrates: {
       'pt-BR': [
-        'Design de pipelines de streaming em tempo real',
-        'Processamento de áudio cliente-servidor',
-        'Sincronização de streams no backend',
-        'Gerenciamento de estado e buffering assíncrono',
-        'Integração entre múltiplos serviços e modelos 3D',
+        'Orquestração local de processos Node e Python',
+        'Streaming de áudio e reconhecimento incremental com Vosk',
+        'Controle de revisões, cancelamento e ordem de reprodução',
+        'Preparação retomável e integridade de acervos por SHA-256',
+        'Integração do motor oficial VLibras com Unity/WebGL',
       ],
       'en-US': [
-        'Real-time pipeline design',
-        'Client-side audio processing',
-        'Backend stream synchronization',
-        'State management',
-        'Integration between multiple services',
+        'Local Node and Python process orchestration',
+        'Audio streaming and incremental recognition with Vosk',
+        'Revision handling, cancellation and playback ordering',
+        'Resumable preparation and SHA-256 collection integrity',
+        'Official VLibras engine integration with Unity/WebGL',
       ],
     },
   },
@@ -610,52 +770,52 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
     slug: 'livro',
     title: 'Livro — Gestão de Vigilância Sanitária',
     subtitle: {
-      'pt-BR': 'Digitalização de Processos, Inteligência de Dados e Monitoramento de Denúncias',
-      'en-US': 'Process Digitization, Data Intelligence, and Denunciation Monitoring',
+      'pt-BR': "Registro de denúncias e acompanhamento da fiscalização sanitária",
+      'en-US': "Complaint records and public health inspection tracking",
     },
     technologies: ['Node.js', 'Sequelize ORM', 'MySQL', 'EJS', 'Chart.js', 'PM2', 'Nginx'],
     githubUrl: 'https://github.com/self1027/Livro',
     demoUrl: 'https://livro.murilod.dev/',
-    previewImage: '/media/livro-demo.webp',
+    previewImage: livroImage.src,
     problem: {
       'pt-BR': [
-        'A Vigilância Sanitária de Andradina operava historicamente com livros físicos e registros manuais para acompanhamento de denúncias e processos administrativos.',
-        'Essa operação manual tornava as buscas por históricos operacionais morosas (aproximadamente 5 minutos por consulta) e gerava riscos severos de extravio ou duplicidade de protocolos.',
-        'O objetivo foi digitalizar os registros, preservar a rastreabilidade e reduzir o tempo gasto em consultas ao arquivo físico.',
+        "A Vigilância Sanitária de Andradina usava livros e registros em papel para acompanhar denúncias e processos administrativos.",
+        "Encontrar um atendimento antigo levava aproximadamente 5 minutos por consulta. Os registros em papel também estavam sujeitos a extravio e protocolos duplicados.",
+        "O sistema foi criado para digitalizar esses registros, acompanhar as alterações e reduzir o tempo gasto nas buscas.",
       ],
       'en-US': [
-        'The Vigilância Sanitária de Andradina historically operated with physical logbooks and paper records to track municipal health complaints and administrative inspections.',
-        'This manual process made historical searches time-consuming (~5 minutes per inquiry) and created risks of lost records or conflicting protocol numbering.',
-        'The objective was to digitize records, preserve traceability and reduce time spent searching physical files.',
+        "Andradina’s public health department used paper books and records to track complaints and administrative proceedings.",
+        "Finding an older case took about 5 minutes per lookup. Paper records were also vulnerable to loss and duplicate protocol numbers.",
+        "The system was built to digitize those records, track changes and reduce lookup time.",
       ],
     },
     technicalChallenges: {
       'pt-BR': [
-        'Eliminar livros físicos e garantir que protocolos históricos não fossem extraviados ou danificados.',
-        'Impedir duplicidade na combinação de ano e número de protocolo no banco de dados.',
-        'Reduzir drasticamente o tempo de consulta aos registros de fiscalização.',
-        'Implantar sistema seguro com trilha de auditoria completa em servidor Linux on-premises.',
+        "Substituir os livros em papel e preservar o histórico dos protocolos.",
+        "Impedir registros com o mesmo ano e número de protocolo no banco.",
+        "Reduzir o tempo de consulta aos registros de fiscalização.",
+        "Implantar o sistema no servidor Linux da prefeitura, com controle de acesso e trilha de auditoria.",
       ],
       'en-US': [
-        'Eliminating paper-based records while safeguarding historical municipal health complaints from loss.',
-        'Enforcing unique year-and-protocol-number pairs at the database level.',
-        'Drastically slashing inspection record lookup duration from minutes to seconds.',
-        'Deploying a secure audit-trailed system on municipal on-premises Linux server infrastructure.',
+        "Replace paper books while preserving protocol history.",
+        "Prevent records with the same year and protocol number in the database.",
+        "Reduce the time needed to find inspection records.",
+        "Deploy on the municipality’s Linux server with access controls and an audit trail.",
       ],
     },
     decision: {
       title: {
-        'pt-BR': 'Modelagem Relacional Rígida e Unicidade Protocolar',
-        'en-US': 'Strict Relational Modeling & Protocol Uniqueness Constraints',
+        'pt-BR': "Unicidade dos protocolos no banco de dados",
+        'en-US': "Protocol uniqueness in the database",
       },
       content: {
         'pt-BR': [
-          'A arquitetura adotou o Sequelize ORM com banco de dados MySQL para estruturação relacional das entidades.',
-          'Uma restrição única composta sobre ano e número impede protocolos duplicados no banco. Essa restrição trata integridade dos dados; permissões de edição, auditoria e requisitos legais são responsabilidades separadas.',
+          "O MySQL armazena as relações entre as entidades, e o Sequelize organiza o acesso a esses dados na aplicação.",
+          "Uma restrição composta impede dois protocolos com o mesmo ano e número. Permissões de edição, auditoria e requisitos legais precisam de controles próprios.",
         ],
         'en-US': [
-          'The architecture uses Sequelize ORM and MySQL to model relationships and enforce database constraints.',
-          'A composite unique constraint on year and number rejects duplicate protocols in the database. It addresses data integrity; editing permissions, audit records and legal requirements are separate responsibilities.',
+          "MySQL stores entity relationships, and Sequelize handles access to that data in the application.",
+          "A composite constraint prevents two protocols from sharing a year and number. Editing permissions, audit records and legal requirements need their own controls.",
         ],
       },
     },
@@ -663,8 +823,8 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
       {
         src: '/media/mermaid/livro/fig-1.png',
         caption: {
-          'pt-BR': 'Fluxo de registro: unicidade da combinação de ano e protocolo por restrição no banco.',
-          'en-US': 'Registration flow: database constraint enforces unique year-and-protocol-number pairs.',
+          'pt-BR': "O banco rejeita protocolos que repetem a combinação de ano e número.",
+          'en-US': "The database rejects protocols with a duplicate year-and-number pair.",
         },
         alt: {
           'pt-BR': 'Diagrama de fluxo de cadastro e validação de restrição única do protocolo',
@@ -674,8 +834,8 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
       {
         src: '/media/mermaid/livro/fig-2.png',
         caption: {
-          'pt-BR': 'Rastreabilidade: cada interação gera um log vinculado ao agente responsável.',
-          'en-US': 'Traceability: each interaction generates a log linked to the responsible agent.',
+          'pt-BR': "Cada interação gera um registro de auditoria vinculado ao responsável.",
+          'en-US': "Each interaction creates an audit record linked to the responsible user.",
         },
         alt: {
           'pt-BR': 'Diagrama de trilha de auditoria e rastreabilidade por agente',
@@ -685,65 +845,65 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
     ],
     pipelineOrSections: {
       title: {
-        'pt-BR': 'Arquitetura de Dados, Automação e Auditoria',
-        'en-US': 'Data Architecture, Automation & Auditability',
+        'pt-BR': "Dos registros à operação",
+        'en-US': "From records to daily use",
       },
       items: [
         {
           subtitle: {
-            'pt-BR': '1. Levantamento de Requisitos e Modelagem Relacional',
-            'en-US': '1. Requirements Gathering & Relational Modeling',
+            'pt-BR': "1. Requisitos e dados",
+            'en-US': "1. Requirements and data",
           },
           text: {
-            'pt-BR': 'Normalização do banco de dados MySQL via Sequelize ORM para suportar denúncias, estabelecimentos, autuações e notificações fiscais.',
-            'en-US': 'MySQL schema normalization via Sequelize ORM to support denunciations, commercial establishments, citations, and fiscal notices.',
+            'pt-BR': "O esquema MySQL, modelado com Sequelize, relaciona denúncias, estabelecimentos, autuações e notificações fiscais.",
+            'en-US': "The MySQL schema, modeled with Sequelize, relates complaints, establishments, citations and inspection notices.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '2. Restrição de Unicidade Composta [Ano + Número]',
-            'en-US': '2. Compound Uniqueness Constraint [Year + Number]',
+            'pt-BR': "2. Ano e número únicos",
+            'en-US': "2. Unique year and number",
           },
           text: {
-            'pt-BR': 'Índices compostos no MySQL impedem colisões de numeração mesmo em requisições simultâneas de múltiplos fiscais.',
-            'en-US': 'Compound database indexes prevent protocol number collisions even during concurrent submissions from multiple inspectors.',
+            'pt-BR': "O índice composto impede números duplicados no mesmo ano, inclusive quando vários fiscais enviam registros ao mesmo tempo.",
+            'en-US': "The composite index prevents duplicate numbers within a year, including when several inspectors submit records at the same time.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '3. Hooks de Ciclo de Vida e Trilha de Auditoria',
-            'en-US': '3. Lifecycle Hooks & Audit Trail',
+            'pt-BR': "3. Histórico de alterações",
+            'en-US': "3. Change history",
           },
           text: {
-            'pt-BR': 'Hooks automáticos registram autor, timestamp e dados anteriores a cada alteração de status ou despacho legal.',
-            'en-US': 'Automated lifecycle hooks capture user ID, timestamp, and previous state snapshots upon every status change.',
+            'pt-BR': "Hooks registram o autor, o horário e os dados anteriores quando há alteração de status ou despacho.",
+            'en-US': "Hooks record the author, timestamp and previous data when a status or dispatch changes.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '4. Painel de Inteligência Operacional com Chart.js',
-            'en-US': '4. Operational Intelligence Dashboard with Chart.js',
+            'pt-BR': "4. Indicadores com Chart.js",
+            'en-US': "4. Chart.js reports",
           },
           text: {
-            'pt-BR': 'Dashboards agregam dados de denúncias por bairro, tipo de infração e índice de resolução em tempo real.',
-            'en-US': 'Real-time dashboards aggregate denunciations by municipal district, infraction category, and resolution velocity.',
+            'pt-BR': "Os painéis reúnem os dados atuais de denúncias por bairro, tipo de infração e índice de resolução.",
+            'en-US': "Dashboards show current complaint data by district, infraction type and resolution rate.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '5. Infraestrutura Local, PM2 e Nginx',
-            'en-US': '5. On-Premises Infrastructure, PM2 & Nginx',
+            'pt-BR': "5. Implantação na prefeitura",
+            'en-US': "5. Municipal deployment",
           },
           text: {
-            'pt-BR': 'Deploy interno na infraestrutura da Prefeitura com proxy reverso Nginx, supervisão contínua por PM2 e reinicialização automática.',
-            'en-US': 'Deployment within the municipal intranet featuring Nginx reverse proxy, PM2 process supervision, and auto-restart resilience.',
+            'pt-BR': "A aplicação roda na infraestrutura interna da prefeitura. O Nginx atua como proxy reverso, e o PM2 supervisiona os processos e os reinicia quando necessário.",
+            'en-US': "The application runs on the municipality’s internal infrastructure. Nginx acts as a reverse proxy, and PM2 supervises processes and restarts them when needed.",
           },
         },
       ],
     },
     codeSnippets: [
       {
-        title: 'Modelo Sequelize com Restrição Única Composta (Ano + Número)',
+        title: "Restrição composta de ano e número",
         titleEn: 'Sequelize model: unique year-and-number pairs',
         language: 'typescript',
         code: `const Denunciation = connection.define('denunciations', {
@@ -759,12 +919,12 @@ initPipeline(FALLBACK_SAMPLE_RATE);`,
     }]
 });`,
         description: {
-          'pt-BR': 'A restrição rejeita pares de ano e número duplicados. Ela não impede alterações em outros campos nem torna o registro imutável.',
-          'en-US': 'The constraint rejects duplicate year-and-number pairs. It does not prevent other fields from being edited or make a record immutable.',
+          'pt-BR': "A restrição rejeita pares de ano e número duplicados. Os outros campos continuam editáveis; essa regra não torna o registro imutável.",
+          'en-US': "The constraint rejects duplicate year-and-number pairs. Other fields remain editable; this rule does not make the record immutable.",
         },
       },
       {
-        title: 'Configuração de Infraestrutura Local: PM2 & Nginx',
+        title: "Implantação com PM2 e Nginx",
         titleEn: 'Local infrastructure: PM2 and Nginx',
         language: 'bash',
         code: `# Gestão de Uptime com PM2
@@ -777,43 +937,43 @@ location / {
     proxy_set_header X-Real-IP $remote_addr;
 }`,
         description: {
-          'pt-BR': 'Deploy em rede interna da Prefeitura com proxy reverso Nginx e monitoramento contínuo de processos pelo PM2.',
-          'en-US': 'Municipal internal network deployment featuring Nginx reverse proxy and continuous PM2 process supervisor.',
+          'pt-BR': "Na rede interna da prefeitura, o Nginx encaminha as requisições e o PM2 supervisiona os processos.",
+          'en-US': "On the municipality’s internal network, Nginx forwards requests and PM2 supervises processes.",
         },
       },
     ],
     tradeOffs: {
       'pt-BR': [
-        'Arquitetura monolítica em Node.js com EJS e Chart.js adotada para viabilizar manutenção simples e deploy ágil na rede interna da prefeitura.',
-        'MySQL foi escolhido pelas relações entre entidades e restrições de integridade. Essa escolha exige manutenção do esquema e migrações conforme os requisitos evoluem.',
+        "A aplicação usa um monólito Node.js, páginas EJS e Chart.js para simplificar a manutenção e a implantação na rede interna.",
+        "O MySQL atende às relações entre os dados e às restrições de integridade. Conforme os requisitos mudam, o esquema precisa de manutenção e migrações.",
       ],
       'en-US': [
-        'Monolithic Node.js with EJS server-rendered views and Chart.js chosen for rapid deployment and simple on-premises maintenance.',
-        'MySQL was chosen for entity relationships and integrity constraints. This requires schema maintenance and migrations as requirements evolve.',
+        "The application uses a Node.js monolith, EJS pages and Chart.js to simplify maintenance and deployment on the internal network.",
+        "MySQL supports the data relationships and integrity constraints. As requirements change, the schema needs maintenance and migrations.",
       ],
     },
     result: {
       'pt-BR': [
-        'A estimativa operacional relatada passou de ~5 minutos de busca em arquivos físicos para ~10 segundos no sistema. A comparação descreve a digitalização do fluxo, não um benchmark isolado de consulta SQL.',
-        'A equipe municipal passou a dedicar menos tempo à busca em arquivos físicos e mais tempo a ações operacionais de campo.',
+        "A estimativa operacional relatada passou de cerca de 5 minutos de busca nos arquivos em papel para 10 segundos no sistema. A comparação é entre os dois fluxos de trabalho; não mede uma consulta SQL isolada.",
+        "Com menos tempo gasto nas buscas, a equipe municipal passou a dedicar mais tempo ao trabalho de campo.",
       ],
       'en-US': [
-        'The reported operational estimate went from ~5 minutes searching physical files to ~10 seconds in the system. This compares workflows after digitization, not isolated SQL query performance.',
-        'The municipal team now spends far less time searching physical files and more time in high-priority field operations.',
+        "The reported operational estimate went from about 5 minutes searching paper files to 10 seconds in the system. This compares the two workflows, not an isolated SQL query.",
+        "With less time spent on lookups, the municipal team could spend more time on fieldwork.",
       ],
     },
     demonstrates: {
       'pt-BR': [
-        'Levantamento e análise de requisitos reais',
+        "Levantamento de requisitos com os usuários",
         'Digitalização de processos no setor público',
         'Modelagem relacional de banco de dados (MySQL / Sequelize)',
         'Administração de servidores Linux',
         'Infraestrutura interna e proxy reverso Nginx',
         'Desenvolvimento de dashboards com Chart.js',
-        'Rastreabilidade e integridade estrita de dados',
+        "Auditoria e integridade dos registros",
       ],
       'en-US': [
-        'Requirements analysis',
+        "Requirements gathering with users",
         'Public-sector process digitization',
         'Relational database modeling',
         'MySQL / Sequelize',
@@ -829,51 +989,51 @@ location / {
   'nobsdownloader': {
     id: 'nobsdownloader',
     slug: 'nobsdownloader',
-    title: 'NoBSDownloader — Media Extraction Engine',
+    title: "NoBSDownloader — Extração de mídia",
     subtitle: {
-      'pt-BR': 'Extração de Mídia com yt-dlp e Processamento de Streams em Tempo Real',
-      'en-US': 'Media Extraction with yt-dlp and Real-Time Stream Processing',
+      'pt-BR': "Extração com yt-dlp e conversão com FFmpeg",
+      'en-US': "Media extraction with yt-dlp and conversion with FFmpeg",
     },
     technologies: ['Node.js', 'yt-dlp', 'FFmpeg', 'Child Processes', 'Stream Processing', 'YAML'],
     githubUrl: 'https://github.com/self1027/NoBSDownloader',
     previewImage: '/media/nobsd-demo.png',
     problem: {
       'pt-BR': [
-        'Usuários que necessitam de extração de mídia frequentemente dependem de interfaces web repletas de publicidade abusiva, rastreadores e redirecionamentos inseguros.',
-        'O desafio técnico consiste em orquestrar ferramentas nativas de alto consumo de I/O (yt-dlp e FFmpeg) controlando rigorosamente o consumo de recursos computacionais e isolando arquivos temporários.',
+        "Serviços de extração de mídia na web podem incluir publicidade invasiva, rastreadores e redirecionamentos. O projeto oferece um fluxo direto para essa tarefa.",
+        "O trabalho técnico está em coordenar yt-dlp e FFmpeg, acompanhar o uso de recursos e manter os arquivos temporários de cada tarefa separados.",
       ],
       'en-US': [
-        'Users requiring media extraction are often pushed toward shady web portals overloaded with intrusive advertisements, trackers, and malicious redirects.',
-        'The engineering challenge is orchestrating resource-heavy I/O tools (yt-dlp and FFmpeg) while strictly safeguarding system CPU/disk limits and isolating temporary files.',
+        "Web-based media extraction services can include intrusive advertising, trackers and redirects. This project provides a direct workflow for the task.",
+        "The technical work is coordinating yt-dlp and FFmpeg, monitoring resource use and keeping each job’s temporary files separate.",
       ],
     },
     technicalChallenges: {
       'pt-BR': [
-        'Orquestrar binários nativos pesados (yt-dlp e FFmpeg) sem bloquear o loop de eventos assíncrono do Node.js.',
-        'Tratar encerramento de processos e limpeza por plataforma; processos descendentes exigem controle adicional no Linux.',
-        'Impor limites rigorosos de tamanho de arquivo (teto de 1.0 GiB) através de inspeção contínua de streams.',
-        'Separação de tarefas em diretórios temporários únicos e rotinas de limpeza pós-processamento.',
+        "Executar yt-dlp e FFmpeg sem bloquear o event loop do Node.js.",
+        "Tratar encerramento e limpeza em cada plataforma. No Linux, processos descendentes exigem controle adicional.",
+        "Monitorar a saída para aplicar o limite de 1.0 GiB por arquivo.",
+        "Usar um diretório temporário por tarefa e removê-lo após o processamento.",
       ],
       'en-US': [
-        'Orchestrating resource-intensive native binaries (yt-dlp and FFmpeg) without starving the Node.js event loop.',
-        'Handling process termination and cleanup per platform; descendant processes require additional control on Linux.',
-        'Enforcing rigid file payload ceilings (1.0 GiB cap) via real-time stdout stream inspection.',
-        'Per-job temporary directories and post-extraction cleanup routines.',
+        "Run yt-dlp and FFmpeg without blocking the Node.js event loop.",
+        "Handle termination and cleanup on each platform. Descendant processes need additional control on Linux.",
+        "Monitor output to apply the 1.0 GiB file-size limit.",
+        "Use a temporary directory per job and remove it after processing.",
       ],
     },
     decision: {
       title: {
-        'pt-BR': 'Orquestração Assíncrona de Processos-Filho (Child Processes)',
-        'en-US': 'Asynchronous Child Process Orchestration',
+        'pt-BR': "Ferramentas nativas como processos-filho",
+        'en-US': "Native tools as child processes",
       },
       content: {
         'pt-BR': [
-          'Em vez de sobrecarregar o event loop do Node.js, yt-dlp e FFmpeg são executados como processos-filho utilizando spawn.',
-          'Isso permite monitoramento em tempo real dos fluxos stdout/stderr e terminação imediata (taskkill no Windows ou SIGKILL no Linux) caso limites pré-determinados sejam violados.',
+          "A aplicação usa spawn para executar yt-dlp e FFmpeg como processos-filho e continuar atendendo os eventos do Node.js.",
+          "Ela acompanha stdout e stderr e solicita o encerramento quando um limite é atingido, usando taskkill no Windows ou SIGKILL no Linux.",
         ],
         'en-US': [
-          'Rather than blocking Node.js application logic, yt-dlp and FFmpeg are orchestrated as child processes via spawn.',
-          'This permits direct stdout/stderr stream observation and immediate process termination (taskkill on Windows, SIGKILL on POSIX) when safety thresholds are breached.',
+          "The application uses spawn to run yt-dlp and FFmpeg as child processes while Node.js continues handling events.",
+          "It monitors stdout and stderr and requests termination when a limit is reached, using taskkill on Windows or SIGKILL on Linux.",
         ],
       },
     },
@@ -881,8 +1041,8 @@ location / {
       {
         src: '/media/mermaid/nobsdownloader/fig-1.png',
         caption: {
-          'pt-BR': 'Fluxo de extração: da URL à entrega controlada do binário processado.',
-          'en-US': 'Extraction flow: from URL to processed binary delivery.',
+          'pt-BR': "Da URL ao arquivo processado: extração, conversão e entrega.",
+          'en-US': "From URL to processed file: extraction, conversion and delivery.",
         },
         alt: {
           'pt-BR': 'Diagrama de fluxo de extração de mídia com spawn e FFmpeg',
@@ -903,65 +1063,65 @@ location / {
     ],
     pipelineOrSections: {
       title: {
-        'pt-BR': 'Pipeline de Extração, Limitação e Transcodificação',
-        'en-US': 'Extraction, Limitation & Transcoding Pipeline',
+        'pt-BR': "Da URL ao arquivo",
+        'en-US': "From URL to file",
       },
       items: [
         {
           subtitle: {
-            'pt-BR': '1. Ingestão de URL e Configuração Declarativa',
-            'en-US': '1. URL Ingestion & Declarative YAML Config',
+            'pt-BR': "1. URL e opções de formato",
+            'en-US': "1. URL and format options",
           },
           text: {
-            'pt-BR': 'Validação e higienização estrita de URLs recebidas, com leitura de parâmetros de formato e codec a partir de esquemas YAML.',
-            'en-US': 'Strict validation and sanitization of incoming URLs paired with declarative format/codec specs parsed from YAML configs.',
+            'pt-BR': "A aplicação valida e trata a URL recebida e lê as opções de formato e codec dos arquivos YAML.",
+            'en-US': "The application validates and sanitizes the URL and reads format and codec options from YAML files.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '2. Extração de Metadados e Mapeamento',
-            'en-US': '2. Metadata Dump & Stream Resolution Mapping',
+            'pt-BR': "2. Formatos disponíveis",
+            'en-US': "2. Available formats",
           },
           text: {
-            'pt-BR': 'Execução de dump JSON de formatos disponíveis via yt-dlp, filtrando faixas duplicadas ou streams sem áudio correspondente.',
-            'en-US': 'Execution of yt-dlp JSON format dump, filtering redundant streams and cataloging resolutions with valid audio pairings.',
+            'pt-BR': "O yt-dlp retorna os formatos em JSON. A aplicação filtra duplicatas e relaciona as faixas de vídeo às opções de áudio correspondentes.",
+            'en-US': "yt-dlp returns formats as JSON. The application filters duplicates and pairs video tracks with matching audio options.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '3. Spawn de Processo e Inspeção de stdout',
-            'en-US': '3. Process Spawn & Real-Time stdout Inspection',
+            'pt-BR': "3. Processo e progresso",
+            'en-US': "3. Process and progress",
           },
           text: {
-            'pt-BR': 'Invocação isolada do processo nativo com captura de chunks de saída para cálculo de progresso e detecção de tamanho.',
-            'en-US': 'Isolated native process invocation capturing streamed chunks to calculate progress and track output size thresholds.',
+            'pt-BR': "O processo nativo executa a tarefa, enquanto a aplicação lê os chunks de saída para calcular o progresso e acompanhar o tamanho.",
+            'en-US': "The native process runs the job while the application reads output chunks to calculate progress and track size.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '4. Kill Switch de Segurança (Teto de 1.0 GiB)',
-            'en-US': '4. Safety Kill Switch (1.0 GiB Ceiling)',
+            'pt-BR': "4. Limite de 1.0 GiB",
+            'en-US': "4. The 1.0 GiB limit",
           },
           text: {
-            'pt-BR': 'Ao ultrapassar o limite monitorado de saída, a aplicação solicita o encerramento do processo. A árvore de processos e arquivos temporários exigem tratamento adicional.',
-            'en-US': 'When output exceeds the monitored limit, the application requests process termination. Process trees and temporary files require additional handling.',
+            'pt-BR': "Ao detectar que a saída passou do limite, a aplicação pede o encerramento. Controlar os processos descendentes e limpar os arquivos temporários exige tratamento adicional.",
+            'en-US': "When it detects output exceeding the limit, the application requests termination. Descendant processes and temporary-file cleanup need additional handling.",
           },
         },
         {
           subtitle: {
-            'pt-BR': '5. Transcodificação FFmpeg e Limpeza Automática',
-            'en-US': '5. FFmpeg Transcoding & Automatic Cleanup',
+            'pt-BR': "5. Conversão e limpeza",
+            'en-US': "5. Conversion and cleanup",
           },
           text: {
-            'pt-BR': 'Conversão para o formato desejado (MP3, MP4) em diretório temporário isolado com remoção de resíduos pós-entrega.',
-            'en-US': 'Conversion to the target container (MP3, MP4) in a per-job scratch directory with cleanup after delivery.',
+            'pt-BR': "O FFmpeg converte a mídia para o formato escolhido, como MP3 ou MP4, no diretório da tarefa. Os arquivos temporários são removidos após a entrega.",
+            'en-US': "FFmpeg converts media to the chosen format, such as MP3 or MP4, in the job directory. Temporary files are removed after delivery.",
           },
         },
       ],
     },
     codeSnippets: [
       {
-        title: 'Monitoramento de Fluxo e Encerramento Forçado por Limite de Tamanho',
+        title: "Monitoramento do limite de tamanho",
         titleEn: 'Output monitoring and size limits',
         language: 'javascript',
         code: `const yt = spawn(YTDLP_PATH, ytArgs);
@@ -982,12 +1142,12 @@ yt.stdout.on("data", (data) => {
     }
 });`,
         description: {
-          'pt-BR': 'Monitoramento do progresso em stdout para solicitar encerramento ao detectar o limite. O trecho não substitui quotas do sistema operacional nem garante encerramento dos processos descendentes.',
-          'en-US': 'Monitoring stdout progress to request termination when the limit is detected. This excerpt does not replace operating-system quotas or guarantee termination of descendant processes.',
+          'pt-BR': "O trecho acompanha stdout e pede o encerramento ao detectar o limite. Quotas do sistema operacional e controle de processos descendentes continuam sendo medidas separadas.",
+          'en-US': "This excerpt monitors stdout and requests termination when it detects the limit. Operating-system quotas and descendant-process control remain separate measures.",
         },
       },
       {
-        title: 'Mapeamento Seguro e Filtragem de Formatos',
+        title: "Seleção e filtragem de formatos",
         titleEn: 'Format mapping and filtering',
         language: 'javascript',
         code: `json.formats.forEach(f => {
@@ -1003,29 +1163,29 @@ yt.stdout.on("data", (data) => {
     }
 });`,
         description: {
-          'pt-BR': 'Filtragem seletiva de streams de áudio e vídeo com remoção de formatos corrompidos ou redundantes.',
-          'en-US': 'Selective parsing and deduplication of video and audio tracks from yt-dlp JSON metadata.',
+          'pt-BR': "A filtragem seleciona faixas de áudio e vídeo e remove formatos inválidos ou duplicados dos metadados do yt-dlp.",
+          'en-US': "Filtering selects audio and video tracks and removes invalid or duplicate formats from yt-dlp metadata.",
         },
       },
     ],
     tradeOffs: {
       'pt-BR': [
-        'A dependência de binários externos instalados no host exige validação prévia de caminhos executáveis.',
-        'Limites de tempo e tamanho reduzem consumo excessivo, mas não substituem quotas de CPU, memória e disco no sistema operacional.',
+        "Os binários precisam estar instalados no host. A aplicação deve conferir os caminhos dos executáveis antes de usá-los.",
+        "Limites de tempo e tamanho ajudam a conter o consumo. Quotas de CPU, memória e disco precisam ser aplicadas pelo sistema operacional.",
       ],
       'en-US': [
-        'Requirement for host-installed native binaries requires pre-flight executable verification.',
-        'Runtime and payload limits reduce excessive consumption but do not replace operating-system CPU, memory and disk quotas.',
+        "The binaries must be installed on the host. The application needs to check executable paths before using them.",
+        "Time and size limits help contain resource use. CPU, memory and disk quotas need operating-system enforcement.",
       ],
     },
     result: {
       'pt-BR': [
-        'Extração limpa, direta e determinística de mídia sem publicidade invasiva, redirecionamentos ou rastreadores.',
-        'Monitoramento de tamanho e uso de diretórios temporários por tarefa. spawn não é uma sandbox; quotas do sistema operacional e controle da árvore de processos são medidas adicionais.',
+        "O fluxo permite extrair mídia diretamente, sem publicidade, redirecionamentos ou rastreadores na interface.",
+        "Cada tarefa tem um diretório temporário e monitoramento de tamanho. Executar com spawn não cria uma sandbox; quotas e controle da árvore de processos precisam de medidas próprias.",
       ],
       'en-US': [
-        'Clean, deterministic media extraction without deceptive advertisements, redirects, or third-party trackers.',
-        'Output-size monitoring and per-task temporary directories. spawn is not a sandbox; operating-system quotas and process-tree control are additional measures.',
+        "The workflow supports direct media extraction without ads, redirects or trackers in the interface.",
+        "Each job has a temporary directory and size monitoring. Running with spawn does not create a sandbox; quotas and process-tree control need their own measures.",
       ],
     },
     demonstrates: {
@@ -1034,8 +1194,8 @@ yt.stdout.on("data", (data) => {
         'Integração e automação com yt-dlp',
         'Integração e transcodificação com FFmpeg',
         'Gerenciamento de streams e buffers de I/O',
-        'Isolamento e limpeza automática de diretórios temporários',
-        'Aplicação de limites rígidos de recursos computacionais',
+        "Separação e limpeza dos diretórios por tarefa",
+        "Monitoramento e aplicação de limites de saída",
         'Terminação de processos multiplataforma (Windows / POSIX)',
         'Configuração declarativa baseada em YAML',
       ],
@@ -1044,8 +1204,8 @@ yt.stdout.on("data", (data) => {
         'yt-dlp integration',
         'FFmpeg integration',
         'Stream and buffer management',
-        'Job isolation',
-        'Resource-limit enforcement',
+        "Per-job directories and cleanup",
+        "Output monitoring and size limits",
         'Cross-platform process termination',
         'YAML-based configuration',
       ],

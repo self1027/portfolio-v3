@@ -34,10 +34,14 @@ try {
         images: [...document.images].every(img => img.hasAttribute('width') && img.hasAttribute('height') && img.hasAttribute('alt')),
         missingKeys: /(?:hero|nav|projects|skills|contact)\.[a-zA-Z]+/.test(document.body.innerText),
         animations: document.getAnimations().length,
+        projectIds: [...document.querySelectorAll('.project-work')].map(project => project.getAttribute('aria-labelledby')),
+        projectDetails: document.querySelectorAll('.project-work .project-context').length,
       }));
       check(state.lang === language && state.theme === theme, `${width}: language and theme`);
       check(!state.overflow, `${width}/${language}: no horizontal page overflow`);
       check(state.heading === 'Murilo Dias.' && !state.missingKeys, `${width}/${language}: complete homepage`);
+      check(state.projectIds.join(',') === 'project-livro,project-integra,project-megan-trimmer,project-infinity-ttt', `${width}/${language}: current project selection and order`);
+      check(state.projectDetails === 0, `${width}/${language}: project list omits decisions and outcomes`);
       check(state.downloads.some(url => url.endsWith(language === 'pt-BR' ? '_CV.pdf' : '_Resume.pdf')), `${width}: localized resume`);
       check(state.actions.every(bottom => bottom < 900), `${width}/${language}: project and resume actions in first viewport`);
       check(state.images && state.animations === 0, `${width}: image dimensions and reduced motion`);
@@ -112,9 +116,13 @@ try {
   });
   await settle();
   check(await page.eval(() => document.querySelector('.contact-status').textContent.includes('Não foi possível')), 'clipboard failure gives a useful fallback');
-  for (const slug of ['livro', 'integra', 'ascii-cam', 'infinity-ttt', 'nobsdownloader']) {
+  for (const slug of ['livro', 'integra', 'megan-trimmer', 'ascii-cam', 'infinity-ttt', 'nobsdownloader']) {
     await page.goto(`${origin}/projects/${slug}`, { settleMs: 150 });
     check(await page.eval(() => !!document.querySelector('.case-overview') && !document.querySelector('.not-found')), `direct route ${slug}`);
+    check(await page.eval(() => {
+      const summaries = [...document.querySelectorAll('.case-overview dd')];
+      return summaries.length === 3 && summaries.every(item => item.textContent.trim().length > 0) && !!document.querySelector('#architecture .case-prose') && !!document.querySelector('#tradeoffs + section .case-prose');
+    }), `direct route ${slug}: decisions and outcomes remain in case study`);
     check(await page.eval(() => document.documentElement.scrollWidth <= innerWidth), `direct route ${slug}: no page overflow`);
   }
   await page.goto(origin + '/#%', { settleMs: 150 });

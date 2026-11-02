@@ -16,10 +16,10 @@
   },
   "hero": {
     "badge": "Disponível para contratação",
-    "role": "Desenvolvedor backend. Node.js e TypeScript.",
-    "description": "Desenvolvo APIs, sistemas em produção e aplicações em tempo real. Da digitalização da Vigilância Sanitária de Andradina a pipelines de áudio e servidores multiplayer.",
+    "role": "Desenvolvedor backend com Node.js e TypeScript.",
+    "description": "Crio APIs e sistemas para uso no dia a dia. Meu trabalho inclui a digitalização dos registros da Vigilância Sanitária de Andradina, processamento de áudio e jogos multiplayer.",
     "secondary": "Aberto a oportunidades em desenvolvimento backend.",
-    "ctaProjects": "Explorar projetos",
+    "ctaProjects": "Ver projetos",
     "ctaResume": "Baixar currículo",
     "status": "ONLINE",
     "env": "production-ready",
@@ -27,7 +27,7 @@
     "location": "Brasil · UTC−3"
   },
   "impact": {
-    "title": "Do requisito à operação.",
+    "title": "O trabalho por trás do Livro",
     "badge": "Impacto",
     "items": [
       {
@@ -36,7 +36,7 @@
         "tag": "Setor Público"
       },
       {
-        "title": "Otimização Extrema",
+        "title": "Consulta de registros",
         "desc": "Consultas reduzidas de minutos para segundos",
         "tag": "Performance"
       },
@@ -46,74 +46,72 @@
         "tag": "Tempo Real"
       },
       {
-        "title": "Arquitetura Escalável",
+        "title": "Eventos",
         "desc": "Arquitetura orientada a eventos",
         "tag": "Event-Driven"
       }
     ],
-    "description": "No Livro, participei do ciclo completo: entender a rotina dos fiscais, estruturar os dados e colocar o sistema em uso na rede municipal.",
-    "cta": "Entender a arquitetura do Livro",
+    "description": "No Livro, conversei com os fiscais, organizei os dados e acompanhei a implantação do sistema na rede municipal.",
+    "cta": "Ler o case do Livro",
     "requirements": {
       "title": "Entender a rotina",
-      "description": "Requisitos levantados diretamente com servidores e fiscais sanitários para substituir registros em papel."
+      "description": "Conversei com servidores e fiscais sanitários para entender a rotina e substituir os registros em papel."
     },
     "data": {
       "title": "Proteger os registros",
-      "description": "MySQL e Sequelize com unicidade de ano e número de protocolo, além de registros de auditoria vinculados ao responsável."
+      "description": "Usei MySQL e Sequelize para impedir protocolos duplicados por ano e vincular os registros de auditoria ao responsável."
     },
     "operations": {
       "title": "Manter em operação",
-      "description": "Implantação em Linux na infraestrutura local, Nginx como proxy reverso e PM2 para supervisão dos processos."
+      "description": "Implantei o sistema na infraestrutura Linux local, com Nginx como proxy reverso e PM2 para supervisionar os processos."
     }
   },
   "projects": {
     "sectionBadge": "Projetos",
-    "title": "Engenharia em prática.",
-    "subtitle": "Um sistema em uso no setor público e três projetos para explorar integridade de dados, áudio, concorrência e sincronização de estado.",
+    "title": "Projetos",
+    "subtitle": "Um sistema usado na prefeitura, uma aplicação de fala para Libras, um editor de vídeo e um jogo multiplayer. Os cases contam como cada um foi construído.",
     "viewCaseStudy": "Ler estudo de caso",
     "viewCode": "Código",
     "viewDemo": "Demonstração",
-    "outcomeLabel": "Resultado relatado.",
     "zoomImage": "Ampliar imagem",
-    "noDemo": "Sem demo pública (sistema interno/CLI)",
-    "decisionLabel": "Decisão técnica."
+    "noDemo": "Sem demo pública (sistema interno/CLI)"
   },
   "skills": {
     "sectionBadge": "Stack Técnica",
-    "title": "Stack com contexto.",
-    "subtitle": "Tecnologias acompanhadas de onde foram aplicadas. Os estudos de caso mostram as escolhas, a implementação e as limitações.",
-    "evidence": "Ver aplicação em",
-    "additional": "Outras tecnologias do meu repertório",
-    "additionalNote": "Também trabalho ou estudo as tecnologias abaixo. Elas não são evidência de uso nos projetos selecionados.",
+    "title": "Tecnologias que uso",
+    "subtitle": "Os links mostram como usei essas tecnologias nos projetos, com detalhes da implementação e dos limites de cada solução.",
+    "evidence": "Ver no projeto",
+    "additional": "Outras tecnologias que uso ou estudo",
+    "additionalNote": "Estas tecnologias fazem parte do meu repertório, mas seu uso não está demonstrado nos projetos acima.",
     "more": "Explorar repositórios"
   },
   "experience": {
     "sectionBadge": "Experiência",
-    "title": "Experiência profissional.",
-    "subtitle": "Desenvolvimento de sistemas internos, contato com usuários e responsabilidade pela implantação.",
+    "title": "Experiência profissional",
+    "subtitle": "Trabalho com sistemas internos, converso com quem os usa e cuido da implantação.",
     "more": "Ver outras responsabilidades",
     "caseLink": "Ver o projeto desta experiência"
   },
   "github": {
     "sectionBadge": "Código Aberto",
-    "title": "O código está aberto.",
-    "subtitle": "Uma seleção para revisão técnica: implementação, organização do código e decisões além da interface.",
+    "title": "No GitHub",
+    "subtitle": "Os repositórios mostram o código, a organização dos projetos e as escolhas de implementação.",
     "cta": "Abrir perfil no GitHub",
     "repositories": "Repositórios Públicos",
     "viewRepo": "Acessar repositório",
     "loading": "Carregando dados públicos do GitHub...",
     "errorFallback": "Visualizando projetos sincronizados diretamente com o repositório oficial.",
-    "selection": "Seleção de repositórios públicos. Os detalhes de cada implementação estão no GitHub.",
-    "livro": "Modelagem de protocolos, API e aplicação municipal.",
-    "integra": "Ingestão de áudio, transcrição e integração com Libras.",
-    "ascii": "Processamento em Worker e transferência de buffers.",
-    "infinity": "Regras de jogo e estado sob controle do servidor.",
-    "nobs": "Orquestração de processos e extração de mídia."
+    "selection": "Veja os detalhes de implementação nos repositórios.",
+    "livro": "Registro de denúncias e acompanhamento da fiscalização sanitária.",
+    "integra": "Da fala em português aos sinais de Libras, com processamento local.",
+    "megan": "Corte e conversão de vídeos no desktop com Electron e FFmpeg.",
+    "infinity": "Jogo multiplayer com turnos e regras validados no servidor.",
+    "nobs": "Extração de mídia com yt-dlp e conversão com FFmpeg."
   },
   "contact": {
     "sectionBadge": "Contato",
     "title": "Vamos conversar?",
-    "subtitle": "Busco oportunidades em backend com Node.js e TypeScript. Se minha experiência fizer sentido para sua equipe, vamos falar sobre o próximo desafio.",
+    "subtitle": "Busco uma oportunidade em backend com Node.js e TypeScript. Você pode falar comigo por e-mail ou pelo LinkedIn.",
     "form": {
       "name": "Seu Nome",
       "email": "Seu E-mail",
@@ -123,13 +121,13 @@
       "placeholderMessage": "Olá Murilo, gostaria de conversar sobre uma oportunidade para Backend Developer...",
       "submit": "Enviar Mensagem",
       "copyEmail": "Copiar endereço",
-      "copied": "Endereço copiado.",
+      "copied": "E-mail copiado.",
       "mailtoFallbackNotice": "O envio abrirá seu cliente de e-mail padrão diretamente para diasmurilo02@gmail.com"
     },
     "emailAction": "Escrever um e-mail",
-    "copyError": "Não foi possível copiar. Selecione o endereço acima ou use “Escrever um e-mail”.",
+    "copyError": "Não foi possível copiar o e-mail. Selecione o endereço acima ou clique em “Escrever um e-mail”.",
     "emailSubject": "Oportunidade em desenvolvimento backend",
-    "emailHint": "O botão abre seu aplicativo de e-mail. Você também pode copiar o endereço."
+    "emailHint": "Abra seu aplicativo de e-mail ou copie o endereço para usar depois."
   },
   "footer": {
     "copyright": "Murilo Dias. Todos os direitos reservados.",
@@ -139,27 +137,27 @@
   },
   "caseStudy": {
     "backToProjects": "Voltar aos projetos",
-    "overview": "Em resumo",
+    "overview": "Resumo",
     "problem": "O problema",
-    "challenges": "Desafios técnicos",
+    "challenges": "Desafios",
     "decision": "Arquitetura",
     "pipeline": "Pipeline de Processamento",
     "code": "Implementação",
     "tradeoffs": "Escolhas e limites",
     "result": "Resultados",
-    "demonstrates": "Competências aplicadas",
+    "demonstrates": "O que apliquei",
     "nextProject": "Próximo projeto",
     "prevProject": "Projeto anterior",
     "copySnippet": "Copiar código",
-    "snippetCopied": "Copiado para a área de transferência!",
+    "snippetCopied": "Código copiado.",
     "context": "Contexto",
     "decisionSummary": "Escolha principal",
     "resultSummary": "Resultado e limites",
     "navigate": "Neste estudo de caso",
     "navigation": "Navegação entre projetos",
     "preview": "Interface do projeto",
-    "codeNote": "Trechos resumidos para explicar decisões. Consulte o repositório para a implementação completa.",
-    "copyError": "Não foi possível copiar. Selecione o código para copiar manualmente.",
+    "codeNote": "Os trechos abaixo mostram partes da implementação. O código completo está no repositório.",
+    "copyError": "Não foi possível copiar o código. Selecione o trecho e copie manualmente.",
     "copied": "Copiado",
     "copy": "Copiar",
     "source": "Código no GitHub",
@@ -168,11 +166,11 @@
   },
   "lightbox": {
     "close": "Fechar imagem (Esc)",
-    "zoomHint": "Esc para fechar. Diagramas permitem rolagem horizontal."
+    "zoomHint": "Pressione Esc para fechar. Você pode rolar os diagramas para os lados."
   },
   "notFound": {
     "title": "Página não encontrada.",
-    "description": "Este endereço não corresponde a um projeto. Explore os estudos de caso disponíveis.",
+    "description": "Não encontrei uma página neste endereço. Volte aos projetos para continuar.",
     "action": "Ver projetos"
   }
 }

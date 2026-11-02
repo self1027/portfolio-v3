@@ -35,7 +35,7 @@ Reference read for this redesign: [Vercel analysis from Awesome DESIGN.md](https
 Taste direction: **Type and nothing else**, seed `438053253`. The first screen names Murilo and his backend specialization; the evidence follows through real project screenshots and readable case studies. The hero was redrawn once because the original cropped-name composition conflicted with legibility and the requirement to keep the role and resume visible on mobile.
 
 - Lead with Node.js, TypeScript and the real municipal application, without a fictional code profile or seniority claims.
-- Present Livro first, then the audio, browser-concurrency and authoritative-server projects. Each project explains a different engineering decision.
+- Present Livro first, then Integra, MeganTrimmer and the authoritative-server project. Each project explains a different engineering decision. ASCII Cam remains available through its existing case URL but is outside the current selection.
 - Keep experience before skills. Link demonstrated skills to the relevant case sections; keep supplementary technologies separate from project evidence.
 - Use full-width tonal sections, generous spacing and native text. Avoid repeated bordered cards, decorative monospace and redundant badges.
 - Contact uses a real email action, copy feedback and LinkedIn. The previous form only opened an email client.

@@ -2,6 +2,20 @@ import React, { useId } from 'react';
 import { useI18n } from '../i18n/I18nContext';
 import type { Language } from '../types';
 const flows: Record<string, Record<Language, string[][]>> = {
+  '/media/mermaid/megan-trimmer/export.png': {
+    'pt-BR': [
+      ['Interface', 'Prévia e seleção do corte'],
+      ['Ponte IPC', 'Preload → processo principal'],
+      ['FFprobe + FFmpeg', 'Copiar streams ou converter'],
+      ['Clipe salvo', 'Progresso → pasta de saída'],
+    ],
+    'en-US': [
+      ['Interface', 'Preview and trim selection'],
+      ['IPC bridge', 'Preload → main validation'],
+      ['FFprobe + FFmpeg', 'Stream copy or conversion'],
+      ['Saved clip', 'Progress → output folder'],
+    ],
+  },
   "/media/mermaid/ascii/fig-2.png": {
     "pt-BR": [
       [
@@ -70,7 +84,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
       ],
       [
         "History",
-        "At 3 pieces: evict oldest"
+        "At 3 marks: remove oldest"
       ],
       [
         "Room",
@@ -89,7 +103,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
         "Regras no servidor"
       ],
       [
-        "Estado canônico",
+        "Estado da partida",
         "Atualiza tabuleiro e turno"
       ],
       [
@@ -107,7 +121,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
         "Rules run on the server"
       ],
       [
-        "Canonical state",
+        "Match state",
         "Updates board and turn"
       ],
       [
@@ -119,76 +133,76 @@ const flows: Record<string, Record<Language, string[][]>> = {
   "/media/mermaid/integra/fig-1.png": {
     "pt-BR": [
       [
-        "Áudio recebido",
-        "Chunks via WebSocket"
+        "Preparo inicial",
+        "Modelos e sinais via internet"
       ],
       [
-        "Pipeline pronto?",
-        "Verifica inicialização"
+        "Acervo local",
+        "Confere bundles por SHA-256"
       ],
       [
-        "Antes de iniciar",
-        "Acumula no buffer"
+        "Tradutor pronto?",
+        "Espera a resposta do serviço"
       ],
       [
-        "Após iniciar",
-        "Encaminha ao FFmpeg"
+        "Node + navegador",
+        "Sem consultas externas"
       ]
     ],
     "en-US": [
       [
-        "Incoming audio",
-        "Chunks over WebSocket"
+        "Initial setup",
+        "Models and signs via internet"
       ],
       [
-        "Pipeline ready?",
-        "Checks initialization"
+        "Local sign collection",
+        "Checks bundles with SHA-256"
       ],
       [
-        "Before startup",
-        "Accumulates in a buffer"
+        "Translator ready?",
+        "Waits for service readiness"
       ],
       [
-        "After startup",
-        "Forwards to FFmpeg"
+        "Node + browser",
+        "Runs without external requests"
       ]
     ]
   },
   "/media/mermaid/integra/fig-3.png": {
     "pt-BR": [
       [
-        "Captura e filtros",
-        "Web Audio API no cliente"
+        "Captura PCM",
+        "Web Audio → WebSocket"
       ],
       [
-        "Ingestão",
-        "Node.js + FFmpeg"
+        "Transcrição local",
+        "FFmpeg → Vosk"
       ],
       [
-        "Transcrição",
-        "Vosk / Google Cloud STT"
+        "Fila e tradução",
+        "12 blocos → Python local"
       ],
       [
-        "Avatar",
-        "VLibras + Three.js"
+        "Avatar e sinais",
+        "Unity/WebGL + /dictionary/"
       ]
     ],
     "en-US": [
       [
-        "Capture & filters",
-        "Web Audio API on client"
+        "PCM capture",
+        "Web Audio → WebSocket"
       ],
       [
-        "Ingestion",
-        "Node.js + FFmpeg"
+        "Local transcription",
+        "FFmpeg → Vosk"
       ],
       [
-        "Transcription",
-        "Vosk / Google Cloud STT"
+        "Queue and translation",
+        "12 blocks → local Python"
       ],
       [
-        "Avatar",
-        "VLibras + Three.js"
+        "Avatar and signs",
+        "Unity/WebGL + /dictionary/"
       ]
     ]
   },
@@ -207,7 +221,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
         "MySQL: UNIQUE(year, number)"
       ],
       [
-        "Persistência",
+        "Gravação",
         "Rejeita par duplicado"
       ]
     ],
@@ -225,7 +239,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
         "MySQL: UNIQUE(year, number)"
       ],
       [
-        "Persistence",
+        "Saving",
         "Rejects a duplicate pair"
       ]
     ]
@@ -233,7 +247,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
   "/media/mermaid/livro/fig-2.png": {
     "pt-BR": [
       [
-        "Ação operacional",
+        "Ação do usuário",
         "Alteração de registro"
       ],
       [
@@ -251,7 +265,7 @@ const flows: Record<string, Record<Language, string[][]>> = {
     ],
     "en-US": [
       [
-        "Operational action",
+        "User action",
         "Record updated"
       ],
       [

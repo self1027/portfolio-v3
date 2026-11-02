@@ -30,7 +30,7 @@ export const CaseStudyLayout: React.FC<CaseStudyLayoutProps> = ({ data, allSlugs
       <div className="case-shell">
         <Link to="/#projects" className="text-link case-breadcrumb"><ArrowLeft aria-hidden="true" />{t('caseStudy.backToProjects')}</Link>
         <header>
-          <h1 className="case-title" tabIndex={-1}>{project?.displayName || 'NoBSDownloader'}</h1>
+          <h1 className="case-title" tabIndex={-1}>{project?.displayName || data.title.split(' — ')[0]}</h1>
           <p className="case-subtitle">{data.subtitle[language]}</p>
           <p className="project-stack" translate="no">{data.technologies.join(' / ')}</p>
           <div className="project-actions">

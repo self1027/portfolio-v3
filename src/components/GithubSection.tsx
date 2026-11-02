@@ -5,7 +5,7 @@ import { SectionHeader } from './SectionHeader';
 const repositories = [
   { name: 'Livro', repo: 'Livro', key: 'livro' },
   { name: 'Integra', repo: 'INTEGRA', key: 'integra' },
-  { name: 'ASCII Cam', repo: 'ascii-cam', key: 'ascii' },
+  { name: 'MeganTrimmer', repo: 'MeganTrimmer', key: 'megan' },
   { name: 'Infinity Tic-Tac-Toe', repo: 'infinity-ttt', key: 'infinity' },
   { name: 'NoBSDownloader', repo: 'NoBSDownloader', key: 'nobs' },
 ];

@@ -16,10 +16,10 @@
   },
   "hero": {
     "badge": "Available for hire",
-    "role": "Backend developer. Node.js & TypeScript.",
-    "description": "I build APIs, production systems and real-time applications. From digitizing public health records in Andradina to audio pipelines and multiplayer servers.",
+    "role": "Backend developer working with Node.js and TypeScript.",
+    "description": "I build APIs and systems for everyday use. My work includes digitizing Andradina’s public health records, audio processing and multiplayer games.",
     "secondary": "Open to backend development opportunities.",
-    "ctaProjects": "Explore projects",
+    "ctaProjects": "View projects",
     "ctaResume": "Download resume",
     "status": "ONLINE",
     "env": "production-ready",
@@ -27,7 +27,7 @@
     "location": "Brazil · UTC−3"
   },
   "impact": {
-    "title": "From requirements to operation.",
+    "title": "Building and running Livro",
     "badge": "Impact",
     "items": [
       {
@@ -36,7 +36,7 @@
         "tag": "Public Sector"
       },
       {
-        "title": "Extreme Optimization",
+        "title": "Record lookups",
         "desc": "Query time reduced from minutes to seconds",
         "tag": "Performance"
       },
@@ -46,74 +46,72 @@
         "tag": "Real-Time"
       },
       {
-        "title": "Scalable Architecture",
+        "title": "Events",
         "desc": "Event-driven architecture",
         "tag": "Event-Driven"
       }
     ],
-    "description": "For Livro, I worked across the full cycle: understanding inspectors’ workflows, modeling the data and deploying on the municipal network.",
-    "cta": "Explore Livro’s architecture",
+    "description": "For Livro, I spoke with inspectors, modeled the data and worked on deploying the system on the municipal network.",
+    "cta": "Read the Livro case study",
     "requirements": {
       "title": "Understand the workflow",
-      "description": "Requirements gathered directly from municipal staff and health inspectors to replace paper records."
+      "description": "I spoke with municipal staff and health inspectors to understand their workflow and replace paper records."
     },
     "data": {
       "title": "Protect the records",
-      "description": "MySQL and Sequelize enforce unique year-and-protocol-number pairs, with audit entries linked to the responsible user."
+      "description": "I used MySQL and Sequelize to prevent duplicate protocol numbers within a year and link audit records to the responsible user."
     },
     "operations": {
       "title": "Keep it running",
-      "description": "Deployment on local Linux infrastructure, Nginx as a reverse proxy and PM2 for process supervision."
+      "description": "I deployed the system on local Linux infrastructure, using Nginx as a reverse proxy and PM2 to supervise processes."
     }
   },
   "projects": {
     "sectionBadge": "Projects",
-    "title": "Engineering in practice.",
-    "subtitle": "A system used in the public sector and three projects exploring data integrity, audio, concurrency and state synchronization.",
+    "title": "Projects",
+    "subtitle": "A system used by municipal staff, a speech-to-Libras app, a video editor and a multiplayer game. Each case study explains how the project was built.",
     "viewCaseStudy": "Read case study",
     "viewCode": "Code",
     "viewDemo": "Demo",
-    "outcomeLabel": "Reported outcome.",
     "zoomImage": "Enlarge image",
-    "noDemo": "No public demo (internal system/CLI)",
-    "decisionLabel": "Engineering decision."
+    "noDemo": "No public demo (internal system/CLI)"
   },
   "skills": {
     "sectionBadge": "Technical Stack",
-    "title": "A stack with context.",
-    "subtitle": "Technologies paired with where I applied them. The case studies cover choices, implementation and limitations.",
-    "evidence": "See it applied in",
-    "additional": "Other technologies in my toolkit",
-    "additionalNote": "I also work with or study the technologies below. They are not presented as evidence of use in the selected projects.",
+    "title": "Technologies I use",
+    "subtitle": "Follow the links to see how I used these technologies, including implementation details and the limits of each approach.",
+    "evidence": "See in",
+    "additional": "Other technologies I use or study",
+    "additionalNote": "These are also part of my toolkit, though the projects above do not demonstrate their use.",
     "more": "Explore repositories"
   },
   "experience": {
     "sectionBadge": "Experience",
-    "title": "Professional experience.",
-    "subtitle": "Internal systems development, direct contact with users and responsibility for deployment.",
+    "title": "Work experience",
+    "subtitle": "I work on internal systems, talk with the people who use them and handle deployment.",
     "more": "View more responsibilities",
     "caseLink": "Explore the project from this role"
   },
   "github": {
     "sectionBadge": "Open Source",
-    "title": "The code is open.",
-    "subtitle": "A selection for technical review: implementation, code organization and the decisions behind the interface.",
+    "title": "On GitHub",
+    "subtitle": "The repositories contain the code, project structure and implementation decisions.",
     "cta": "Open GitHub profile",
     "repositories": "Public Repositories",
     "viewRepo": "Access repository",
     "loading": "Loading public GitHub data...",
     "errorFallback": "Displaying projects synchronized directly with the official repository.",
-    "selection": "A curated selection of public repositories. Implementation details are available on GitHub.",
-    "livro": "Protocol modeling, API and municipal application.",
-    "integra": "Audio ingestion, transcription and Libras integration.",
-    "ascii": "Worker processing and buffer transfers.",
-    "infinity": "Game rules and server-controlled state.",
-    "nobs": "Process orchestration and media extraction."
+    "selection": "See the repositories for implementation details.",
+    "livro": "Complaint records and public health inspection tracking.",
+    "integra": "From Portuguese speech to Libras signs, with local processing.",
+    "megan": "Desktop video trimming and conversion with Electron and FFmpeg.",
+    "infinity": "A multiplayer game with server-validated turns and rules.",
+    "nobs": "Media extraction with yt-dlp and conversion with FFmpeg."
   },
   "contact": {
     "sectionBadge": "Contact",
     "title": "Let’s talk.",
-    "subtitle": "I’m looking for backend opportunities with Node.js and TypeScript. If my experience fits your team, let’s discuss your next challenge.",
+    "subtitle": "I’m looking for a backend role with Node.js and TypeScript. You can reach me by email or on LinkedIn.",
     "form": {
       "name": "Your Name",
       "email": "Your Email",
@@ -123,13 +121,13 @@
       "placeholderMessage": "Hi Murilo, I'd like to discuss a Backend Developer opportunity with our team...",
       "submit": "Send Message",
       "copyEmail": "Copy address",
-      "copied": "Address copied.",
+      "copied": "Email address copied.",
       "mailtoFallbackNotice": "Submitting will open your default email client directly to diasmurilo02@gmail.com"
     },
     "emailAction": "Write an email",
-    "copyError": "Could not copy. Select the address above or choose “Write an email”.",
+    "copyError": "Could not copy the email address. Select it above or choose “Write an email”.",
     "emailSubject": "Backend development opportunity",
-    "emailHint": "The button opens your email app. You can also copy the address."
+    "emailHint": "Open your email app or copy the address to use later."
   },
   "footer": {
     "copyright": "Murilo Dias. All rights reserved.",
@@ -139,27 +137,27 @@
   },
   "caseStudy": {
     "backToProjects": "Back to projects",
-    "overview": "At a glance",
+    "overview": "Overview",
     "problem": "The problem",
-    "challenges": "Technical challenges",
+    "challenges": "Challenges",
     "decision": "Architecture",
     "pipeline": "Processing Pipeline",
     "code": "Implementation",
     "tradeoffs": "Choices and limits",
     "result": "Results",
-    "demonstrates": "Applied skills",
+    "demonstrates": "Skills used",
     "nextProject": "Next project",
     "prevProject": "Previous project",
     "copySnippet": "Copy code",
-    "snippetCopied": "Copied to clipboard!",
+    "snippetCopied": "Code copied.",
     "context": "Context",
     "decisionSummary": "Key decision",
     "resultSummary": "Outcome and limits",
     "navigate": "In this case study",
     "navigation": "Project navigation",
     "preview": "Project interface",
-    "codeNote": "Condensed excerpts to explain the decisions. See the repository for the complete implementation.",
-    "copyError": "Could not copy. Select the code to copy it manually.",
+    "codeNote": "These excerpts show parts of the implementation. The complete code is in the repository.",
+    "copyError": "Could not copy the code. Select the excerpt and copy it manually.",
     "copied": "Copied",
     "copy": "Copy",
     "source": "Code on GitHub",
@@ -168,11 +166,11 @@
   },
   "lightbox": {
     "close": "Close image (Esc)",
-    "zoomHint": "Esc to close. Diagrams support horizontal scrolling."
+    "zoomHint": "Press Esc to close. You can scroll diagrams sideways."
   },
   "notFound": {
     "title": "Page not found.",
-    "description": "This address does not match a project. Explore the available case studies.",
+    "description": "There’s no page at this address. Go back to the projects to continue.",
     "action": "View projects"
   }
 }

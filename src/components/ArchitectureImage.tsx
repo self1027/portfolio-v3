@@ -2,6 +2,7 @@ import React from 'react';
 import { ZoomIn } from 'lucide-react';
 import { useI18n } from '../i18n/I18nContext';
 import { TechnicalDiagram } from './TechnicalDiagrams';
+import { ProjectImage } from './ProjectImage';
 interface ArchitectureImageProps {
   src: string; alt: string; caption?: string;
   onZoom?: (src: string, alt: string, caption?: string) => void;
@@ -19,7 +20,7 @@ export const ArchitectureImage: React.FC<ArchitectureImageProps> = ({ src, alt, 
         </>
       ) : (
         <button type="button" className="image-trigger" onClick={() => onZoom?.(src, alt, caption)} aria-label={t('projects.zoomImage') + ': ' + alt}>
-          <img src={src} alt={alt} width={1920} height={1080} loading="lazy" decoding="async" />
+          <ProjectImage src={src} alt={alt} width={1920} height={1080} loading="lazy" decoding="async" />
           <span className="image-hint"><ZoomIn aria-hidden="true" /></span>
         </button>
       )}
