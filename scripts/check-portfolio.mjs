@@ -116,7 +116,7 @@ try {
   });
   await settle();
   check(await page.eval(() => document.querySelector('.contact-status').textContent.includes('Não foi possível')), 'clipboard failure gives a useful fallback');
-  for (const slug of ['livro', 'integra', 'megan-trimmer', 'ascii-cam', 'infinity-ttt', 'nobsdownloader']) {
+  for (const slug of ['livro', 'integra', 'megan-trimmer', 'ascii-cam', 'infinity-ttt']) {
     await page.goto(`${origin}/projects/${slug}`, { settleMs: 150 });
     check(await page.eval(() => !!document.querySelector('.case-overview') && !document.querySelector('.not-found')), `direct route ${slug}`);
     check(await page.eval(() => {

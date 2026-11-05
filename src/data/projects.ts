@@ -135,30 +135,5 @@ export const projects: Project[] = [
       'pt-BR': 'Servidor Autoritativo',
       'en-US': 'Authoritative Server',
     },
-  }/*,
-  {
-    id: 'nobsdownloader',
-    slug: 'nobsdownloader',
-    title: 'NoBSDownloader — Media Extraction Engine',
-    subtitle: {
-      'pt-BR': 'Extração de Mídia com yt-dlp e Processamento de Streams em Tempo Real',
-      'en-US': 'Media Extraction with yt-dlp and Real-Time Stream Processing',
-    },
-    shortDescription: {
-      'pt-BR': 'Ferramenta de extração de mídia utilizando child processes, yt-dlp e FFmpeg para processamento de streams e transcodificação.',
-      'en-US': 'Media extraction tool utilizing child processes, yt-dlp, and FFmpeg for stream processing and transcoding.',
-    },
-    technologies: ['Node.js', 'yt-dlp', 'FFmpeg', 'Child Processes', 'Stream Processing', 'YAML'],
-    githubUrl: 'https://github.com/self1027/NoBSDownloader',
-    image: '/media/nobsd-demo.png',
-    imageAlt: {
-      'pt-BR': 'Motor de orquestração de processos do NoBSDownloader',
-      'en-US': 'NoBSDownloader child process orchestration engine',
-    },
-    caseStudyRoute: '/projects/nobsdownloader',
-    badge: {
-      'pt-BR': 'Orquestração de Processos',
-      'en-US': 'Process Orchestration',
-    },
-  },*/
+  }
 ];

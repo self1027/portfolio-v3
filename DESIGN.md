@@ -40,7 +40,7 @@ Taste direction: **Type and nothing else**, seed `438053253`. The first screen n
 - Use full-width tonal sections, generous spacing and native text. Avoid repeated bordered cards, decorative monospace and redundant badges.
 - Contact uses a real email action, copy feedback and LinkedIn. The previous form only opened an email client.
 - Respect reduced motion. Reveals enhance the ordinary experience without withholding information when animation is disabled.
-- Preserve complete case-study content, both resumes, both languages, both themes and direct project URLs, including NoBSDownloader.
+- Preserve complete case-study content, both resumes, both languages, both themes and direct project URLs.
 
 ## Content integrity
 

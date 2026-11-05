@@ -137,9 +137,8 @@ const mermaidAscii = path.join(mediaDir, 'mermaid', 'ascii');
 const mermaidTtt = path.join(mediaDir, 'mermaid', 'ttt');
 const mermaidIntegra = path.join(mediaDir, 'mermaid', 'integra');
 const mermaidLivro = path.join(mediaDir, 'mermaid', 'livro');
-const mermaidNobs = path.join(mediaDir, 'mermaid', 'nobsdownloader');
 
-[mediaDir, mermaidAscii, mermaidTtt, mermaidIntegra, mermaidLivro, mermaidNobs].forEach(dir => {
+[mediaDir, mermaidAscii, mermaidTtt, mermaidIntegra, mermaidLivro].forEach(dir => {
   fs.mkdirSync(dir, { recursive: true });
 });
 
@@ -156,7 +155,6 @@ fs.writeFileSync(path.join(mediaDir, 'livro-demo.png'), darkGraphite);
 fs.writeFileSync(path.join(mediaDir, 'integra-demo.png'), darkGraphite);
 fs.writeFileSync(path.join(mediaDir, 'ascii-demo.png'), darkGraphite);
 fs.writeFileSync(path.join(mediaDir, 'infinityttt-demo.png'), darkGraphite);
-fs.writeFileSync(path.join(mediaDir, 'nobsd-demo.png'), darkGraphite);
 
 fs.writeFileSync(path.join(mermaidAscii, 'fig-2.png'), darkGraphiteTall);
 fs.writeFileSync(path.join(mermaidTtt, 'fig-1.png'), darkGraphiteTall);
@@ -165,7 +163,5 @@ fs.writeFileSync(path.join(mermaidIntegra, 'fig-1.png'), darkGraphiteTall);
 fs.writeFileSync(path.join(mermaidIntegra, 'fig-3.png'), darkGraphiteTall);
 fs.writeFileSync(path.join(mermaidLivro, 'fig-1.png'), darkGraphiteTall);
 fs.writeFileSync(path.join(mermaidLivro, 'fig-2.png'), darkGraphiteTall);
-fs.writeFileSync(path.join(mermaidNobs, 'fig-1.png'), darkGraphiteTall);
-fs.writeFileSync(path.join(mermaidNobs, 'fig-2.png'), darkGraphiteTall);
 
 console.log('Successfully generated public media files and CV PDF!');

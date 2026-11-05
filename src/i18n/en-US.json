@@ -105,8 +105,7 @@
     "livro": "Complaint records and public health inspection tracking.",
     "integra": "From Portuguese speech to Libras signs, with local processing.",
     "megan": "Desktop video trimming and conversion with Electron and FFmpeg.",
-    "infinity": "A multiplayer game with server-validated turns and rules.",
-    "nobs": "Media extraction with yt-dlp and conversion with FFmpeg."
+    "infinity": "A multiplayer game with server-validated turns and rules."
   },
   "contact": {
     "sectionBadge": "Contact",

@@ -7,7 +7,6 @@ const repositories = [
   { name: 'Integra', repo: 'INTEGRA', key: 'integra' },
   { name: 'MeganTrimmer', repo: 'MeganTrimmer', key: 'megan' },
   { name: 'Infinity Tic-Tac-Toe', repo: 'infinity-ttt', key: 'infinity' },
-  { name: 'NoBSDownloader', repo: 'NoBSDownloader', key: 'nobs' },
 ];
 export const GithubSection: React.FC = () => {
   const { t } = useI18n();
